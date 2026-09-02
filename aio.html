@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<title>Lesson Title: All in One View</title>
+<title>Using an API to Communicate with a Model: All in One View</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="assets/themetoggle.js"></script><link rel="stylesheet" type="text/css" href="assets/styles.css">
 <script src="assets/scripts.js" type="text/javascript"></script><!-- mathjax --><!-- NOTE: https://docs.mathjax.org/en/latest/output/mathml.html#mathml-support --><!-- Changes from V2 to V4: https://mathjax.github.io/MathJax-demos-web/convert-configuration/convert-configuration.html
@@ -40,7 +40,7 @@
   <div class="container-fluid top-nav-container">
     <div class="col-md-8">
       <div class="large-logo">
-        <img id="incubator-logo" alt="Lesson Description" src="assets/images/incubator-logo.svg"><span class="badge text-bg-danger">
+        <img id="incubator-logo" alt="AI for All Workshop" src="assets/images/incubator-logo.svg"><span class="badge text-bg-danger">
           <abbr title="This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.">
             <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
               <i aria-hidden="true" class="icon" data-feather="alert-octagon" style="border-radius: 5px"></i>
@@ -96,10 +96,10 @@
       <span class="menu-title">Menu</span>
     </button>
     <div class="nav-logo">
-      <img class="small-logo" alt="Lesson Description" src="assets/images/incubator-logo-sm.svg">
+      <img class="small-logo" alt="AI for All Workshop" src="assets/images/incubator-logo-sm.svg">
 </div>
     <div class="lesson-title-md">
-      Lesson Title
+      Using an API to Communicate with a Model
     </div>
     <div class="search-icon-sm">
       <!-- TODO: do not show until we have search
@@ -110,7 +110,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 <li class="nav-item">
           <span class="lesson-title">
-            Lesson Title
+            Using an API to Communicate with a Model
           </span>
         </li>
         <li class="nav-item">
@@ -236,7 +236,43 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. Using Markdown</a>
+        <a href="introduction.html">1. Introduction: What Is an LLM API?</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush3">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading3">
+        <a href="first-call.html">2. Your First Call</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush4">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading4">
+        <a href="build-the-tool.html">3. Building the Research Tool</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush5">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading5">
+        <a href="experiments.html">4. Experiments &amp; Tools Around the API</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -299,11 +335,11 @@
     <main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>All in One View</h1>
         
-<section id="aio-introduction"><p>Content from <a href="introduction.html">Using Markdown</a></p>
+<section id="aio-introduction"><p>Content from <a href="introduction.html">Introduction: What Is an LLM API?</a></p>
 <hr>
-<p>Last updated on 2026-09-01 |
+<p>Last updated on 2026-09-02 |
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/episodes/introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+        <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
@@ -315,8 +351,9 @@
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>How do you write a lesson using Markdown and
-<a href="https://carpentries.github.io/sandpaper/" class="external-link">sandpaper</a>?</li>
+<li>What exactly is a “large language model API”, and how is it
+different from running a model yourself?</li>
+<li>What does a request to this API look like under the hood?</li>
 </ul>
 </div>
 </div>
@@ -326,127 +363,103 @@
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Explain how to use markdown with The Carpentries Workbench</li>
-<li>Demonstrate how to include pieces of code, figures, and nested
-challenge blocks</li>
+<li>Explain the client / service relationship behind an LLM API.</li>
+<li>Describe the three things you choose in a request: the model, the
+messages, and the knobs.</li>
+<li>Locate the answer in the response JSON.</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<section><h2 class="section-heading" id="you-are-a-client-talking-to-a-service">You are a client talking to a service<a class="anchor" aria-label="anchor" href="#you-are-a-client-talking-to-a-service"></a>
 </h2>
 <hr class="half-width">
-<p>This is a lesson created via The Carpentries Workbench. It is written
-in <a href="https://pandoc.org/MANUAL.html" class="external-link">Pandoc-flavored Markdown</a>
-for static files and <a href="https://rmarkdown.rstudio.com/" class="external-link">R
-Markdown</a> for dynamic files that can render code into output. Please
-refer to the <a href="https://carpentries.github.io/sandpaper-docs/" class="external-link">Introduction to The
-Carpentries Workbench</a> for full documentation.</p>
-<p>What you need to know is that there are three sections required for a
-valid Carpentries lesson:</p>
+<p>Everything in this lesson is one thing: <strong>you send a message,
+you get a message back</strong> — over the internet, to a model running
+on someone else’s servers. No training, no GPUs on your side, no model
+weights to download. You are a <em>client</em> talking to a
+<em>service</em>.</p>
+<p>You’ll use a real one: <strong>ASU Research Computing’s LLM
+gateway</strong>, the same OpenAI-compatible API its own researchers
+use:</p>
+<ul>
+<li>
+<strong>Endpoint:</strong> <a href="https://openai.rc.asu.edu/v1" class="external-link"><code>https://openai.rc.asu.edu/v1</code></a>
+</li>
+<li>
+<strong>SDK:</strong> the standard <a href="https://pypi.org/project/openai/" class="external-link"><code>openai</code> Python
+package</a>
+</li>
+<li>
+<strong>Your key:</strong> created in <a href="https://voyager.rc.asu.edu" class="external-link">Voyager</a> and given to you for this
+workshop</li>
+</ul>
+<p>The word <strong>“OpenAI-compatible”</strong> does a lot of work.
+It’s a standard: any tool that talks to OpenAI talks to this too. That
+single fact is what unlocks the “tools around the API” at the end of the
+lesson.</p>
+</section><section><h2 class="section-heading" id="anatomy-of-a-request">Anatomy of a request<a class="anchor" aria-label="anchor" href="#anatomy-of-a-request"></a>
+</h2>
+<hr class="half-width">
+<p>Before we code, see what a request actually is. It’s just
+<strong>JSON</strong>. The whole API in one <code>curl</code>:</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="ex">curl</span> https://openai.rc.asu.edu/v1/chat/completions <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a>  <span class="at">-H</span> <span class="st">"Content-Type: application/json"</span> <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a>  <span class="at">-H</span> <span class="st">"Authorization: Bearer ***"</span> <span class="dt">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>  <span class="at">-d</span> <span class="st">'{</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a><span class="st">    "model": "&lt;MODEL_NAME&gt;",</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a><span class="st">    "messages": [ { "role": "user", "content": "Explain quantum computing in one sentence." } ]</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a><span class="st">  }'</span></span></code></pre>
+</div>
+<p>Three things you’re always choosing:</p>
 <ol style="list-style-type: decimal">
 <li>
-<code>questions</code> are displayed at the beginning of the episode
-to prime the learner for the content.</li>
+<strong>the <code>model</code></strong> — which model answers (from
+your key’s live list),</li>
 <li>
-<code>objectives</code> are the learning objectives for an episode
-displayed with the questions.</li>
+<strong>the <code>messages</code></strong> — a list of
+<code>{role, content}</code> pairs,</li>
 <li>
-<code>keypoints</code> are displayed at the end of the episode to
-reinforce the objectives.</li>
+<strong>optional knobs</strong> — like <code>temperature</code> (0 =
+deterministic).</li>
 </ol>
-<div id="challenge-1-can-you-do-it" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<span class="callout-header">Challenge</span>
-<div id="challenge-1-can-you-do-it" class="callout-inner">
-<h3 class="callout-title">Challenge 1: Can you do it?</h3>
-<div class="callout-content">
-<p>What is the output of this command?</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<p>The response is JSON too, and the text you actually want lives at
+<strong><code>choices[0].message.content</code></strong>. The Python SDK
+just types this for you.</p>
+<div class="section level3">
+<h3 id="the-role-field-the-most-useful-concept-today">The <code>role</code> field — the most useful concept today<a class="anchor" aria-label="anchor" href="#the-role-field-the-most-useful-concept-today"></a>
 </h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">paste</span><span class="op">(</span><span class="st">"This"</span>, <span class="st">"new"</span>, <span class="st">"lesson"</span>, <span class="st">"looks"</span>, <span class="st">"good"</span><span class="op">)</span></span></code></pre>
-</div>
-</div>
-</div>
-</div>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1"> Output </h4>
-</button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
-<div class="accordion-body">
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>[1] "This new lesson looks good"</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div id="challenge-2-how-do-you-nest-solutions-within-challenge-blocks" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<span class="callout-header">Challenge</span>
-<div id="challenge-2-how-do-you-nest-solutions-within-challenge-blocks" class="callout-inner">
-<h3 class="callout-title">Challenge 2: how do you nest solutions within
-challenge blocks?</h3>
-<div class="callout-content">
+<ul>
+<li>
+<code>system</code> = standing instructions (the <em>shape</em> you
+want back)</li>
+<li>
+<code>user</code> = the turn (your actual text)</li>
+<li>
+<code>assistant</code> = the model’s reply</li>
+</ul>
+<p>You’ll set a <code>system</code> message later to force
+<em>structured</em> output.</p>
 
-</div>
-</div>
-</div>
-<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
-</button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
-<div class="accordion-body">
-<p>You can add a line with at least three colons and a
-<code>solution</code> tag.</p>
-</div>
-</div>
-</div>
-</div>
-</section><section><h2 class="section-heading" id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a>
-</h2>
-<hr class="half-width">
-<p>You can use standard markdown for static figures with the following
-syntax:</p>
-<p><code>![optional caption that appears below the figure](figure url){alt='alt text for accessibility purposes'}</code></p>
-<figure><img src="https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg" alt="Blue Carpentries hex person logo with no text." class="figure mx-auto d-block"><div class="figcaption">You belong in The Carpentries!</div>
-</figure><div id="callout1" class="callout">
+<div id="the-one-sentence-to-hold-onto" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
 <span class="callout-header">Callout</span>
-<div class="callout-inner">
+<div id="the-one-sentence-to-hold-onto" class="callout-inner">
+<h3 class="callout-title">The one sentence to hold onto</h3>
 <div class="callout-content">
-<p>Callout sections can highlight information.</p>
-<p>They are sometimes used to emphasise particularly important points
-but are also used in some lessons to present “asides”: content that is
-not central to the narrative of the lesson, e.g. by providing the answer
-to a commonly-asked question.</p>
+<p><strong>list of inputs → one model call each → structured JSON rows →
+save to a file.</strong> If you can repeat that, you’ve got the
+lesson.</p>
 </div>
 </div>
 </div>
-</section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a>
-</h2>
-<hr class="half-width">
-<p>One of our episodes contains <span class="math inline">\(\LaTeX\)</span> equations when describing how to
-create dynamic reports with {knitr}, so we now use mathjax to describe
-this:</p>
-<p><code>$\alpha = \dfrac{1}{(1 - \beta)^2}$</code> becomes: <span class="math inline">\(\alpha = \dfrac{1}{(1 - \beta)^2}\)</span></p>
-<p>Cool, right?</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -455,14 +468,691 @@ this:</p>
 <div class="callout-inner">
 <div class="callout-content">
 <ul>
-<li>Use <code>.md</code> files for episodes when you want static
-content</li>
-<li>Use <code>.Rmd</code> files for episodes when you need to generate
-output</li>
-<li>Run <code>sandpaper::check_lesson()</code> to identify any issues
-with your lesson</li>
-<li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
-locally</li>
+<li>An LLM API is a <em>service</em>; you are a <em>client</em>. You
+send JSON, you get JSON back.</li>
+<li>You always choose the <strong>model</strong>, the
+<strong>messages</strong> (<code>role</code> + <code>content</code>),
+and the <strong>knobs</strong>.</li>
+<li>The answer is at <code>choices[0].message.content</code>.</li>
+<li>It’s <strong>OpenAI-compatible</strong>, so the <code>openai</code>
+Python SDK (and many other tools) just work.</li>
+</ul>
+</div>
+</div>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</div>
+</section></section><section id="aio-first-call"><p>Content from <a href="first-call.html">Your First Call</a></p>
+<hr>
+<p>Last updated on 2026-09-02 |
+
+        <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/first-call.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li>How do I set my key without pasting it into my code?</li>
+<li>How do I make the very first call and know it worked?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li>Set your API key from the environment (never hardcode it).</li>
+<li>Make a first call with the <code>openai</code> Python SDK.</li>
+<li>Read the model’s reply out of the response.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section><h2 class="section-heading" id="set-your-key-dont-hardcode-it">Set your key (don’t hardcode it)<a class="anchor" aria-label="anchor" href="#set-your-key-dont-hardcode-it"></a>
+</h2>
+<hr class="half-width">
+<p>Your key is a secret. Treat it like a password: <strong>don’t share
+it, don’t commit it to Git.</strong> The notebook reads it from the
+environment so it never sits in your code.</p>
+<p>In the shell first (the <a href="index.html#setup">Setup page</a> has all
+three OS variants):</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="co"># macOS / Linux</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a><span class="bu">read</span> <span class="at">-rs</span> <span class="va">OPENAI_API_KEY</span>        <span class="co"># paste your key, press Enter (nothing prints)</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a><span class="bu">export</span> <span class="va">OPENAI_API_KEY</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a><span class="bu">export</span> <span class="va">OPENAI_BASE_URL</span><span class="op">=</span><span class="st">"https://openai.rc.asu.edu/v1"</span></span></code></pre>
+</div>
+<p>Why <code>read -rs</code>? A normal prompt writes the key to your
+shell history in plain text. <code>-s</code> silences the echo. Then, in
+the notebook, run the <strong>“Set your key”</strong> cell — it verifies
+the key is present (masked) and that the base URL ends in
+<code>/v1</code>:</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">import</span> os</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a>key <span class="op">=</span> os.environ.get(<span class="st">"OPENAI_API_KEY"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a>base <span class="op">=</span> os.environ.get(<span class="st">"OPENAI_BASE_URL"</span>, <span class="st">"https://openai.rc.asu.edu/v1"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a><span class="cf">if</span> <span class="kw">not</span> key:</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1" aria-label="code-block-2-7"></a>    <span class="cf">raise</span> <span class="pp">SystemExit</span>(</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1" aria-label="code-block-2-8"></a>        <span class="st">"OPENAI_API_KEY is not set. Set it first, then re-run this cell.</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1" aria-label="code-block-2-9"></a>        <span class="st">"</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1" aria-label="code-block-2-10"></a>        <span class="st">"  macOS / Linux      -&gt;  read -rs OPENAI_API_KEY   (paste key, Enter)</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1" aria-label="code-block-2-11"></a>        <span class="st">"                         export OPENAI_API_KEY</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1" aria-label="code-block-2-12"></a>        <span class="st">"                         export OPENAI_BASE_URL=https://openai.rc.asu.edu/v1</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1" aria-label="code-block-2-13"></a>        <span class="st">"  Windows (PowerShell) -&gt;  $env:OPENAI_API_KEY = 'paste-key-here'</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1" aria-label="code-block-2-14"></a>        <span class="st">"                         $env:OPENAI_BASE_URL = 'https://openai.rc.asu.edu/v1'</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1" aria-label="code-block-2-15"></a>        <span class="st">"</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1" aria-label="code-block-2-16"></a>        <span class="st">"Then re-run THIS cell."</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1" aria-label="code-block-2-17"></a>    )</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1" aria-label="code-block-2-18"></a></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1" aria-label="code-block-2-19"></a><span class="co"># Mask the key so we can show it is present without revealing it</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1" aria-label="code-block-2-20"></a><span class="bu">print</span>(<span class="ss">f"key set:   </span><span class="sc">{</span>key[:<span class="dv">4</span>]<span class="sc">}</span><span class="ss">...</span><span class="sc">{</span>key[<span class="op">-</span><span class="dv">4</span>:]<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span><span class="bu">len</span>(key)<span class="sc">}</span><span class="ss"> chars)"</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1" aria-label="code-block-2-21"></a><span class="bu">print</span>(<span class="ss">f"base url:  </span><span class="sc">{</span>base<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1" aria-label="code-block-2-22"></a><span class="cf">assert</span> base.rstrip(<span class="st">'/'</span>).endswith(<span class="st">'/v1'</span>), <span class="st">"BASE_URL should end with /v1"</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1" aria-label="code-block-2-23"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Ready. Run the next cell for your first call."</span>)</span></code></pre>
+</div>
+</section><section><h2 class="section-heading" id="the-first-call-checkpoint-everyone-gets-a-response">The first call — <em>checkpoint: everyone gets a response</em>
+<a class="anchor" aria-label="anchor" href="#the-first-call-checkpoint-everyone-gets-a-response"></a>
+</h2>
+<hr class="half-width">
+<p>This cell auto-picks a model from your key’s live model list, so you
+don’t need to know the exact name. If it can’t decide, it prints the
+list — copy any ID into <code>MODEL</code> and re-run.</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">from</span> openai <span class="im">import</span> OpenAI</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>client <span class="op">=</span> OpenAI()   <span class="co"># reads OPENAI_API_KEY and OPENAI_BASE_URL from the environment</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a><span class="co"># --- Pick a model from the live list -----------------------------------------</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a>PREFERRED <span class="op">=</span> [<span class="st">"llama3.3"</span>, <span class="st">"llama3.1"</span>, <span class="st">"llama3"</span>, <span class="st">"gpt-4o"</span>, <span class="st">"gpt-4.1"</span>, <span class="st">"mistral-large"</span>]</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1" aria-label="code-block-3-7"></a><span class="cf">try</span>:</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1" aria-label="code-block-3-8"></a>    available <span class="op">=</span> [m.<span class="bu">id</span> <span class="cf">for</span> m <span class="kw">in</span> client.models.<span class="bu">list</span>()]</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1" aria-label="code-block-3-9"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1" aria-label="code-block-3-10"></a>    available <span class="op">=</span> []</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1" aria-label="code-block-3-11"></a>    <span class="bu">print</span>(<span class="ss">f"Could not list models: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1" aria-label="code-block-3-12"></a></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1" aria-label="code-block-3-13"></a>MODEL <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1" aria-label="code-block-3-14"></a><span class="cf">for</span> cand <span class="kw">in</span> PREFERRED:</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1" aria-label="code-block-3-15"></a>    <span class="cf">for</span> a <span class="kw">in</span> available:</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1" aria-label="code-block-3-16"></a>        <span class="cf">if</span> cand <span class="kw">in</span> a:</span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1" aria-label="code-block-3-17"></a>            MODEL <span class="op">=</span> a</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1" aria-label="code-block-3-18"></a>            <span class="cf">break</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1" aria-label="code-block-3-19"></a>    <span class="cf">if</span> MODEL:</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1" aria-label="code-block-3-20"></a>        <span class="cf">break</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1" aria-label="code-block-3-21"></a><span class="cf">if</span> MODEL <span class="kw">is</span> <span class="va">None</span> <span class="kw">and</span> available:</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1" aria-label="code-block-3-22"></a>    MODEL <span class="op">=</span> available[<span class="dv">0</span>]   <span class="co"># fall back to the first model the key can see</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1" aria-label="code-block-3-23"></a></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1" aria-label="code-block-3-24"></a><span class="cf">if</span> <span class="kw">not</span> MODEL:</span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1" aria-label="code-block-3-25"></a>    <span class="cf">raise</span> <span class="pp">SystemExit</span>(</span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1" aria-label="code-block-3-26"></a>        <span class="st">"No model could be selected. If any printed above, set one manually, e.g.</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1" aria-label="code-block-3-27"></a>        <span class="st">"    MODEL = 'llama3.1'</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1" aria-label="code-block-3-28"></a>        <span class="st">"then re-run."</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1" aria-label="code-block-3-29"></a>    )</span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1" aria-label="code-block-3-30"></a><span class="bu">print</span>(<span class="ss">f"Using model: </span><span class="sc">{</span>MODEL<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1" aria-label="code-block-3-31"></a><span class="cf">if</span> available:</span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1" aria-label="code-block-3-32"></a>    <span class="bu">print</span>(<span class="ss">f"Your key can use </span><span class="sc">{</span><span class="bu">len</span>(available)<span class="sc">}</span><span class="ss"> model(s). Try others in the experiments:"</span>)</span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1" aria-label="code-block-3-33"></a>    <span class="cf">for</span> a <span class="kw">in</span> available[:<span class="dv">8</span>]:</span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1" aria-label="code-block-3-34"></a>        <span class="bu">print</span>(<span class="ss">f"   - </span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1" aria-label="code-block-3-35"></a></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1" aria-label="code-block-3-36"></a><span class="co"># --- The first request --------------------------------------------------------</span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1" aria-label="code-block-3-37"></a>resp <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1" aria-label="code-block-3-38"></a>    model<span class="op">=</span>MODEL,</span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1" aria-label="code-block-3-39"></a>    messages<span class="op">=</span>[{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"Explain what an API is, in one sentence."</span>}],</span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1" aria-label="code-block-3-40"></a>)</span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1" aria-label="code-block-3-41"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- MODEL SAYS ---"</span>)</span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1" aria-label="code-block-3-42"></a><span class="bu">print</span>(resp.choices[<span class="dv">0</span>].message.content)</span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1" aria-label="code-block-3-43"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">(tokens used: </span><span class="sc">{</span>resp<span class="sc">.</span>usage<span class="sc">.</span>total_tokens <span class="cf">if</span> resp<span class="sc">.</span>usage <span class="cf">else</span> <span class="st">'?'</span><span class="sc">}</span><span class="ss">)"</span>)</span></code></pre>
+</div>
+<p>You should see a sentence back from the model. <strong>If you see
+text — you’re in.</strong></p>
+<div class="section level3">
+<h3 id="two-ideas-to-hold-onto">Two ideas to hold onto<a class="anchor" aria-label="anchor" href="#two-ideas-to-hold-onto"></a>
+</h3>
+<ul>
+<li>
+<strong><code>messages</code></strong> is a list of
+<code>{role, content}</code> (recap the <code>role</code> field from the
+introduction).</li>
+<li>The answer lives at
+<strong><code>resp.choices[0].message.content</code></strong>.</li>
+</ul>
+<p>You can list the models your key can use — you’ll use this again in
+the experiments:</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="bu">print</span>([m.<span class="bu">id</span> <span class="cf">for</span> m <span class="kw">in</span> client.models.<span class="bu">list</span>()])</span></code></pre>
+</div>
+<div id="stuck-read-the-error-verbatim" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="stuck-read-the-error-verbatim" class="callout-inner">
+<h3 class="callout-title">Stuck? Read the error verbatim</h3>
+<div class="callout-content">
+<ul>
+<li>
+<code>401</code> / “No api key” → the key isn’t set <strong>in this
+kernel’s</strong> environment. Re-run the key cell; if you exported it
+in a terminal, <strong>restart the kernel</strong> first (a kernel only
+sees env vars set before it started).</li>
+<li>
+<code>404</code> / “Model Not Found” → bad model name. List models
+and copy an exact ID.</li>
+<li>
+<code>429</code> → rate limit. Wait a few seconds and retry.</li>
+<li>Connection/timeout/SSL → possible <strong>egress</strong> problem.
+See the <a href="reference.html">Reference page</a> or raise a
+hand.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul>
+<li>Set the key from the environment (<code>OPENAI_API_KEY</code> +
+<code>OPENAI_BASE_URL</code>), never hardcoded.</li>
+<li>
+<code>client = OpenAI()</code> reads both from the environment.</li>
+<li>The first call is
+<code>client.chat.completions.create(model=..., messages=[...])</code>.</li>
+<li>The answer is at <code>resp.choices[0].message.content</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</div>
+</section></section><section id="aio-build-the-tool"><p>Content from <a href="build-the-tool.html">Building the Research Tool</a></p>
+<hr>
+<p>Last updated on 2026-09-02 |
+
+        <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/build-the-tool.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li>How do I run the <em>same</em> structured question over a
+<em>list</em> of texts and get a table back?</li>
+<li>What is “structured output”, and why does it make an LLM useful for
+research?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li>Batch-process a list of abstracts with one model call each.</li>
+<li>Use a <code>system</code> prompt to force strict JSON output.</li>
+<li>Write the structured rows to a CSV file.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>The pattern (the whole lesson in one line):</strong></p>
+<blockquote>
+<p><strong>list of inputs → one model call each → structured JSON rows →
+save to a file</strong></p>
+</blockquote>
+<p>Researchers don’t usually want a chat box. They want to run the
+<em>same</em> question over a <em>list</em> of things and get a
+<em>table</em> back. Here: 12 paper abstracts in, one row each out — a
+one-line summary, the main method, and the key result, as a spreadsheet.
+That’s <strong>batch API calls + structured output</strong>.</p>
+<p>The trick is the <strong>system prompt</strong>: it tells the model
+to answer in <em>strict JSON</em> with keys <code>summary</code>,
+<code>method</code>, <code>result</code>. That’s <strong>structured
+output</strong> — you control the <em>shape</em> of the answer, not just
+the words. For research that’s what makes it usable: you get
+<strong>columns, not paragraphs</strong>.</p>
+<p>Run the three cells in order: load (3a) → batch (3b) → save (3c).</p>
+<div class="section level3">
+<h3 id="a-load-the-12-abstracts-embedded-nothing-to-download">3a — Load the 12 abstracts (embedded — nothing to download)<a class="anchor" aria-label="anchor" href="#a-load-the-12-abstracts-embedded-nothing-to-download"></a>
+</h3>
+<p>The 12 real arXiv abstracts (2 per field, 6 fields) are
+<strong>already in the notebook</strong> — no download. The first entry
+looks like this; all 12 live in the notebook and in <a href="data/research_abstracts.json"><code>data/research_abstracts.json</code></a>:</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">import</span> json</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a>ABSTRACTS <span class="op">=</span> [</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>{</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a>  <span class="st">"field"</span>: <span class="st">"Machine Learning (CS)"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>  <span class="st">"title"</span>: <span class="st">"Learning Active Subspaces and Discovering Important Features with Gaussian Radial Basis Functions Neural Networks"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a>  <span class="st">"abstract"</span>: <span class="st">"Providing a model that achieves a strong predictive performance and is simultaneously interpretable by humans is one of the most difficult challenges in machine learning research due to the conflicting nature of these two objectives. To address this challenge, we propose a modification of the radial basis function neural network model by equipping its Gaussian kernel with a learnable precision matrix. We show that precious information is contained in the spectrum of the precision matrix that can be extracted once the training of the model is completed. In particular, the eigenvectors explain the directions of maximum sensitivity of the model revealing the active subspace and suggesting potential applications for supervised dimensionality reduction. At the same time, the eigenvectors highlight the relationship in terms of absolute variation between the input and the latent variables, thereby allowing us to extract a ranking of the input variables based on their importance to the prediction task enhancing the model interpretability. We conducted numerical experiments for regression, classification, and feature selection tasks, comparing our model against popular machine learning models, the state-of-the-art deep learning-based embedding feature selection techniques, and a transformer model for tabular data. Our results demonstrate that the proposed model does not only yield an attractive prediction performance compared to the competitors but also provides meaningful and interpretable results that potentially could assist the decision-making process in real-world applications. A PyTorch implementation of the model is available on GitHub at the following link. https://github.com/dannyzx/Gaussian-RBFNN"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a>  <span class="st">"id"</span>: <span class="st">"2307.05639v2"</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a>},</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a>  <span class="co"># ... 11 more abstracts (2 per field, 6 fields) ...</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>  <span class="co"># all embedded in this notebook -- nothing to download</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>]</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a><span class="bu">print</span>(<span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(ABSTRACTS)<span class="sc">}</span><span class="ss"> abstracts:"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a><span class="cf">for</span> i, a <span class="kw">in</span> <span class="bu">enumerate</span>(ABSTRACTS, <span class="dv">1</span>):</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1" aria-label="code-block-1-16"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>i<span class="sc">:2d}</span><span class="ss">. [</span><span class="sc">{</span>a[<span class="st">'field'</span>]<span class="sc">}</span><span class="ss">] </span><span class="sc">{</span>a[<span class="st">'title'</span>][:<span class="dv">70</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="b-run-the-batch-one-api-call-per-abstract-structured-rows">3b — Run the batch (one API call per abstract → structured
+rows)<a class="anchor" aria-label="anchor" href="#b-run-the-batch-one-api-call-per-abstract-structured-rows"></a>
+</h3>
+<p>This is the loop you’ll reuse on your own data. It prints progress as
+it goes (12 calls, usually 30–90 s), <strong>retries once</strong> if a
+response isn’t clean JSON, and is defensive about the common case where
+a model wraps the JSON in code fences.</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">import</span> json, time</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a>SYSTEM_PROMPT <span class="op">=</span> (</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a>    <span class="st">"You are a research literature assistant. Read the abstract and respond with "</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>    <span class="st">"ONLY a valid JSON object (no markdown, no commentary) with exactly these keys: "</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a>    <span class="st">'{"summary": "&lt;one-sentence summary&gt;", '</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1" aria-label="code-block-2-7"></a>    <span class="st">'"method": "&lt;the main method or approach, one short phrase&gt;", '</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1" aria-label="code-block-2-8"></a>    <span class="st">'"result": "&lt;the key result or contribution, one short phrase&gt;"}. '</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1" aria-label="code-block-2-9"></a>    <span class="st">'If a detail is not stated in the abstract, set it to "not stated". '</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1" aria-label="code-block-2-10"></a>    <span class="st">"Return ONLY the JSON object."</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1" aria-label="code-block-2-11"></a>)</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1" aria-label="code-block-2-12"></a></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1" aria-label="code-block-2-13"></a><span class="kw">def</span> extract(record):</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1" aria-label="code-block-2-14"></a>    <span class="co"># One model call for one abstract -&gt; dict (or a PARSE-FAILED marker).</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1" aria-label="code-block-2-15"></a>    user <span class="op">=</span> (<span class="ss">f"Field: </span><span class="sc">{</span>record[<span class="st">'field'</span>]<span class="sc">}</span><span class="ch">\n</span><span class="ss">Title: </span><span class="sc">{</span>record[<span class="st">'title'</span>]<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1" aria-label="code-block-2-16"></a>            <span class="ss">f"Abstract: </span><span class="sc">{</span>record[<span class="st">'abstract'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1" aria-label="code-block-2-17"></a>    <span class="cf">for</span> attempt <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):   <span class="co"># one retry if the JSON is malformed</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1" aria-label="code-block-2-18"></a>        resp <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1" aria-label="code-block-2-19"></a>            model<span class="op">=</span>MODEL,</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1" aria-label="code-block-2-20"></a>            messages<span class="op">=</span>[</span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1" aria-label="code-block-2-21"></a>                {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: SYSTEM_PROMPT},</span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1" aria-label="code-block-2-22"></a>                {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: user},</span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1" aria-label="code-block-2-23"></a>            ],</span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1" aria-label="code-block-2-24"></a>            temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1" aria-label="code-block-2-25"></a>        )</span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1" aria-label="code-block-2-26"></a>        text <span class="op">=</span> resp.choices[<span class="dv">0</span>].message.content.strip()</span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1" aria-label="code-block-2-27"></a>        <span class="co"># Strip any ```json ... ``` fence some models add around the object</span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1" aria-label="code-block-2-28"></a>        t <span class="op">=</span> text</span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1" aria-label="code-block-2-29"></a>        <span class="cf">if</span> t.startswith(<span class="st">"```"</span>):</span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1" aria-label="code-block-2-30"></a>            t <span class="op">=</span> t.removeprefix(<span class="st">"```json"</span>).removeprefix(<span class="st">"```"</span>).removesuffix(<span class="st">"```"</span>).strip()</span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1" aria-label="code-block-2-31"></a>        <span class="cf">try</span>:</span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1" aria-label="code-block-2-32"></a>            <span class="cf">return</span> json.loads(t)</span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1" aria-label="code-block-2-33"></a>        <span class="cf">except</span> json.JSONDecodeError:</span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1" aria-label="code-block-2-34"></a>            <span class="cf">if</span> attempt <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1" aria-label="code-block-2-35"></a>                <span class="cf">continue</span></span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1" aria-label="code-block-2-36"></a>            <span class="cf">return</span> {<span class="st">"summary"</span>: <span class="st">"PARSE FAILED"</span>, <span class="st">"method"</span>: text[:<span class="dv">80</span>], <span class="st">"result"</span>: <span class="st">""</span>}</span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1" aria-label="code-block-2-37"></a></span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1" aria-label="code-block-2-38"></a>rows, failures <span class="op">=</span> [], <span class="dv">0</span></span>
+<span id="cb2-39"><a href="#cb2-39" tabindex="-1" aria-label="code-block-2-39"></a><span class="cf">for</span> i, rec <span class="kw">in</span> <span class="bu">enumerate</span>(ABSTRACTS, <span class="dv">1</span>):</span>
+<span id="cb2-40"><a href="#cb2-40" tabindex="-1" aria-label="code-block-2-40"></a>    row <span class="op">=</span> extract(rec)</span>
+<span id="cb2-41"><a href="#cb2-41" tabindex="-1" aria-label="code-block-2-41"></a>    ok <span class="op">=</span> <span class="bu">bool</span>(row) <span class="kw">and</span> row.get(<span class="st">"summary"</span>) <span class="op">!=</span> <span class="st">"PARSE FAILED"</span></span>
+<span id="cb2-42"><a href="#cb2-42" tabindex="-1" aria-label="code-block-2-42"></a>    <span class="cf">if</span> <span class="kw">not</span> ok:</span>
+<span id="cb2-43"><a href="#cb2-43" tabindex="-1" aria-label="code-block-2-43"></a>        failures <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb2-44"><a href="#cb2-44" tabindex="-1" aria-label="code-block-2-44"></a>        rows.append({<span class="st">"field"</span>: rec[<span class="st">"field"</span>], <span class="st">"title"</span>: rec[<span class="st">"title"</span>], <span class="st">"arxiv_id"</span>: rec[<span class="st">"id"</span>],</span>
+<span id="cb2-45"><a href="#cb2-45" tabindex="-1" aria-label="code-block-2-45"></a>                     <span class="st">"summary"</span>: <span class="st">"PARSE FAILED"</span>, <span class="st">"method"</span>: <span class="st">""</span>, <span class="st">"result"</span>: <span class="st">""</span>})</span>
+<span id="cb2-46"><a href="#cb2-46" tabindex="-1" aria-label="code-block-2-46"></a>        <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>i<span class="sc">:2d}</span><span class="ss">/</span><span class="sc">{</span><span class="bu">len</span>(ABSTRACTS)<span class="sc">}</span><span class="ss">  </span><span class="sc">{</span>rec[<span class="st">'field'</span>]<span class="sc">:&lt;22}</span><span class="ss"> -&gt; PARSE FAILED (kept raw snippet)"</span>)</span>
+<span id="cb2-47"><a href="#cb2-47" tabindex="-1" aria-label="code-block-2-47"></a>    <span class="cf">else</span>:</span>
+<span id="cb2-48"><a href="#cb2-48" tabindex="-1" aria-label="code-block-2-48"></a>        rows.append({<span class="st">"field"</span>: rec[<span class="st">"field"</span>], <span class="st">"title"</span>: rec[<span class="st">"title"</span>], <span class="st">"arxiv_id"</span>: rec[<span class="st">"id"</span>],</span>
+<span id="cb2-49"><a href="#cb2-49" tabindex="-1" aria-label="code-block-2-49"></a>                     <span class="op">**</span>{k: row.get(k, <span class="st">"not stated"</span>) <span class="cf">for</span> k <span class="kw">in</span> (<span class="st">"summary"</span>, <span class="st">"method"</span>, <span class="st">"result"</span>)}})</span>
+<span id="cb2-50"><a href="#cb2-50" tabindex="-1" aria-label="code-block-2-50"></a>        <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>i<span class="sc">:2d}</span><span class="ss">/</span><span class="sc">{</span><span class="bu">len</span>(ABSTRACTS)<span class="sc">}</span><span class="ss">  </span><span class="sc">{</span>rec[<span class="st">'field'</span>]<span class="sc">:&lt;22}</span><span class="ss"> -&gt; ok"</span>)</span>
+<span id="cb2-51"><a href="#cb2-51" tabindex="-1" aria-label="code-block-2-51"></a></span>
+<span id="cb2-52"><a href="#cb2-52" tabindex="-1" aria-label="code-block-2-52"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Done. </span><span class="sc">{</span><span class="bu">len</span>(rows)<span class="sc">}</span><span class="ss"> rows, </span><span class="sc">{</span>failures<span class="sc">}</span><span class="ss"> parse failure(s)."</span>)</span></code></pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="c-save-inspect-the-csv">3c — Save &amp; inspect the CSV<a class="anchor" aria-label="anchor" href="#c-save-inspect-the-csv"></a>
+</h3>
+<p>The rows go straight into <code>triage_table.csv</code> — one row per
+paper, ready for a spreadsheet. <code>csv.DictWriter</code> quotes
+fields properly, so commas inside a summary won’t shift your
+columns.</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">import</span> csv</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>out <span class="op">=</span> <span class="st">"triage_table.csv"</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a>fields <span class="op">=</span> [<span class="st">"field"</span>, <span class="st">"title"</span>, <span class="st">"arxiv_id"</span>, <span class="st">"summary"</span>, <span class="st">"method"</span>, <span class="st">"result"</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a><span class="cf">with</span> <span class="bu">open</span>(out, <span class="st">"w"</span>, newline<span class="op">=</span><span class="st">""</span>) <span class="im">as</span> f:</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a>    w <span class="op">=</span> csv.DictWriter(f, fieldnames<span class="op">=</span>fields)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1" aria-label="code-block-3-7"></a>    w.writeheader()</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1" aria-label="code-block-3-8"></a>    w.writerows(rows)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1" aria-label="code-block-3-9"></a><span class="bu">print</span>(<span class="ss">f"Wrote </span><span class="sc">{</span><span class="bu">len</span>(rows)<span class="sc">}</span><span class="ss"> rows to </span><span class="sc">{</span>out<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1" aria-label="code-block-3-10"></a></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1" aria-label="code-block-3-11"></a><span class="co"># Show a readable slice</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1" aria-label="code-block-3-12"></a><span class="cf">for</span> r <span class="kw">in</span> rows[:<span class="dv">4</span>]:</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1" aria-label="code-block-3-13"></a>    <span class="bu">print</span>(<span class="ss">f"[</span><span class="sc">{</span>r[<span class="st">'field'</span>]<span class="sc">}</span><span class="ss">] </span><span class="sc">{</span>r[<span class="st">'title'</span>][:<span class="dv">55</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1" aria-label="code-block-3-14"></a>    <span class="bu">print</span>(<span class="ss">f"   summary: </span><span class="sc">{</span>r[<span class="st">'summary'</span>][:<span class="dv">100</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1" aria-label="code-block-3-15"></a>    <span class="bu">print</span>(<span class="ss">f"   method:  </span><span class="sc">{</span>r[<span class="st">'method'</span>][:<span class="dv">80</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1" aria-label="code-block-3-16"></a>    <span class="bu">print</span>()</span></code></pre>
+</div>
+<div id="land-the-pattern-out-loud" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="land-the-pattern-out-loud" class="callout-inner">
+<h3 class="callout-title">Land the pattern out loud</h3>
+<div class="callout-content">
+<p><strong>list of inputs → one model call each → structured rows → save
+to a file.</strong> Repeat it. The same loop works on grant proposals,
+lab notes, instrument logs — anything you can turn into a list of
+texts.</p>
+</div>
+</div>
+</div>
+
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul>
+<li>
+<strong>Structured output</strong> = a <code>system</code> prompt
+that forces a strict JSON <em>shape</em> (keys you define).</li>
+<li>The reusable pattern: list in → one call each → structured rows →
+save to file.</li>
+<li>Be defensive: strip code fences, retry once on a bad parse, keep a
+<code>PARSE FAILED</code> marker.</li>
+<li>
+<code>csv.DictWriter</code> writes clean, quote-safe CSV.</li>
+</ul>
+</div>
+</div>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</div></section><section id="aio-experiments"><p>Content from <a href="experiments.html">Experiments &amp; Tools Around the API</a></p>
+<hr>
+<p>Last updated on 2026-09-02 |
+
+        <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/experiments.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li>What actually changes the model’s answer — the prompt, or the
+model?</li>
+<li>How do I try my own data with the same pattern?</li>
+<li>What other tools can I point at the same key and endpoint?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li>Systematically vary one variable at a time (prompt or model).</li>
+<li>Extend the JSON schema with new fields.</li>
+<li>Batch-process your own (non-sensitive) data.</li>
+<li>Name the researcher-facing tools that reuse the same
+OpenAI-compatible API.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section><h2 class="section-heading" id="guided-experiment-time-15-minutes">Guided experiment time (15 minutes)<a class="anchor" aria-label="anchor" href="#guided-experiment-time-15-minutes"></a>
+</h2>
+<hr class="half-width">
+<p>Pick whichever cells fit your own research. Each one changes
+<strong>exactly one variable</strong> — that’s how you learn what
+actually matters.</p>
+
+<p><strong>Before Experiment 4:</strong> do not send sensitive/regulated
+data — no health records, no export-controlled work, no SSNs, no
+personal identifiers. If unsure, ask your institution first.</p>
+<div class="section level3">
+<h3 id="experiment-1-vary-the-prompt-same-abstract-3-asks">Experiment 1 — Vary the prompt (same abstract, 3 asks)<a class="anchor" aria-label="anchor" href="#experiment-1-vary-the-prompt-same-abstract-3-asks"></a>
+</h3>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a>rec <span class="op">=</span> ABSTRACTS[<span class="dv">0</span>]   <span class="co"># pick any index 0..11</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a>asks <span class="op">=</span> [</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>    <span class="st">"Summarize this abstract in one sentence."</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a>    <span class="st">"Summarize this abstract in one sentence, then list up to 3 limitations the authors mention or that are implied."</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>    <span class="st">"Explain the core idea of this abstract to a first-year PhD student in a different field. Keep it under 80 words."</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a>]</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a><span class="cf">for</span> i, ask <span class="kw">in</span> <span class="bu">enumerate</span>(asks, <span class="dv">1</span>):</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a>    resp <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a>        model<span class="op">=</span>MODEL,</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>        messages<span class="op">=</span>[</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>            {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: <span class="st">"You are a helpful research assistant."</span>},</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a>            {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="ss">f"</span><span class="sc">{</span>ask<span class="sc">}</span><span class="ch">\n\n</span><span class="ss">Abstract: </span><span class="sc">{</span>rec[<span class="st">'abstract'</span>]<span class="sc">}</span><span class="ss">"</span>},</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a>        ],</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a>    )</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1" aria-label="code-block-1-16"></a>    <span class="bu">print</span>(<span class="ss">f"--- Ask </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>ask[:<span class="dv">60</span>]<span class="sc">}</span><span class="ss">..."</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1" aria-label="code-block-1-17"></a>    <span class="bu">print</span>(resp.choices[<span class="dv">0</span>].message.content.strip()[:<span class="dv">300</span>])</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1" aria-label="code-block-1-18"></a>    <span class="bu">print</span>()</span></code></pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="experiment-2-vary-the-model-same-request-2-models">Experiment 2 — Vary the model (same request, 2 models)<a class="anchor" aria-label="anchor" href="#experiment-2-vary-the-model-same-request-2-models"></a>
+</h3>
+<p>Set <code>B</code> to a second model ID from the list printed in the
+first-call episode. Watch style, length, and what each gets right or
+wrong.</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a>A <span class="op">=</span> MODEL</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a>B <span class="op">=</span> <span class="va">None</span>   <span class="co"># &lt;-- set me to another model ID, e.g. B = 'gpt-4o' (must be in your list)</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a><span class="cf">if</span> <span class="kw">not</span> B:</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>    <span class="cf">raise</span> <span class="pp">SystemExit</span>(<span class="st">"Set B = 'some-model-id' (from the list in Section 2) and re-run."</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1" aria-label="code-block-2-7"></a>prompt <span class="op">=</span> (<span class="st">"In under 60 words, what is the main method and the key result of this "</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1" aria-label="code-block-2-8"></a>          <span class="ss">f"abstract?</span><span class="ch">\n\n</span><span class="ss">Abstract: </span><span class="sc">{</span>ABSTRACTS[<span class="dv">1</span>][<span class="st">'abstract'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1" aria-label="code-block-2-9"></a></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1" aria-label="code-block-2-10"></a><span class="cf">for</span> label, m <span class="kw">in</span> ((<span class="st">"Model A"</span>, A), (<span class="st">"Model B"</span>, B)):</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1" aria-label="code-block-2-11"></a>    <span class="cf">try</span>:</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1" aria-label="code-block-2-12"></a>        resp <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1" aria-label="code-block-2-13"></a>            model<span class="op">=</span>m,</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1" aria-label="code-block-2-14"></a>            messages<span class="op">=</span>[{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}],</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1" aria-label="code-block-2-15"></a>            temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1" aria-label="code-block-2-16"></a>        )</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1" aria-label="code-block-2-17"></a>        <span class="bu">print</span>(<span class="ss">f"=== </span><span class="sc">{</span>label<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>m<span class="sc">}</span><span class="ss">) ==="</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1" aria-label="code-block-2-18"></a>        <span class="bu">print</span>(resp.choices[<span class="dv">0</span>].message.content.strip())</span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1" aria-label="code-block-2-19"></a>        <span class="bu">print</span>()</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1" aria-label="code-block-2-20"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1" aria-label="code-block-2-21"></a>        <span class="bu">print</span>(<span class="ss">f"=== </span><span class="sc">{</span>label<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>m<span class="sc">}</span><span class="ss">) === FAILED: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span></code></pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="experiment-3-tighten-the-structure-add-a-field-to-the-schema">Experiment 3 — Tighten the structure (add a field to the
+schema)<a class="anchor" aria-label="anchor" href="#experiment-3-tighten-the-structure-add-a-field-to-the-schema"></a>
+</h3>
+<p>Add <code>reproducible</code> and <code>confidence</code> keys and
+watch the model fill them:</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a>SYSTEM2 <span class="op">=</span> (</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a>    <span class="st">"Respond with ONLY a valid JSON object (no other text) with exactly these keys: "</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>    <span class="st">'{"summary": "&lt;one sentence&gt;", '</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a>    <span class="st">'"method": "&lt;main method, short&gt;", '</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a>    <span class="st">'"result": "&lt;key result, short&gt;", '</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a>    <span class="st">'"reproducible": "yes | no | maybe", '</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1" aria-label="code-block-3-7"></a>    <span class="st">'"confidence": "high | medium | low"}. '</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1" aria-label="code-block-3-8"></a>    <span class="st">"Use 'not stated' where the abstract gives no information. Return ONLY the JSON."</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1" aria-label="code-block-3-9"></a>)</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1" aria-label="code-block-3-10"></a></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1" aria-label="code-block-3-11"></a><span class="cf">for</span> rec <span class="kw">in</span> ABSTRACTS[:<span class="dv">3</span>]:</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1" aria-label="code-block-3-12"></a>    resp <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1" aria-label="code-block-3-13"></a>        model<span class="op">=</span>MODEL,</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1" aria-label="code-block-3-14"></a>        messages<span class="op">=</span>[</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1" aria-label="code-block-3-15"></a>            {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: SYSTEM2},</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1" aria-label="code-block-3-16"></a>            {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="ss">f"Title: </span><span class="sc">{</span>rec[<span class="st">'title'</span>]<span class="sc">}</span><span class="ch">\n</span><span class="ss">Abstract: </span><span class="sc">{</span>rec[<span class="st">'abstract'</span>]<span class="sc">}</span><span class="ss">"</span>},</span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1" aria-label="code-block-3-17"></a>        ],</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1" aria-label="code-block-3-18"></a>        temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1" aria-label="code-block-3-19"></a>    )</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1" aria-label="code-block-3-20"></a>    <span class="bu">print</span>(rec[<span class="st">"title"</span>][:<span class="dv">60</span>])</span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1" aria-label="code-block-3-21"></a>    <span class="bu">print</span>(resp.choices[<span class="dv">0</span>].message.content.strip())</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1" aria-label="code-block-3-22"></a>    <span class="bu">print</span>()</span></code></pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="experiment-4-your-own-data">Experiment 4 — Your own data<a class="anchor" aria-label="anchor" href="#experiment-4-your-own-data"></a>
+</h3>
+<p>Paste 3–5 short paragraphs from your own work into
+<code>MY_TEXTS</code> and run the same batch pattern. <em>(Only send
+data that is fine to send.)</em></p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a>MY_TEXTS <span class="op">=</span> [</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a>    <span class="st">"Paste paragraph 1 here"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a>    <span class="st">"Paste paragraph 2 here"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a>    <span class="st">"Paste paragraph 3 here"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1" aria-label="code-block-4-5"></a>]</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1" aria-label="code-block-4-6"></a></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1" aria-label="code-block-4-7"></a><span class="cf">if</span> <span class="bu">all</span>(t.startswith(<span class="st">"Paste"</span>) <span class="cf">for</span> t <span class="kw">in</span> MY_TEXTS):</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1" aria-label="code-block-4-8"></a>    <span class="cf">raise</span> <span class="pp">SystemExit</span>(<span class="st">"Replace the MY_TEXTS list with your own text, then re-run."</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1" aria-label="code-block-4-9"></a></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1" aria-label="code-block-4-10"></a><span class="cf">for</span> i, text <span class="kw">in</span> <span class="bu">enumerate</span>(MY_TEXTS, <span class="dv">1</span>):</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1" aria-label="code-block-4-11"></a>    resp <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1" aria-label="code-block-4-12"></a>        model<span class="op">=</span>MODEL,</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1" aria-label="code-block-4-13"></a>        messages<span class="op">=</span>[</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1" aria-label="code-block-4-14"></a>            {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: SYSTEM_PROMPT},</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1" aria-label="code-block-4-15"></a>            {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="ss">f"Text: </span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">"</span>},</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1" aria-label="code-block-4-16"></a>        ],</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1" aria-label="code-block-4-17"></a>        temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1" aria-label="code-block-4-18"></a>    )</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1" aria-label="code-block-4-19"></a>    <span class="bu">print</span>(<span class="ss">f"--- Text </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss"> ---"</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1" aria-label="code-block-4-20"></a>    <span class="bu">print</span>(resp.choices[<span class="dv">0</span>].message.content.strip())</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1" aria-label="code-block-4-21"></a>    <span class="bu">print</span>()</span></code></pre>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="tools-around-the-api-10-minutes">Tools around the API (10 minutes)<a class="anchor" aria-label="anchor" href="#tools-around-the-api-10-minutes"></a>
+</h2>
+<hr class="half-width">
+<p>Because it’s <strong>OpenAI-compatible</strong>, a whole shelf of
+tools just works with the <strong>same key and the same
+endpoint</strong>. Quick tour:</p>
+<ul>
+<li>
+<strong>OpenCode</strong> — a terminal/desktop coding assistant. ASU
+RC has a setup guide, and Voyager even generates the provider config for
+you.</li>
+<li>
+<strong>VS Code</strong> — <em>Chat → Manage Language Models → Add
+Models → Custom Endpoint</em>; paste <a href="https://openai.rc.asu.edu/v1" class="external-link"><code>https://openai.rc.asu.edu/v1</code></a>
++ your key.</li>
+<li>
+<strong>Jupyter AI</strong> — the <code>%ai</code> magic, right
+inside your notebooks, same gateway.</li>
+<li>
+<strong>AnvilGPT (Purdue)</strong> — <a href="https://anvilgpt.rcac.purdue.edu" class="external-link">anvilgpt.rcac.purdue.edu</a>, a
+separate service with its own access request, but the mental model is
+identical (it’s RAG over a vector DB).</li>
+</ul>
+<p><strong>Pick the shape that fits the task:</strong> raw script → the
+API directly; coding → OpenCode/VS Code; notebook work → Jupyter AI.</p>
+</section><section><h2 class="section-heading" id="where-to-go-next-same-api-deeper">Where to go next (same API, deeper)<a class="anchor" aria-label="anchor" href="#where-to-go-next-same-api-deeper"></a>
+</h2>
+<hr class="half-width">
+<ul>
+<li>
+<strong>Streaming</strong> —
+<code>client.chat.completions.create(..., stream=True)</code>; watch
+tokens arrive.</li>
+<li>
+<strong>Function / tool calling</strong> — let the model call
+<em>your</em> Python functions.</li>
+<li>
+<strong>RAG</strong> — ground answers in your documents (what
+AnvilGPT does out of the box).</li>
+<li>
+<strong>Canonical docs:</strong> <a href="https://docs.rc.asu.edu/ai/api" class="external-link">docs.rc.asu.edu/ai/api</a>.</li>
+</ul>
+<div id="data-governance-read-before-you-paste" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="data-governance-read-before-you-paste" class="callout-inner">
+<h3 class="callout-title">Data governance — read before you paste</h3>
+<div class="callout-content">
+<p>Do <strong>not</strong> send data your institution would call
+sensitive or proprietary, and never regulated data (HIPAA,
+export-controlled, SSNs, biometrics, personal identifiers). The gateway
+is a convenience, <strong>not</strong> a secure enclave.</p>
+</div>
+</div>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul>
+<li>Change <strong>one variable at a time</strong> — prompt or model —
+and compare the outputs.</li>
+<li>You can add fields to the JSON schema and the model will fill
+them.</li>
+<li>The same loop runs on your own (non-sensitive) data.</li>
+<li>OpenAI-compatible means OpenCode, VS Code, Jupyter AI, and AnvilGPT
+all reuse the same key + endpoint.</li>
 </ul>
 </div>
 </div>
@@ -484,14 +1174,14 @@ any links that you are not going to use.
         <p>This lesson is subject to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a></p>
         <p>
 
-        <a href="https://github.com/carpentries/workbench-template-md/edit/main/README.md" class="external-link">Edit on GitHub</a>
+        <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/README.md" class="external-link">Edit on GitHub</a>
 
 	
-        | <a href="https://github.com/carpentries/workbench-template-md/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
-        | <a href="https://github.com/carpentries/workbench-template-md/" class="external-link">Source</a></p>
+        | <a href="https://github.com/jgarciamesa/llm-api-lesson/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
+        | <a href="https://github.com/jgarciamesa/llm-api-lesson/" class="external-link">Source</a></p>
         <p>
-        <a href="citation.html">Cite</a>
-        | <a href="mailto:team@carpentries.org">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
+        <a href="https://github.com/jgarciamesa/llm-api-lesson/blob/main/" class="external-link">Cite</a>
+        | <a href="mailto:juanjosegarciamesa@gmail.com">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
 		</div>
 		<div class="col-md-6">
 
@@ -511,18 +1201,18 @@ any links that you are not going to use.
     {
   "@context": "https://schema.org",
   "@type": "LearningResource",
-  "@id": "https://carpentries.github.io/workbench-template-md/aio.html",
+  "@id": "https://jgarciamesa.github.io/llm-api-lesson/aio.html",
   "inLanguage": "en",
   "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
-  "keywords": "software, data, lesson, The Carpentries",
+  "keywords": "LLM API, OpenAI-compatible, structured output, batch processing, Python, openai SDK, research, ASU Research Computing, Anvil",
   "name": "All in One View",
   "creativeWorkStatus": "active",
-  "url": "https://carpentries.github.io/workbench-template-md/aio.html",
-  "identifier": "https://carpentries.github.io/workbench-template-md/aio.html",
+  "url": "https://jgarciamesa.github.io/llm-api-lesson/aio.html",
+  "identifier": "https://jgarciamesa.github.io/llm-api-lesson/aio.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-01",
-  "datePublished": "2026-09-01"
+  "dateModified": "2026-09-02",
+  "datePublished": "2026-09-02"
 }
 
   </script><script>

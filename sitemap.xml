@@ -1,51 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/404.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/404.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/CODE_OF_CONDUCT.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/LICENSE.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/citation.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/aio.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/index.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/build-the-tool.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/404.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/citation.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/CODE_OF_CONDUCT.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/experiments.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/LICENSE.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/first-call.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/citation.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/images.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/index.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/index.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/introduction.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/404.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/profiles.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/instructor/reference.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/introduction.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/aio.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/profiles.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/build-the-tool.html</loc>
   </url>
   <url>
-    <loc>https://carpentries.github.io/workbench-template-md/reference.html</loc>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/citation.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/experiments.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/first-call.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/images.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/instructor-guide.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/instructor-notes.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/introduction.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/key-points.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/presession-checklist.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/profiles.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/reference.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/troubleshooting.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor-guide.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor-notes.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/introduction.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/key-points.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/presession-checklist.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/profiles.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/reference.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/troubleshooting.html</loc>
   </url>
 </urlset>
