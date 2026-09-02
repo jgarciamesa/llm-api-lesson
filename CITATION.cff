@@ -1,22 +1,36 @@
-# This template CITATION.cff file was generated with cffinit.
-# Visit https://bit.ly/cffinit to replace its contents
-# with information about your lesson.
-# Remember to update this file periodically, 
-# ensuring that the author list and other fields remain accurate.
-
 cff-version: 1.2.0
-title: FIXME
 message: >-
-  Please cite this lesson using the information in this file
-  when you refer to it in publications, and/or if you
-  re-use, adapt, or expand on the content in your own
-  training material.
+  Please cite this lesson using the information in this file when you refer
+  to it in publications, and/or if you re-use, adapt, or expand on the
+  content in your own training material.
+
+title: 'Using an API to Communicate with a Model'
 type: dataset
-authors:
-  - given-names: FIXME
-    family-names: FIXME
-abstract: >-
-  FIXME Replace this with a short abstract describing the
-  lesson, e.g. its target audience and main intended
-  learning objectives.
+date-issued: '2026-09-01'
+url: 'https://jgarciamesa.github.io/llm-api-lesson/'
+version: 'pre-alpha'
 license: CC-BY-4.0
+
+abstract: >-
+  A 75-minute Carpentries-style lesson for the AI for All workshop (ASU
+  Research Computing). It takes researchers who are new to large language
+  models from zero to a small working research tool that calls a model
+  through an OpenAI-compatible API (ASU RC's openai.rc.asu.edu gateway) and
+  returns structured JSON.
+
+# NOTE: Add any co-authors below before the first public version.
+authors:
+  - given-names: 'Juanjo'
+    family-names: 'Garcia Mesa'
+    affiliation:
+      name: 'Arizona State University, ASU Research Computing'
+
+repository-code: 'https://github.com/jgarciamesa/llm-api-lesson'
+keywords:
+  - 'LLM API'
+  - 'structured output'
+  - 'Python'
+  - 'openai SDK'
+  - 'ASU Research Computing'
+  - 'Anvil'
+  - 'research'
