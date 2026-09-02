@@ -1,114 +1,92 @@
 ---
-title: "Using Markdown"
-teaching: 10 # teaching time in minutes
-exercises: 2 # exercise time in minutes
+title: "Introduction: What Is an LLM API?"
+teaching: 15
+exercises: 0
 ---
 
-:::::::::::::::::::::::::::::::::::::: questions 
+:::::::::::::::::::::::::::::::::::::: questions
 
-- How do you write a lesson using Markdown and `{sandpaper}`?
+- What exactly is a "large language model API", and how is it different from running a model yourself?
+- What does a request to this API look like under the hood?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with The Carpentries Workbench
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Explain the client / service relationship behind an LLM API.
+- Describe the three things you choose in a request: the model, the messages, and the knobs.
+- Locate the answer in the response JSON.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Introduction
+## You are a client talking to a service
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown](https://pandoc.org/MANUAL.html) for static files and
-[R Markdown][r-markdown] for dynamic files that can render code into output. 
-Please refer to the [Introduction to The Carpentries 
-Workbench](https://carpentries.github.io/sandpaper-docs/) for full documentation.
+Everything in this lesson is one thing: **you send a message, you get a message
+back** — over the internet, to a model running on someone else's servers. No
+training, no GPUs on your side, no model weights to download. You are a
+*client* talking to a *service*.
 
-What you need to know is that there are three sections required for a valid
-Carpentries lesson:
+You'll use a real one: **ASU Research Computing's LLM gateway**, the same
+OpenAI-compatible API its own researchers use:
 
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
+- **Endpoint:** [`https://openai.rc.asu.edu/v1`][rc-gateway]
+- **SDK:** the standard [`openai` Python package][openai-sdk]
+- **Your key:** created in [Voyager][voyager] and given to you for this workshop
+
+The word **"OpenAI-compatible"** does a lot of work. It's a standard: any tool
+that talks to OpenAI talks to this too. That single fact is what unlocks the
+"tools around the API" at the end of the lesson.
+
+## Anatomy of a request
+
+Before we code, see what a request actually is. It's just **JSON**. The whole
+API in one `curl`:
+
+```bash
+curl https://openai.rc.asu.edu/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer ***" \
+  -d '{
+    "model": "<MODEL_NAME>",
+    "messages": [ { "role": "user", "content": "Explain quantum computing in one sentence." } ]
+  }'
+```
+
+Three things you're always choosing:
+
+1. **the `model`** — which model answers (from your key's live list),
+2. **the `messages`** — a list of `{role, content}` pairs,
+3. **optional knobs** — like `temperature` (0 = deterministic).
+
+The response is JSON too, and the text you actually want lives at
+**`choices[0].message.content`**. The Python SDK just types this for you.
+
+### The `role` field — the most useful concept today
+
+- `system` = standing instructions (the *shape* you want back)
+- `user` = the turn (your actual text)
+- `assistant` = the model's reply
+
+You'll set a `system` message later to force *structured* output.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
-
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
-
+Timing: 15 min (5 cold-open, 10 anatomy). Land the "client / service" frame and
+the `role` concept here — everything downstream depends on it. Show the endpoint
+and the word "openai-compatible" on screen; that's the seed for the tools tour.
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-::::::::::::::::::::::::::::::::::::: challenge 
-
-## Challenge 1: Can you do it?
-
-What is the output of this command?
-
-```r
-paste("This", "new", "lesson", "looks", "good")
-```
-
-:::::::::::::::::::::::: solution 
-
-## Output
- 
-```output
-[1] "This new lesson looks good"
-```
-
-:::::::::::::::::::::::::::::::::
-
-
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Figures
-
-You can use standard markdown for static figures with the following syntax:
-
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
-
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
-
 ::::::::::::::::::::::::::::::::::::: callout
+### The one sentence to hold onto
 
-Callout sections can highlight information.
-
-They are sometimes used to emphasise particularly important points
-but are also used in some lessons to present "asides": 
-content that is not central to the narrative of the lesson,
-e.g. by providing the answer to a commonly-asked question.
-
+**list of inputs → one model call each → structured JSON rows → save to a file.**
+If you can repeat that, you've got the lesson.
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+::::::::::::::::::::::::::::::::::::: keypoints
 
-## Math
-
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
-
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
-
-Cool, right?
-
-::::::::::::::::::::::::::::::::::::: keypoints 
-
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- An LLM API is a *service*; you are a *client*. You send JSON, you get JSON back.
+- You always choose the **model**, the **messages** (`role` + `content`), and the **knobs**.
+- The answer is at `choices[0].message.content`.
+- It's **OpenAI-compatible**, so the `openai` Python SDK (and many other tools) just work.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
-
-[r-markdown]: https://rmarkdown.rstudio.com/
