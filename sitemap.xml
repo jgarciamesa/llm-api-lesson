@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/01_instructor_guide.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/02_participant_handout.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/04_presession_checklist.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/05_troubleshooting.html</loc>
+  </url>
+  <url>
     <loc>https://jgarciamesa.github.io/llm-api-lesson/404.html</loc>
   </url>
   <url>
@@ -29,6 +41,18 @@
   </url>
   <url>
     <loc>https://jgarciamesa.github.io/llm-api-lesson/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/01_instructor_guide.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/02_participant_handout.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/04_presession_checklist.html</loc>
+  </url>
+  <url>
+    <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/05_troubleshooting.html</loc>
   </url>
   <url>
     <loc>https://jgarciamesa.github.io/llm-api-lesson/instructor/404.html</loc>
