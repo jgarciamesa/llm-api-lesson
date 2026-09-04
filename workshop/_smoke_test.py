@@ -9,7 +9,7 @@ Verifies, without hitting the real API:
 import json, types, sys, os
 import nbformat
 
-os.chdir('/Users/jgarc111/ai-workshop-api-lesson')
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 nb = nbformat.read('03_notebook_talking_to_a_model.ipynb', as_version=4)
 cells = [c for c in nb.cells if c.cell_type == 'code']
 src = [c.source for c in cells]
