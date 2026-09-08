@@ -1,6 +1,6 @@
 ---
 title: "Your First Call"
-teaching: 13
+teaching: 16
 exercises: 3
 ---
 
@@ -126,11 +126,79 @@ print(f"\n(tokens used: {resp.usage.total_tokens if resp.usage else '?'})")
 
 You should see a sentence back from the model. **If you see text — you're in.**
 
+## Anatomy of a response
+
+Every reply comes back as a JSON object with the same shape. Here is a typical
+one, with each field explained:
+
+```json
+{
+  "id": "chatcmpl-2d4be949-...",            // 1 — unique ID for this
+                                            //    response; send it to support
+                                            //    when reporting a problem
+  "object": "chat.completion",              // 2 — the kind of object this
+                                            //    is (almost always this value
+                                            //    for chat completions)
+  "created": 1757984284,                    // 3 — Unix timestamp (seconds since
+                                            //    1970) of when the response
+                                            //    was created
+  "model": "llama3.1",                      // 4 — the model that actually
+                                            //    handled the request (can
+                                            //    differ from what you asked
+                                            //    for, if the gateway routed
+                                            //    it elsewhere)
+  "choices": [                              // 5 — the answer(s). A list
+    {                                       //    because n > 1 can request
+      "index": 0,                           //    several alternatives; 0
+                                            //    for the first one
+      "message": {                          //    the model's reply lives
+        "role": "assistant",                //    inside "message"
+        "content": "This study proposes..."//    the text you wanted
+      },
+      "finish_reason": "stop",              // 6 — why generation stopped:
+                                            //    "stop" = model finished
+                                            //    naturally, "length" = hit
+                                            //    max_tokens, "content_filter"
+                                            //    = safety filter tripped
+      "logprobs": null                      //    per-token probabilities;
+                                            //    null unless requested
+    }
+  ],
+  "usage": {                                // 7 — what this call consumed
+    "prompt_tokens": 12,                    //    tokens in your messages
+    "completion_tokens": 87,                //    tokens in the reply
+    "total_tokens": 99                      //    sum; billing is based on
+                                            //    this
+  }
+}
+```
+
+Three of these matter most for the rest of the lesson:
+
+1. **`choices[0].message.content`** — the actual text. This is the field every
+   call in the rest of the lesson reads.
+2. **`choices[0].finish_reason`** — if it says `"length"`, your reply was cut
+   off at `max_tokens`; raise the limit and try again.
+3. **`usage.total_tokens`** — the cost meter. The first cell above prints it
+   (`resp.usage.total_tokens`); when you write your own batch tool, summing it
+   per call tells you what a whole run cost.
+
+::::::::::::::::::::::::::::::::::: callout
+### How does `resp` relate to this JSON?
+
+The Python client unpacks the JSON into attributes: `resp.choices[0].message.content`
+is the `choices[0].message.content` above, and `resp.usage` gives you the token
+counts. Knowing the raw shape matters when you read documentation (which
+describes the JSON, not the Python) or when you move to a language without a
+client library.
+::::::::::::::::::::::::::::::::::::::::::::::::
+
 ### Two ideas to hold onto
 
 - **`messages`** is a list of `{role, content}` (recap the `role` field from
   the introduction).
-- The answer lives at **`resp.choices[0].message.content`**.
+- The answer lives at **`resp.choices[0].message.content`** — field 5 in the
+  anatomy above.
 
 You can list the models your key can use — you'll use this again in the
 experiments:
@@ -156,6 +224,7 @@ print([m.id for m in client.models.list()])
 - Set the key from the environment (`OPENAI_API_KEY` + `OPENAI_BASE_URL`), never hardcoded.
 - `client = OpenAI()` reads both from the environment.
 - The first call is `client.chat.completions.create(model=..., messages=[...])`.
-- The answer is at `resp.choices[0].message.content`.
+- The answer is at `resp.choices[0].message.content`; `finish_reason` tells you
+  why generation stopped and `usage.total_tokens` is the cost meter.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
