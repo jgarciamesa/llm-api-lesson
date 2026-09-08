@@ -363,7 +363,9 @@ Python SDK (and many other tools) just work.</li>
 <code>client = OpenAI()</code> reads both from the environment.</li>
 <li>The first call is
 <code>client.chat.completions.create(model=..., messages=[...])</code>.</li>
-<li>The answer is at <code>resp.choices[0].message.content</code>.</li>
+<li>The answer is at <code>resp.choices[0].message.content</code>;
+<code>finish_reason</code> tells you why generation stopped and
+<code>usage.total_tokens</code> is the cost meter.</li>
 </ul></section><section id="build-the-tool"><h2 class="section-heading"><a href="build-the-tool.html">Building the Research Tool</a></h2>
 <hr class="half-width">
 <ul>
