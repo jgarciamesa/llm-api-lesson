@@ -25,7 +25,7 @@ keywords: 'LLM API, OpenAI-compatible, structured output, batch processing, Pyth
 # Life cycle stage of the lesson
 # refer to <https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html> for details
 # possible values: pre-alpha, alpha, beta, stable
-life_cycle: 'pre-alpha'
+life_cycle: ~
 
 # License of the lesson
 license: 'CC-BY 4.0'

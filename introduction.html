@@ -24,17 +24,7 @@
   <div class="container-fluid top-nav-container">
     <div class="col-md-8">
       <div class="large-logo">
-        <img id="incubator-logo" alt="AI for All Workshop" src="assets/images/incubator-logo.svg"><span class="badge text-bg-danger">
-          <abbr title="This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.">
-            <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
-              <i aria-hidden="true" class="icon" data-feather="alert-octagon" style="border-radius: 5px"></i>
-              Pre-Alpha
-            </a>
-            <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
-          </abbr>
-        </span>
-
-      </div>
+        <img id="incubator-logo" alt="AI for All Workshop" src="assets/images/incubator-logo.svg"></div>
     </div>
     <div class="selector-container">
       <menu class="theme-selector" id="theme-selector-menu"><li class="nav-item dropdown theme-button-list" id="theme-button-list-menu">
@@ -302,7 +292,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction: What Is an LLM API?</h1>
-        <p>Last updated on 2026-09-02 |
+        <p>Last updated on 2026-09-09 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -341,11 +331,11 @@ messages, and the knobs.</li>
 </div>
 </div>
 <section><h2 class="section-heading" id="you-are-a-client-talking-to-a-service">You are a client talking to a service<a class="anchor" aria-label="anchor" href="#you-are-a-client-talking-to-a-service"></a></h2>
-<hr class="half-width"><p>Everything in this lesson is one thing: <strong>you send a message,
-you get a message back</strong> — over the internet, to a model running
-on someone else’s servers. No training, no GPUs on your side, no model
-weights to download. You are a <em>client</em> talking to a
-<em>service</em>.</p>
+<hr class="half-width"><p>The core idea of this lesson is one thing: <strong>you send a
+message, you get a message back</strong> — over the internet, to a model
+running on someone else’s servers. You are a <em>client</em> talking to
+a <em>service</em>: the model is hosted for you, so you simply send it
+text and read the structured text it returns.</p>
 <p>You’ll use a real one: <strong>ASU Research Computing’s LLM
 gateway</strong>, the same OpenAI-compatible API its own researchers
 use:</p>
@@ -402,20 +392,6 @@ want back)</li>
 </ul><p>You’ll set a <code>system</code> message later to force
 <em>structured</em> output.</p>
 
-<div id="the-one-sentence-to-hold-onto" class="callout">
-<div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
-</div>
-<span class="callout-header">Callout</span>
-<div id="the-one-sentence-to-hold-onto" class="callout-inner">
-<h3 class="callout-title">The one sentence to hold onto</h3>
-<div class="callout-content">
-<p><strong>list of inputs → one model call each → structured JSON rows →
-save to a file.</strong> If you can repeat that, you’ve got the
-lesson.</p>
-</div>
-</div>
-</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -499,8 +475,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/introduction.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/introduction.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-02",
-  "datePublished": "2026-09-08"
+  "dateModified": "2026-09-09",
+  "datePublished": "2026-09-09"
 }
 
   </script><script>

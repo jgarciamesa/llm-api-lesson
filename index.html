@@ -24,17 +24,7 @@
   <div class="container-fluid top-nav-container">
     <div class="col-md-8">
       <div class="large-logo">
-        <img id="incubator-logo" alt="AI for All Workshop" src="assets/images/incubator-logo.svg"><span class="badge text-bg-danger">
-          <abbr title="This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.">
-            <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
-              <i aria-hidden="true" class="icon" data-feather="alert-octagon" style="border-radius: 5px"></i>
-              Pre-Alpha
-            </a>
-            <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
-          </abbr>
-        </span>
-
-      </div>
+        <img id="incubator-logo" alt="AI for All Workshop" src="assets/images/incubator-logo.svg"></div>
     </div>
     <div class="selector-container">
       <menu class="theme-selector" id="theme-selector-menu"><li class="nav-item dropdown theme-button-list" id="theme-button-list-menu">
@@ -294,54 +284,45 @@
       
 <div class="section level1">
 <h1 id="using-an-api-to-communicate-with-a-model">Using an API to Communicate with a Model<a class="anchor" aria-label="anchor" href="#using-an-api-to-communicate-with-a-model"></a></h1>
-<p>In this 75-minute lesson you make your first <strong>LLM API
-call</strong>, then build a small but real <strong>research
-tool</strong>: a Python script that batch-processes 12 real arXiv
-abstracts into a structured triage table (CSV). You finish with free
-experiment time and a tour of the researcher-facing tools that wrap the
-same API.</p>
-<p><strong>No GPUs. No model downloads. No training.</strong> You are a
-<em>client</em> sending messages over HTTPS to a <em>service</em>; text
-goes in, structured text comes out.</p>
+<p>In this 75-minute lesson you talk to a large language model (LLM)
+through a <strong>web API</strong> — the same kind of service you call
+to look up the weather or query a database. You begin by sending your
+first message with the <code>openai</code> Python SDK and reading the
+model’s reply out of the JSON. Then you turn that single call into a
+small but real <strong>research tool</strong>: a script that runs the
+<em>same</em> structured question over 12 real arXiv abstracts and
+collects the answers into a triage table (CSV) — one row per paper, with
+a one-line summary, the main method, and the key result.</p>
+<p>The model lives on ASU Research Computing’s servers, so you are the
+<strong>client</strong>: you send it messages over HTTPS and it returns
+structured text you can drop straight into a spreadsheet. By the end you
+will be able to point the same key and endpoint at the everyday tools
+you already use (VS Code, Jupyter AI, OpenCode), and you will have a
+repeatable batch loop you can run on your own (non-sensitive) data.</p>
 <div class="section level2">
-<h2 id="what-youll-use">What you’ll use<a class="anchor" aria-label="anchor" href="#what-youll-use"></a></h2>
-<ul><li>The <strong>ASU Research Computing LLM gateway</strong> (<a href="https://openai.rc.asu.edu/v1" class="external-link"><code>https://openai.rc.asu.edu/v1</code></a>),
-an <strong>OpenAI-compatible</strong> API — so the standard <a href="https://pypi.org/project/openai/" class="external-link"><code>openai</code> Python
-SDK</a> just works.</li>
-<li>A <strong>Jupyter notebook</strong> (the main vehicle) you can run
-on the <strong>Purdue Anvil Notebook</strong> (browser, no install) or
-on your own laptop.</li>
-</ul></div>
-<div class="section level2">
-<h2 id="the-pattern-the-whole-lesson-in-one-line">The pattern (the whole lesson in one line)<a class="anchor" aria-label="anchor" href="#the-pattern-the-whole-lesson-in-one-line"></a></h2>
-<blockquote>
-<p><strong>list of inputs → one model call each → structured JSON rows →
-save to a file</strong></p>
-</blockquote>
-<p>If you can repeat that sentence, you have the lesson. Everything else
-is detail.</p>
-</div>
-<div class="section level2">
-<h2 id="the-materials">The materials<a class="anchor" aria-label="anchor" href="#the-materials"></a></h2>
+<h2 id="what-youll-use-and-how-it-fits-together">What you’ll use and how it fits together<a class="anchor" aria-label="anchor" href="#what-youll-use-and-how-it-fits-together"></a></h2>
 <ul><li>
-<a href="index.html#setup"><strong>Setup</strong></a> — how to get a
-notebook (Anvil or laptop) and set your key.</li>
-<li>The <strong>episodes</strong> — introduction, your first call,
-building the research tool, and experiments.</li>
+<strong>The API:</strong> the ASU Research Computing LLM gateway (<a href="https://openai.rc.asu.edu/v1" class="external-link"><code>https://openai.rc.asu.edu/v1</code></a>),
+an <strong>OpenAI-compatible</strong> API. Because it follows the OpenAI
+format, the standard <a href="https://pypi.org/project/openai/" class="external-link"><code>openai</code> Python
+SDK</a> — and any other OpenAI-compatible tool — works with it
+as-is.</li>
 <li>
-<a href="reference.html"><strong>Reference</strong></a> — glossary,
-a quick troubleshooting table, and links.</li>
+<strong>A notebook:</strong> you run the lesson in a Jupyter
+notebook, either on the <strong>Purdue Anvil Notebook</strong> (in a
+browser, the environment is provided) or on your own laptop. The <a href="index.html#setup">Setup</a> page gets you started and sets your
+<strong>API key</strong>.</li>
 <li>
-<strong>Instructor resources</strong> (instructor guide, pre-session
-checklist, troubleshooting) are in the <em>Instructor</em> section of
-the menu.</li>
-</ul></div>
-<div class="section level2">
-<h2 id="before-the-workshop-instructors">Before the workshop (instructors)<a class="anchor" aria-label="anchor" href="#before-the-workshop-instructors"></a></h2>
-<p>The single biggest risk is <strong>network egress</strong>: can the
-Anvil cluster reach <code>https://openai.rc.asu.edu</code> on outbound
-HTTPS 443? Test it days early — see the <a href="presession-checklist.html">pre-session checklist</a>. Fallbacks
-(laptop-first, proxy, demo-only) are in the instructor guide.</p>
+<strong>Basic Python:</strong> reading a script and editing a few
+cells is all you need. The model itself is hosted for you, so the lesson
+focuses on the request/response flow rather than the machine
+learning.</li>
+</ul><p>The lesson moves in five steps: <strong>Setup</strong>, then
+<strong>What is an LLM API?</strong>, <strong>Your first call</strong>,
+<strong>Building the research tool</strong>, and <strong>Experiments
+&amp; tools</strong>. A <strong>Reference</strong> page (glossary, a
+quick troubleshooting table, and links) is in the menu, and the working
+notebook is available at <a href="data/talking_to_a_model.ipynb"><code>data/talking_to_a_model.ipynb</code></a>.</p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
@@ -349,10 +330,11 @@ any links that you are not going to use.
 </div>
 </div>
 
-      <section id="setup"><p>You’ll run the notebook either <strong>on Anvil</strong> (browser, no
-install) or <strong>on your laptop</strong>. Both use the same notebook
-and the same key. The notebook <strong>already contains the 12
-abstracts</strong> — you don’t need to download data.</p>
+      <section id="setup"><p>You’ll run the notebook either <strong>on Anvil</strong> (in a
+browser, the environment is provided) or <strong>on your
+laptop</strong>. Both use the same notebook and the same key. The
+notebook <strong>already contains the 12 abstracts</strong>, so you can
+run everything straight away.</p>
 <p><strong>The API you’ll use</strong> (ASU Research Computing LLM
 gateway, OpenAI-compatible):</p>
 <ul><li>Endpoint: <code>https://openai.rc.asu.edu/v1</code>
@@ -361,12 +343,12 @@ gateway, OpenAI-compatible):</p>
 it like a password</strong> (don’t share it, don’t commit it to
 Git).</li>
 </ul><section><h2 class="section-heading" id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
-<hr class="half-width"><p>There is nothing to download. The 12 arXiv abstracts are embedded in
-the notebook. If you want the editable source, it’s <a href="data/research_abstracts.json"><code>data/research_abstracts.json</code></a></p>
+<hr class="half-width"><p>The 12 arXiv abstracts are embedded in the notebook, so you can start
+right away. If you want the editable source, it’s <a href="data/research_abstracts.json"><code>data/research_abstracts.json</code></a></p>
 </section><section><h2 class="section-heading" id="software-setup">Software Setup<a class="anchor" aria-label="anchor" href="#software-setup"></a></h2>
 <hr class="half-width"><p>You need the <strong><code>openai</code> Python package</strong> (and
 <code>python-dotenv</code>). On a laptop, create a virtual environment
-so you don’t pollute your system Python:</p>
+so your system Python stays clean:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -386,7 +368,7 @@ in and start a notebook (below).</p>
   On Anvil (browser, no install)
   </h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>Go to <code>https://notebook.anvilcloud.rcac.purdue.edu</code>
 </li>
@@ -407,7 +389,7 @@ in and start a notebook (below).</p>
   macOS (laptop)
   </h3>
 </button>
-<div id="collapseSpoiler2" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler2" aria-labelledby="headingSpoiler2">
+<div id="collapseSpoiler2" class="accordion-collapse collapse" aria-labelledby="headingSpoiler2" data-bs-parent="#accordionSpoiler2">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>Check Python: <code>python3 --version</code> (install via
 <code>brew install python</code> if missing).</li>
@@ -425,7 +407,7 @@ in and start a notebook (below).</p>
   Windows (laptop)
   </h3>
 </button>
-<div id="collapseSpoiler3" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler3" aria-labelledby="headingSpoiler3">
+<div id="collapseSpoiler3" class="accordion-collapse collapse" aria-labelledby="headingSpoiler3" data-bs-parent="#accordionSpoiler3">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>Install Python 3.9+ from python.org — <strong>check “Add python.exe
 to PATH.”</strong>
@@ -447,7 +429,7 @@ not in code. Pick your platform:</p>
   macOS / Linux
   </h3>
 </button>
-<div id="collapseSpoiler4" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler4" aria-labelledby="headingSpoiler4">
+<div id="collapseSpoiler4" class="accordion-collapse collapse" aria-labelledby="headingSpoiler4" data-bs-parent="#accordionSpoiler4">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -468,7 +450,7 @@ not in code. Pick your platform:</p>
   Windows (PowerShell)
   </h3>
 </button>
-<div id="collapseSpoiler5" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler5" aria-labelledby="headingSpoiler5">
+<div id="collapseSpoiler5" class="accordion-collapse collapse" aria-labelledby="headingSpoiler5" data-bs-parent="#accordionSpoiler5">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">POWERSHELL<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -488,7 +470,7 @@ not in code. Pick your platform:</p>
   On Anvil (environment variable for the kernel)
   </h3>
 </button>
-<div id="collapseSpoiler6" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler6" aria-labelledby="headingSpoiler6">
+<div id="collapseSpoiler6" class="accordion-collapse collapse" aria-labelledby="headingSpoiler6" data-bs-parent="#accordionSpoiler6">
 <div class="accordion-body">
 <p>Set it in a notebook cell <strong>before</strong> the first call,
 then the rest of the notebook reads it from <code>os.environ</code>:</p>
@@ -573,8 +555,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/index.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/index.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-08",
-  "datePublished": "2026-09-08"
+  "dateModified": "2026-09-09",
+  "datePublished": "2026-09-09"
 }
 
   </script><script>

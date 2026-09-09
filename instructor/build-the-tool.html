@@ -24,17 +24,7 @@
   <div class="container-fluid top-nav-container">
     <div class="col-md-8">
       <div class="large-logo">
-        <img id="incubator-logo" alt="AI for All Workshop" src="../assets/images/incubator-logo.svg"><span class="badge text-bg-danger">
-          <abbr title="This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.">
-            <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
-              <i aria-hidden="true" class="icon" data-feather="alert-octagon" style="border-radius: 5px"></i>
-              Pre-Alpha
-            </a>
-            <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
-          </abbr>
-        </span>
-
-      </div>
+        <img id="incubator-logo" alt="AI for All Workshop" src="../assets/images/incubator-logo.svg"></div>
     </div>
     <div class="selector-container">
       <menu class="theme-selector" id="theme-selector-menu"><li class="nav-item dropdown theme-button-list" id="theme-button-list-menu">
@@ -294,7 +284,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Building the Research Tool</h1>
-        <p>Last updated on 2026-09-02 |
+        <p>Last updated on 2026-09-09 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/build-the-tool.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -334,28 +324,24 @@ research?</li>
 </div>
 </div>
 </div>
-<p><strong>The pattern (the whole lesson in one line):</strong></p>
-<blockquote>
-<p><strong>list of inputs → one model call each → structured JSON rows →
-save to a file</strong></p>
-</blockquote>
-<p>Researchers don’t usually want a chat box. They want to run the
-<em>same</em> question over a <em>list</em> of things and get a
-<em>table</em> back. Here: 12 paper abstracts in, one row each out — a
-one-line summary, the main method, and the key result, as a spreadsheet.
-That’s <strong>batch API calls + structured output</strong>.</p>
+<p>The goal for research is to run the <em>same</em> question over a
+<em>list</em> of things and get a <em>table</em> back. Here: 12 paper
+abstracts in, one row each out — a one-line summary, the main method,
+and the key result, in a spreadsheet. That’s <strong>batch API calls +
+structured output</strong>.</p>
 <p>The trick is the <strong>system prompt</strong>: it tells the model
 to answer in <em>strict JSON</em> with keys <code>summary</code>,
 <code>method</code>, <code>result</code>. That’s <strong>structured
-output</strong> — you control the <em>shape</em> of the answer, not just
-the words. For research that’s what makes it usable: you get
-<strong>columns, not paragraphs</strong>.</p>
+output</strong> — you control the <em>shape</em> of the answer, so the
+result comes back as clean columns you can drop straight into a
+spreadsheet.</p>
 <p>Run the three cells in order: load (3a) → batch (3b) → save (3c).</p>
 <div class="section level3">
-<h3 id="a-load-the-12-abstracts-embedded-nothing-to-download">3a — Load the 12 abstracts (embedded — nothing to download)<a class="anchor" aria-label="anchor" href="#a-load-the-12-abstracts-embedded-nothing-to-download"></a></h3>
+<h3 id="a-load-the-12-abstracts-already-in-the-notebook">3a — Load the 12 abstracts (already in the notebook)<a class="anchor" aria-label="anchor" href="#a-load-the-12-abstracts-already-in-the-notebook"></a></h3>
 <p>The 12 real arXiv abstracts (2 per field, 6 fields) are
-<strong>already in the notebook</strong> — no download. The first entry
-looks like this; all 12 live in the notebook and in <a href="../data/research_abstracts.json"><code>data/research_abstracts.json</code></a>:</p>
+<strong>already in the notebook</strong> and load directly from the
+cell. The first entry looks like this; all 12 live in the notebook and
+in <a href="../data/research_abstracts.json"><code>data/research_abstracts.json</code></a>:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -369,7 +355,7 @@ looks like this; all 12 live in the notebook and in <a href="../data/research_ab
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a>  <span class="st">"id"</span>: <span class="st">"2307.05639v2"</span></span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a>},</span>
 <span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a>  <span class="co"># ... 11 more abstracts (2 per field, 6 fields) ...</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>  <span class="co"># all embedded in this notebook -- nothing to download</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>  <span class="co"># all embedded in this notebook</span></span>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>]</span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a></span>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a><span class="bu">print</span>(<span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(ABSTRACTS)<span class="sc">}</span><span class="ss"> abstracts:"</span>)</span>
@@ -467,18 +453,16 @@ columns.</p>
 <span id="cb3-15"><a href="#cb3-15" tabindex="-1" aria-label="code-block-3-15"></a>    <span class="bu">print</span>(<span class="ss">f"   method:  </span><span class="sc">{</span>r[<span class="st">'method'</span>][:<span class="dv">80</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb3-16"><a href="#cb3-16" tabindex="-1" aria-label="code-block-3-16"></a>    <span class="bu">print</span>()</span></code></pre>
 </div>
-<div id="land-the-pattern-out-loud" class="callout">
+<div id="the-loop-generalizes" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
 <span class="callout-header">Callout</span>
-<div id="land-the-pattern-out-loud" class="callout-inner">
-<h3 class="callout-title">Land the pattern out loud</h3>
+<div id="the-loop-generalizes" class="callout-inner">
+<h3 class="callout-title">The loop generalizes</h3>
 <div class="callout-content">
-<p><strong>list of inputs → one model call each → structured rows → save
-to a file.</strong> Repeat it. The same loop works on grant proposals,
-lab notes, instrument logs — anything you can turn into a list of
-texts.</p>
+<p>The same batch call works on grant proposals, lab notes, instrument
+logs — anything you can turn into a list of texts.</p>
 </div>
 </div>
 </div>
@@ -487,7 +471,7 @@ texts.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>12 min. The money segment — slow down on “structured output”: <em>you
 control the shape, not just the words.</em> If the 12-call batch runs
@@ -507,8 +491,6 @@ long (&gt;2 min), note it; you can trim experiments or raise the buffer
 <ul><li>
 <strong>Structured output</strong> = a <code>system</code> prompt
 that forces a strict JSON <em>shape</em> (keys you define).</li>
-<li>The reusable pattern: list in → one call each → structured rows →
-save to file.</li>
 <li>Be defensive: strip code fences, retry once on a bad parse, keep a
 <code>PARSE FAILED</code> marker.</li>
 <li>
@@ -584,8 +566,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/instructor/build-the-tool.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/instructor/build-the-tool.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-02",
-  "datePublished": "2026-09-08"
+  "dateModified": "2026-09-09",
+  "datePublished": "2026-09-09"
 }
 
   </script><script>

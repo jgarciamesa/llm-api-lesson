@@ -40,17 +40,8 @@
   <div class="container-fluid top-nav-container">
     <div class="col-md-8">
       <div class="large-logo">
-        <img id="incubator-logo" alt="AI for All Workshop" src="assets/images/incubator-logo.svg"><span class="badge text-bg-danger">
-          <abbr title="This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.">
-            <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
-              <i aria-hidden="true" class="icon" data-feather="alert-octagon" style="border-radius: 5px"></i>
-              Pre-Alpha
-            </a>
-            <span class="visually-hidden">This lesson is in the pre-alpha phase, which means that it is in early development, but has not yet been taught.</span>
-          </abbr>
-        </span>
-
-      </div>
+        <img id="incubator-logo" alt="AI for All Workshop" src="assets/images/incubator-logo.svg">
+</div>
     </div>
     <div class="selector-container">
       <menu class="theme-selector" id="theme-selector-menu">
@@ -337,7 +328,7 @@
         
 <section id="aio-introduction"><p>Content from <a href="introduction.html">Introduction: What Is an LLM API?</a></p>
 <hr>
-<p>Last updated on 2026-09-02 |
+<p>Last updated on 2026-09-09 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -376,11 +367,11 @@ messages, and the knobs.</li>
 <section><h2 class="section-heading" id="you-are-a-client-talking-to-a-service">You are a client talking to a service<a class="anchor" aria-label="anchor" href="#you-are-a-client-talking-to-a-service"></a>
 </h2>
 <hr class="half-width">
-<p>Everything in this lesson is one thing: <strong>you send a message,
-you get a message back</strong> — over the internet, to a model running
-on someone else’s servers. No training, no GPUs on your side, no model
-weights to download. You are a <em>client</em> talking to a
-<em>service</em>.</p>
+<p>The core idea of this lesson is one thing: <strong>you send a
+message, you get a message back</strong> — over the internet, to a model
+running on someone else’s servers. You are a <em>client</em> talking to
+a <em>service</em>: the model is hosted for you, so you simply send it
+text and read the structured text it returns.</p>
 <p>You’ll use a real one: <strong>ASU Research Computing’s LLM
 gateway</strong>, the same OpenAI-compatible API its own researchers
 use:</p>
@@ -446,20 +437,6 @@ want back)</li>
 <p>You’ll set a <code>system</code> message later to force
 <em>structured</em> output.</p>
 
-<div id="the-one-sentence-to-hold-onto" class="callout">
-<div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
-</div>
-<span class="callout-header">Callout</span>
-<div id="the-one-sentence-to-hold-onto" class="callout-inner">
-<h3 class="callout-title">The one sentence to hold onto</h3>
-<div class="callout-content">
-<p><strong>list of inputs → one model call each → structured JSON rows →
-save to a file.</strong> If you can repeat that, you’ve got the
-lesson.</p>
-</div>
-</div>
-</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -487,7 +464,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-first-call"><p>Content from <a href="first-call.html">Your First Call</a></p>
 <hr>
-<p>Last updated on 2026-09-08 |
+<p>Last updated on 2026-09-09 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/first-call.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -573,8 +550,8 @@ the key is present (masked) and that the base URL ends in
 <a class="anchor" aria-label="anchor" href="#the-first-call-checkpoint-everyone-gets-a-response"></a>
 </h2>
 <hr class="half-width">
-<p>This cell auto-picks a model from your key’s live model list, so you
-don’t need to know the exact name. If it can’t decide, it prints the
+<p>This cell picks a model from your key’s live list automatically, so
+you can run the first call right away. If it can’t decide, it prints the
 list — copy any ID into <code>MODEL</code> and re-run.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -780,7 +757,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-build-the-tool"><p>Content from <a href="build-the-tool.html">Building the Research Tool</a></p>
 <hr>
-<p>Last updated on 2026-09-02 |
+<p>Last updated on 2026-09-09 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/build-the-tool.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -816,29 +793,25 @@ research?</li>
 </div>
 </div>
 </div>
-<p><strong>The pattern (the whole lesson in one line):</strong></p>
-<blockquote>
-<p><strong>list of inputs → one model call each → structured JSON rows →
-save to a file</strong></p>
-</blockquote>
-<p>Researchers don’t usually want a chat box. They want to run the
-<em>same</em> question over a <em>list</em> of things and get a
-<em>table</em> back. Here: 12 paper abstracts in, one row each out — a
-one-line summary, the main method, and the key result, as a spreadsheet.
-That’s <strong>batch API calls + structured output</strong>.</p>
+<p>The goal for research is to run the <em>same</em> question over a
+<em>list</em> of things and get a <em>table</em> back. Here: 12 paper
+abstracts in, one row each out — a one-line summary, the main method,
+and the key result, in a spreadsheet. That’s <strong>batch API calls +
+structured output</strong>.</p>
 <p>The trick is the <strong>system prompt</strong>: it tells the model
 to answer in <em>strict JSON</em> with keys <code>summary</code>,
 <code>method</code>, <code>result</code>. That’s <strong>structured
-output</strong> — you control the <em>shape</em> of the answer, not just
-the words. For research that’s what makes it usable: you get
-<strong>columns, not paragraphs</strong>.</p>
+output</strong> — you control the <em>shape</em> of the answer, so the
+result comes back as clean columns you can drop straight into a
+spreadsheet.</p>
 <p>Run the three cells in order: load (3a) → batch (3b) → save (3c).</p>
 <div class="section level3">
-<h3 id="a-load-the-12-abstracts-embedded-nothing-to-download">3a — Load the 12 abstracts (embedded — nothing to download)<a class="anchor" aria-label="anchor" href="#a-load-the-12-abstracts-embedded-nothing-to-download"></a>
+<h3 id="a-load-the-12-abstracts-already-in-the-notebook">3a — Load the 12 abstracts (already in the notebook)<a class="anchor" aria-label="anchor" href="#a-load-the-12-abstracts-already-in-the-notebook"></a>
 </h3>
 <p>The 12 real arXiv abstracts (2 per field, 6 fields) are
-<strong>already in the notebook</strong> — no download. The first entry
-looks like this; all 12 live in the notebook and in <a href="data/research_abstracts.json"><code>data/research_abstracts.json</code></a>:</p>
+<strong>already in the notebook</strong> and load directly from the
+cell. The first entry looks like this; all 12 live in the notebook and
+in <a href="data/research_abstracts.json"><code>data/research_abstracts.json</code></a>:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -852,7 +825,7 @@ looks like this; all 12 live in the notebook and in <a href="data/research_abstr
 <span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a>  <span class="st">"id"</span>: <span class="st">"2307.05639v2"</span></span>
 <span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a>},</span>
 <span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a>  <span class="co"># ... 11 more abstracts (2 per field, 6 fields) ...</span></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>  <span class="co"># all embedded in this notebook -- nothing to download</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>  <span class="co"># all embedded in this notebook</span></span>
 <span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>]</span>
 <span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a></span>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a><span class="bu">print</span>(<span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(ABSTRACTS)<span class="sc">}</span><span class="ss"> abstracts:"</span>)</span>
@@ -952,18 +925,16 @@ columns.</p>
 <span id="cb3-15"><a href="#cb3-15" tabindex="-1" aria-label="code-block-3-15"></a>    <span class="bu">print</span>(<span class="ss">f"   method:  </span><span class="sc">{</span>r[<span class="st">'method'</span>][:<span class="dv">80</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb3-16"><a href="#cb3-16" tabindex="-1" aria-label="code-block-3-16"></a>    <span class="bu">print</span>()</span></code></pre>
 </div>
-<div id="land-the-pattern-out-loud" class="callout">
+<div id="the-loop-generalizes" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
 <span class="callout-header">Callout</span>
-<div id="land-the-pattern-out-loud" class="callout-inner">
-<h3 class="callout-title">Land the pattern out loud</h3>
+<div id="the-loop-generalizes" class="callout-inner">
+<h3 class="callout-title">The loop generalizes</h3>
 <div class="callout-content">
-<p><strong>list of inputs → one model call each → structured rows → save
-to a file.</strong> Repeat it. The same loop works on grant proposals,
-lab notes, instrument logs — anything you can turn into a list of
-texts.</p>
+<p>The same batch call works on grant proposals, lab notes, instrument
+logs — anything you can turn into a list of texts.</p>
 </div>
 </div>
 </div>
@@ -979,8 +950,6 @@ texts.</p>
 <li>
 <strong>Structured output</strong> = a <code>system</code> prompt
 that forces a strict JSON <em>shape</em> (keys you define).</li>
-<li>The reusable pattern: list in → one call each → structured rows →
-save to file.</li>
 <li>Be defensive: strip code fences, retry once on a bad parse, keep a
 <code>PARSE FAILED</code> marker.</li>
 <li>
@@ -995,7 +964,7 @@ any links that you are not going to use.
  -->
 </div></section><section id="aio-experiments"><p>Content from <a href="experiments.html">Experiments &amp; Tools Around the API</a></p>
 <hr>
-<p>Last updated on 2026-09-02 |
+<p>Last updated on 2026-09-09 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/experiments.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1011,7 +980,7 @@ any links that you are not going to use.
 <ul>
 <li>What actually changes the model’s answer — the prompt, or the
 model?</li>
-<li>How do I try my own data with the same pattern?</li>
+<li>How do I try my own data with the same batch loop?</li>
 <li>What other tools can I point at the same key and endpoint?</li>
 </ul>
 </div>
@@ -1138,8 +1107,8 @@ watch the model fill them:</p>
 <h3 id="experiment-4-your-own-data">Experiment 4 — Your own data<a class="anchor" aria-label="anchor" href="#experiment-4-your-own-data"></a>
 </h3>
 <p>Paste 3–5 short paragraphs from your own work into
-<code>MY_TEXTS</code> and run the same batch pattern. <em>(Only send
-data that is fine to send.)</em></p>
+<code>MY_TEXTS</code> and run the same batch loop. <em>(Only send data
+that is fine to send.)</em></p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1296,8 +1265,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/aio.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/aio.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-08",
-  "datePublished": "2026-09-08"
+  "dateModified": "2026-09-09",
+  "datePublished": "2026-09-09"
 }
 
   </script><script>
