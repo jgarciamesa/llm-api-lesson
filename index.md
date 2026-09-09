@@ -4,38 +4,38 @@ site: sandpaper::sandpaper_site
 
 # Using an API to Communicate with a Model
 
-In this 75-minute lesson you make your first **LLM API call**, then build a small
-but real **research tool**: a Python script that batch-processes 12 real arXiv
-abstracts into a structured triage table (CSV). You finish with free experiment
-time and a tour of the researcher-facing tools that wrap the same API.
+In this 75-minute lesson you talk to a large language model (LLM) through a
+**web API** — the same kind of service you call to look up the weather or query
+a database. You begin by sending your first message with the `openai` Python SDK
+and reading the model's reply out of the JSON. Then you turn that single call
+into a small but real **research tool**: a script that runs the *same*
+structured question over 12 real arXiv abstracts and collects the answers into
+a triage table (CSV) — one row per paper, with a one-line summary, the main
+method, and the key result.
 
-**No GPUs. No model downloads. No training.** You are a *client* sending messages
-over HTTPS to a *service*; text goes in, structured text comes out.
+The model lives on ASU Research Computing's servers, so you are the **client**:
+you send it messages over HTTPS and it returns structured text you can drop
+straight into a spreadsheet. By the end you will be able to point the same key
+and endpoint at the everyday tools you already use (VS Code, Jupyter AI,
+OpenCode), and you will have a repeatable batch loop you can run on your own
+(non-sensitive) data.
 
-## What you'll use
+## What you'll use and how it fits together
 
-- The **ASU Research Computing LLM gateway** ([`https://openai.rc.asu.edu/v1`][rc-gateway]),
-  an **OpenAI-compatible** API — so the standard [`openai` Python SDK][openai-sdk] just works.
-- A **Jupyter notebook** (the main vehicle) you can run on the **Purdue Anvil
-  Notebook** (browser, no install) or on your own laptop.
+- **The API:** the ASU Research Computing LLM gateway
+  ([`https://openai.rc.asu.edu/v1`][rc-gateway]), an **OpenAI-compatible** API.
+  Because it follows the OpenAI format, the standard [`openai` Python
+  SDK][openai-sdk] — and any other OpenAI-compatible tool — works with it as-is.
+- **A notebook:** you run the lesson in a Jupyter notebook, either on the
+  **Purdue Anvil Notebook** (in a browser, the environment is provided) or on
+  your own laptop. The [Setup](learners/setup.md) page gets you started and sets
+  your **API key**.
+- **Basic Python:** reading a script and editing a few cells is all you need.
+  The model itself is hosted for you, so the lesson focuses on the
+  request/response flow rather than the machine learning.
 
-## The pattern (the whole lesson in one line)
-
-> **list of inputs → one model call each → structured JSON rows → save to a file**
-
-If you can repeat that sentence, you have the lesson. Everything else is detail.
-
-## The materials
-
-- [**Setup**](learners/setup.md) — how to get a notebook (Anvil or laptop) and set your key.
-- The **episodes** — introduction, your first call, building the research tool, and experiments.
-- [**Reference**](learners/reference.md) — glossary, a quick troubleshooting table, and links.
-- **Instructor resources** (instructor guide, pre-session checklist, troubleshooting)
-  are in the *Instructor* section of the menu.
-
-## Before the workshop (instructors)
-
-The single biggest risk is **network egress**: can the Anvil cluster reach
-`https://openai.rc.asu.edu` on outbound HTTPS 443? Test it days early —
-see the [pre-session checklist](instructors/presession-checklist.md). Fallbacks
-(laptop-first, proxy, demo-only) are in the instructor guide.
+The lesson moves in five steps: **Setup**, then **What is an LLM API?**,
+**Your first call**, **Building the research tool**, and **Experiments &
+tools**. A **Reference** page (glossary, a quick troubleshooting table, and
+links) is in the menu, and the working notebook is available at
+[`data/talking_to_a_model.ipynb`](data/talking_to_a_model.ipynb).

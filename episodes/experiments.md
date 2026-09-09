@@ -7,7 +7,7 @@ exercises: 15
 :::::::::::::::::::::::::::::::::::::: questions
 
 - What actually changes the model's answer — the prompt, or the model?
-- How do I try my own data with the same pattern?
+- How do I try my own data with the same batch loop?
 - What other tools can I point at the same key and endpoint?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
@@ -121,8 +121,7 @@ for rec in ABSTRACTS[:3]:
 
 ### Experiment 4 — Your own data
 
-Paste 3–5 short paragraphs from your own work into `MY_TEXTS` and run the same
-batch pattern. *(Only send data that is fine to send.)*
+Paste 3–5 short paragraphs from your own work into `MY_TEXTS` and run the same batch loop. *(Only send data that is fine to send.)*
 
 ```python
 MY_TEXTS = [
