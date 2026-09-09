@@ -74,8 +74,8 @@ get a response, that's the egress problem — go to the instructor guide §8
 immediately, don't let it simmer.
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-This cell auto-picks a model from your key's live model list, so you don't need
-to know the exact name. If it can't decide, it prints the list — copy any ID
+This cell picks a model from your key's live list automatically, so you can run
+the first call right away. If it can't decide, it prints the list — copy any ID
 into `MODEL` and re-run.
 
 ```python

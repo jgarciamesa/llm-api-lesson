@@ -2,9 +2,10 @@
 title: Setup
 ---
 
-You'll run the notebook either **on Anvil** (browser, no install) or **on your
-laptop**. Both use the same notebook and the same key. The notebook **already
-contains the 12 abstracts** — you don't need to download data.
+You'll run the notebook either **on Anvil** (in a browser, the environment is
+provided) or **on your laptop**. Both use the same notebook and the same key.
+The notebook **already contains the 12 abstracts**, so you can run everything
+straight away.
 
 **The API you'll use** (ASU Research Computing LLM gateway, OpenAI-compatible):
 
@@ -14,14 +15,14 @@ contains the 12 abstracts** — you don't need to download data.
 
 ## Data
 
-There is nothing to download. The 12 arXiv abstracts are embedded in the
-notebook. If you want the editable source, it's
+The 12 arXiv abstracts are embedded in the notebook, so you can start right
+away. If you want the editable source, it's
 [`data/research_abstracts.json`](data/research_abstracts.json)
 
 ## Software Setup
 
 You need the **`openai` Python package** (and `python-dotenv`). On a laptop,
-create a virtual environment so you don't pollute your system Python:
+create a virtual environment so your system Python stays clean:
 
 ```bash
 python3 --version            # need 3.9+

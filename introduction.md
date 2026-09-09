@@ -21,10 +21,10 @@ exercises: 0
 
 ## You are a client talking to a service
 
-Everything in this lesson is one thing: **you send a message, you get a message
-back** — over the internet, to a model running on someone else's servers. No
-training, no GPUs on your side, no model weights to download. You are a
-*client* talking to a *service*.
+The core idea of this lesson is one thing: **you send a message, you get a
+message back** — over the internet, to a model running on someone else's
+servers. You are a *client* talking to a *service*: the model is hosted for
+you, so you simply send it text and read the structured text it returns.
 
 You'll use a real one: **ASU Research Computing's LLM gateway**, the same
 OpenAI-compatible API its own researchers use:
@@ -74,13 +74,6 @@ Timing: 15 min (5 cold-open, 10 anatomy). Land the "client / service" frame and
 the `role` concept here — everything downstream depends on it. Show the endpoint
 and the word "openai-compatible" on screen; that's the seed for the tools tour.
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::: callout
-### The one sentence to hold onto
-
-**list of inputs → one model call each → structured JSON rows → save to a file.**
-If you can repeat that, you've got the lesson.
-::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 

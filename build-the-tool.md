@@ -19,27 +19,24 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-**The pattern (the whole lesson in one line):**
-
-> **list of inputs → one model call each → structured JSON rows → save to a file**
-
-Researchers don't usually want a chat box. They want to run the *same* question
-over a *list* of things and get a *table* back. Here: 12 paper abstracts in,
-one row each out — a one-line summary, the main method, and the key result, as
-a spreadsheet. That's **batch API calls + structured output**.
+The goal for research is to run the *same* question over a *list* of things and
+get a *table* back. Here: 12 paper abstracts in, one row each out — a one-line
+summary, the main method, and the key result, in a spreadsheet. That's **batch
+API calls + structured output**.
 
 The trick is the **system prompt**: it tells the model to answer in *strict
 JSON* with keys `summary`, `method`, `result`. That's **structured output** —
-you control the *shape* of the answer, not just the words. For research that's
-what makes it usable: you get **columns, not paragraphs**.
+you control the *shape* of the answer, so the result comes back as clean columns
+you can drop straight into a spreadsheet.
 
 Run the three cells in order: load (3a) → batch (3b) → save (3c).
 
-### 3a — Load the 12 abstracts (embedded — nothing to download)
+### 3a — Load the 12 abstracts (already in the notebook)
 
 The 12 real arXiv abstracts (2 per field, 6 fields) are **already in the
-notebook** — no download. The first entry looks like this; all 12 live in the
-notebook and in [`data/research_abstracts.json`](data/research_abstracts.json):
+notebook** and load directly from the cell. The first entry looks like this;
+all 12 live in the notebook and in
+[`data/research_abstracts.json`](data/research_abstracts.json):
 
 ```python
 import json
@@ -52,7 +49,7 @@ ABSTRACTS = [
   "id": "2307.05639v2"
 },
   # ... 11 more abstracts (2 per field, 6 fields) ...
-  # all embedded in this notebook -- nothing to download
+  # all embedded in this notebook
 ]
 
 print(f"Loaded {len(ABSTRACTS)} abstracts:")
@@ -148,10 +145,9 @@ for r in rows[:4]:
 ```
 
 ::::::::::::::::::::::::::::::::::::: callout
-### Land the pattern out loud
+### The loop generalizes
 
-**list of inputs → one model call each → structured rows → save to a file.**
-Repeat it. The same loop works on grant proposals, lab notes, instrument logs —
+The same batch call works on grant proposals, lab notes, instrument logs —
 anything you can turn into a list of texts.
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -164,7 +160,6 @@ you can trim experiments or raise the buffer (pre-session checklist Step 4).
 ::::::::::::::::::::::::::::::::::::: keypoints
 
 - **Structured output** = a `system` prompt that forces a strict JSON *shape* (keys you define).
-- The reusable pattern: list in → one call each → structured rows → save to file.
 - Be defensive: strip code fences, retry once on a bad parse, keep a `PARSE FAILED` marker.
 - `csv.DictWriter` writes clean, quote-safe CSV.
 
