@@ -273,7 +273,7 @@ md('''## 4 - Build the research tool
 Researchers rarely want a chat box. They want to run the same question over a list of
 things and get a table back. That is what this section builds.
 
-**The pattern:** a list of inputs, one model call for each input, structured JSON
+The approach is a list of inputs, one model call for each input, structured JSON
 output for each answer, and the results saved to a file.
 
 We will use the 12 real arXiv abstracts embedded in section 4a. A *system prompt*
@@ -460,7 +460,7 @@ for rec in ABSTRACTS[:3]:
 md('''### Experiment 4 - Your own data
 
 Paste 3 to 5 short paragraphs from your own work into `MY_TEXTS` below and run the
-same batch pattern. Only send data that is fine to send (see the note at the start
+same batch loop. Only send data that is fine to send (see the note at the start
 of section 5).
 
 **Challenge.** Add your own key to the JSON schema in `SYSTEM_PROMPT` and watch the
@@ -516,7 +516,7 @@ md('''## Key points
   answer was cut off.
 - `usage` counts the tokens in the request and the answer. That count is what you
   are billed on and how you budget a batch job.
-- The batch pattern works on any list of texts: one request per input, structured
+- The batch loop works on any list of texts: one request per input, structured
   JSON output, and the results saved to a file.''')
 
 nb.cells = cells

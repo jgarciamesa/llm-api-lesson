@@ -21,15 +21,15 @@ away. If you want the editable source, it's
 
 ## Software Setup
 
-You need the **`openai` Python package** (and `python-dotenv`). On a laptop,
-create a virtual environment so your system Python stays clean:
+You need the **`openai` Python package**. On a laptop, create a virtual
+environment first, so the install stays out of your system Python:
 
 ```bash
 python3 --version            # need 3.9+
 mkdir api-lesson && cd api-lesson
 python3 -m venv .venv
 source .venv/bin/activate     # Windows: .venv\Scripts\activate
-pip install openai python-dotenv
+pip install openai
 ```
 
 On **Anvil**, the environment is provided — you just log in and start a

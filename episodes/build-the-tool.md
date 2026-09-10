@@ -19,17 +19,18 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-The goal for research is to run the *same* question over a *list* of things and
-get a *table* back. Here: 12 paper abstracts in, one row each out — a one-line
-summary, the main method, and the key result, in a spreadsheet. That's **batch
-API calls + structured output**.
+The goal here is a research task: run the *same* question over a *list* of
+things and get a *table* back. Here that means 12 paper abstracts in and one
+row each out — a one-line summary, the main method, and the key result, in a
+spreadsheet. Two techniques make it work: **batch API calls** (one model call
+per abstract) and **structured output**.
 
-The trick is the **system prompt**: it tells the model to answer in *strict
-JSON* with keys `summary`, `method`, `result`. That's **structured output** —
-you control the *shape* of the answer, so the result comes back as clean columns
-you can drop straight into a spreadsheet.
+Structured output comes from the **system prompt**: it tells the model to answer
+in *strict JSON* with three keys — `summary`, `method`, `result`. Because you
+specify the shape of the answer, each result comes back as clean columns you can
+load straight into a spreadsheet.
 
-Run the three cells in order: load (3a) → batch (3b) → save (3c).
+Run the three cells in this order: load (3a) → batch (3b) → save (3c).
 
 ### 3a — Load the 12 abstracts (already in the notebook)
 
@@ -60,9 +61,9 @@ for i, a in enumerate(ABSTRACTS, 1):
 ### 3b — Run the batch (one API call per abstract → structured rows)
 
 This is the loop you'll reuse on your own data. It prints progress as it goes
-(12 calls, usually 30–90 s), **retries once** if a response isn't clean JSON,
-and is defensive about the common case where a model wraps the JSON in code
-fences.
+(12 calls, usually 30–90 s). If a response isn't valid JSON, it retries once.
+Some models wrap the JSON object in code fences; the loop removes those before
+it parses.
 
 ```python
 import json, time
@@ -121,9 +122,9 @@ print(f"\nDone. {len(rows)} rows, {failures} parse failure(s).")
 
 ### 3c — Save & inspect the CSV
 
-The rows go straight into `triage_table.csv` — one row per paper, ready for a
-spreadsheet. `csv.DictWriter` quotes fields properly, so commas inside a summary
-won't shift your columns.
+The rows are written to `triage_table.csv` — one row per paper, ready for a
+spreadsheet. `csv.DictWriter` handles quoting, so commas inside a summary won't
+shift the columns.
 
 ```python
 import csv

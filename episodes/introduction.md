@@ -39,8 +39,9 @@ that talks to OpenAI talks to this too. That single fact is what unlocks the
 
 ## Anatomy of a request
 
-Before we code, see what a request actually is. It's just **JSON**. The whole
-API in one `curl`:
+Before we write code, see what a request actually is. It's a **JSON** document
+sent over the internet — the `curl` below is the raw HTTP request the SDK builds
+for you:
 
 ```bash
 curl https://openai.rc.asu.edu/v1/chat/completions \
@@ -56,15 +57,17 @@ Three things you're always choosing:
 
 1. **the `model`** — which model answers (from your key's live list),
 2. **the `messages`** — a list of `{role, content}` pairs,
-3. **optional knobs** — like `temperature` (0 = deterministic).
+3. **optional settings** — like `temperature` (0 = as deterministic as the model allows).
 
 The response is JSON too, and the text you actually want lives at
-**`choices[0].message.content`**. The Python SDK just types this for you.
+**`choices[0].message.content`**. The `openai` Python package builds this
+request for you and turns the JSON response back into a Python object you can
+read.
 
 ### The `role` field — the most useful concept today
 
-- `system` = standing instructions (the *shape* you want back)
-- `user` = the turn (your actual text)
+- `system` = standing instructions (the kind of answer you want)
+- `user` = your turn (the text you send)
 - `assistant` = the model's reply
 
 You'll set a `system` message later to force *structured* output.
