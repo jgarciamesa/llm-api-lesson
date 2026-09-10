@@ -284,7 +284,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Building the Research Tool</h1>
-        <p>Last updated on 2026-09-09 |
+        <p>Last updated on 2026-09-10 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/build-the-tool.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -324,18 +324,19 @@ research?</li>
 </div>
 </div>
 </div>
-<p>The goal for research is to run the <em>same</em> question over a
-<em>list</em> of things and get a <em>table</em> back. Here: 12 paper
-abstracts in, one row each out — a one-line summary, the main method,
-and the key result, in a spreadsheet. That’s <strong>batch API calls +
-structured output</strong>.</p>
-<p>The trick is the <strong>system prompt</strong>: it tells the model
-to answer in <em>strict JSON</em> with keys <code>summary</code>,
-<code>method</code>, <code>result</code>. That’s <strong>structured
-output</strong> — you control the <em>shape</em> of the answer, so the
-result comes back as clean columns you can drop straight into a
-spreadsheet.</p>
-<p>Run the three cells in order: load (3a) → batch (3b) → save (3c).</p>
+<p>The goal here is a research task: run the <em>same</em> question over
+a <em>list</em> of things and get a <em>table</em> back. Here that means
+12 paper abstracts in and one row each out — a one-line summary, the
+main method, and the key result, in a spreadsheet. Two techniques make
+it work: <strong>batch API calls</strong> (one model call per abstract)
+and <strong>structured output</strong>.</p>
+<p>Structured output comes from the <strong>system prompt</strong>: it
+tells the model to answer in <em>strict JSON</em> with three keys —
+<code>summary</code>, <code>method</code>, <code>result</code>. Because
+you specify the shape of the answer, each result comes back as clean
+columns you can load straight into a spreadsheet.</p>
+<p>Run the three cells in this order: load (3a) → batch (3b) → save
+(3c).</p>
 <div class="section level3">
 <h3 id="a-load-the-12-abstracts-already-in-the-notebook">3a — Load the 12 abstracts (already in the notebook)<a class="anchor" aria-label="anchor" href="#a-load-the-12-abstracts-already-in-the-notebook"></a></h3>
 <p>The 12 real arXiv abstracts (2 per field, 6 fields) are
@@ -367,9 +368,9 @@ in <a href="../data/research_abstracts.json"><code>data/research_abstracts.json<
 <h3 id="b-run-the-batch-one-api-call-per-abstract-structured-rows">3b — Run the batch (one API call per abstract → structured
 rows)<a class="anchor" aria-label="anchor" href="#b-run-the-batch-one-api-call-per-abstract-structured-rows"></a></h3>
 <p>This is the loop you’ll reuse on your own data. It prints progress as
-it goes (12 calls, usually 30–90 s), <strong>retries once</strong> if a
-response isn’t clean JSON, and is defensive about the common case where
-a model wraps the JSON in code fences.</p>
+it goes (12 calls, usually 30–90 s). If a response isn’t valid JSON, it
+retries once. Some models wrap the JSON object in code fences; the loop
+removes those before it parses.</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -429,10 +430,9 @@ a model wraps the JSON in code fences.</p>
 </div>
 <div class="section level3">
 <h3 id="c-save-inspect-the-csv">3c — Save &amp; inspect the CSV<a class="anchor" aria-label="anchor" href="#c-save-inspect-the-csv"></a></h3>
-<p>The rows go straight into <code>triage_table.csv</code> — one row per
-paper, ready for a spreadsheet. <code>csv.DictWriter</code> quotes
-fields properly, so commas inside a summary won’t shift your
-columns.</p>
+<p>The rows are written to <code>triage_table.csv</code> — one row per
+paper, ready for a spreadsheet. <code>csv.DictWriter</code> handles
+quoting, so commas inside a summary won’t shift the columns.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -471,7 +471,7 @@ logs — anything you can turn into a list of texts.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>12 min. The money segment — slow down on “structured output”: <em>you
 control the shape, not just the words.</em> If the 12-call batch runs
@@ -566,8 +566,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/instructor/build-the-tool.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/instructor/build-the-tool.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-09",
-  "datePublished": "2026-09-09"
+  "dateModified": "2026-09-10",
+  "datePublished": "2026-09-10"
 }
 
   </script><script>

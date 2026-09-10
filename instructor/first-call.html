@@ -293,7 +293,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Your First Call</h1>
-        <p>Last updated on 2026-09-09 |
+        <p>Last updated on 2026-09-10 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/first-call.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -384,7 +384,7 @@ the key is present (masked) and that the base URL ends in
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>This is the non-negotiable checkpoint. Have the whole room run this
 ONE cell together before anyone drifts off. Use the TA to sweep the
@@ -444,8 +444,8 @@ list — copy any ID into <code>MODEL</code> and re-run.</p>
 <span id="cb3-42"><a href="#cb3-42" tabindex="-1" aria-label="code-block-3-42"></a><span class="bu">print</span>(resp.choices[<span class="dv">0</span>].message.content)</span>
 <span id="cb3-43"><a href="#cb3-43" tabindex="-1" aria-label="code-block-3-43"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">(tokens used: </span><span class="sc">{</span>resp<span class="sc">.</span>usage<span class="sc">.</span>total_tokens <span class="cf">if</span> resp<span class="sc">.</span>usage <span class="cf">else</span> <span class="st">'?'</span><span class="sc">}</span><span class="ss">)"</span>)</span></code></pre>
 </div>
-<p>You should see a sentence back from the model. <strong>If you see
-text — you’re in.</strong></p>
+<p>You should see a sentence from the model. If text appears, your first
+call worked.</p>
 </section><section><h2 class="section-heading" id="anatomy-of-a-response">Anatomy of a response<a class="anchor" aria-label="anchor" href="#anatomy-of-a-response"></a></h2>
 <hr class="half-width"><p>Every reply comes back as a JSON object with the same shape. Here is
 a typical one, with each field explained:</p>
@@ -492,7 +492,7 @@ a typical one, with each field explained:</p>
 <span id="cb4-38"><a href="#cb4-38" tabindex="-1" aria-label="code-block-4-38"></a>  <span class="fu">}</span></span>
 <span id="cb4-39"><a href="#cb4-39" tabindex="-1" aria-label="code-block-4-39"></a><span class="fu">}</span></span></code></pre>
 </div>
-<p>Three of these matter most for the rest of the lesson:</p>
+<p>Three fields matter most for the rest of the lesson:</p>
 <ol style="list-style-type: decimal"><li>
 <strong><code>choices[0].message.content</code></strong> — the
 actual text. This is the field every call in the rest of the lesson
@@ -648,8 +648,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/instructor/first-call.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/instructor/first-call.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-09",
-  "datePublished": "2026-09-09"
+  "dateModified": "2026-09-10",
+  "datePublished": "2026-09-10"
 }
 
   </script><script>

@@ -292,7 +292,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction: What Is an LLM API?</h1>
-        <p>Last updated on 2026-09-09 |
+        <p>Last updated on 2026-09-10 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -354,8 +354,10 @@ It’s a standard: any tool that talks to OpenAI talks to this too. That
 single fact is what unlocks the “tools around the API” at the end of the
 lesson.</p>
 </section><section><h2 class="section-heading" id="anatomy-of-a-request">Anatomy of a request<a class="anchor" aria-label="anchor" href="#anatomy-of-a-request"></a></h2>
-<hr class="half-width"><p>Before we code, see what a request actually is. It’s just
-<strong>JSON</strong>. The whole API in one <code>curl</code>:</p>
+<hr class="half-width"><p>Before we write code, see what a request actually is. It’s a
+<strong>JSON</strong> document sent over the internet — the
+<code>curl</code> below is the raw HTTP request the SDK builds for
+you:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -375,18 +377,19 @@ your key’s live list),</li>
 <strong>the <code>messages</code></strong> — a list of
 <code>{role, content}</code> pairs,</li>
 <li>
-<strong>optional knobs</strong> — like <code>temperature</code> (0 =
-deterministic).</li>
+<strong>optional settings</strong> — like <code>temperature</code>
+(0 = as deterministic as the model allows).</li>
 </ol><p>The response is JSON too, and the text you actually want lives at
-<strong><code>choices[0].message.content</code></strong>. The Python SDK
-just types this for you.</p>
+<strong><code>choices[0].message.content</code></strong>. The
+<code>openai</code> Python package builds this request for you and turns
+the JSON response back into a Python object you can read.</p>
 <div class="section level3">
 <h3 id="the-role-field-the-most-useful-concept-today">The <code>role</code> field — the most useful concept today<a class="anchor" aria-label="anchor" href="#the-role-field-the-most-useful-concept-today"></a></h3>
 <ul><li>
-<code>system</code> = standing instructions (the <em>shape</em> you
-want back)</li>
+<code>system</code> = standing instructions (the kind of answer you
+want)</li>
 <li>
-<code>user</code> = the turn (your actual text)</li>
+<code>user</code> = your turn (the text you send)</li>
 <li>
 <code>assistant</code> = the model’s reply</li>
 </ul><p>You’ll set a <code>system</code> message later to force
@@ -475,8 +478,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/introduction.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/introduction.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-09",
-  "datePublished": "2026-09-09"
+  "dateModified": "2026-09-10",
+  "datePublished": "2026-09-10"
 }
 
   </script><script>

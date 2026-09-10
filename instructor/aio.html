@@ -336,7 +336,7 @@
         
 <section id="aio-introduction"><p>Content from <a href="introduction.html">Introduction: What Is an LLM API?</a></p>
 <hr>
-<p>Last updated on 2026-09-09 |
+<p>Last updated on 2026-09-10 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 15 minutes</p>
@@ -403,8 +403,10 @@ lesson.</p>
 </section><section><h2 class="section-heading" id="anatomy-of-a-request">Anatomy of a request<a class="anchor" aria-label="anchor" href="#anatomy-of-a-request"></a>
 </h2>
 <hr class="half-width">
-<p>Before we code, see what a request actually is. It’s just
-<strong>JSON</strong>. The whole API in one <code>curl</code>:</p>
+<p>Before we write code, see what a request actually is. It’s a
+<strong>JSON</strong> document sent over the internet — the
+<code>curl</code> below is the raw HTTP request the SDK builds for
+you:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -425,21 +427,22 @@ your key’s live list),</li>
 <strong>the <code>messages</code></strong> — a list of
 <code>{role, content}</code> pairs,</li>
 <li>
-<strong>optional knobs</strong> — like <code>temperature</code> (0 =
-deterministic).</li>
+<strong>optional settings</strong> — like <code>temperature</code>
+(0 = as deterministic as the model allows).</li>
 </ol>
 <p>The response is JSON too, and the text you actually want lives at
-<strong><code>choices[0].message.content</code></strong>. The Python SDK
-just types this for you.</p>
+<strong><code>choices[0].message.content</code></strong>. The
+<code>openai</code> Python package builds this request for you and turns
+the JSON response back into a Python object you can read.</p>
 <div class="section level3">
 <h3 id="the-role-field-the-most-useful-concept-today">The <code>role</code> field — the most useful concept today<a class="anchor" aria-label="anchor" href="#the-role-field-the-most-useful-concept-today"></a>
 </h3>
 <ul>
 <li>
-<code>system</code> = standing instructions (the <em>shape</em> you
-want back)</li>
+<code>system</code> = standing instructions (the kind of answer you
+want)</li>
 <li>
-<code>user</code> = the turn (your actual text)</li>
+<code>user</code> = your turn (the text you send)</li>
 <li>
 <code>assistant</code> = the model’s reply</li>
 </ul>
@@ -450,7 +453,7 @@ want back)</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Timing: 15 min (5 cold-open, 10 anatomy). Land the “client / service”
 frame and the <code>role</code> concept here — everything downstream
@@ -487,7 +490,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-first-call"><p>Content from <a href="first-call.html">Your First Call</a></p>
 <hr>
-<p>Last updated on 2026-09-09 |
+<p>Last updated on 2026-09-10 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/first-call.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 19 minutes</p>
@@ -579,7 +582,7 @@ the key is present (masked) and that the base URL ends in
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>This is the non-negotiable checkpoint. Have the whole room run this
 ONE cell together before anyone drifts off. Use the TA to sweep the
@@ -639,8 +642,8 @@ list — copy any ID into <code>MODEL</code> and re-run.</p>
 <span id="cb3-42"><a href="#cb3-42" tabindex="-1" aria-label="code-block-3-42"></a><span class="bu">print</span>(resp.choices[<span class="dv">0</span>].message.content)</span>
 <span id="cb3-43"><a href="#cb3-43" tabindex="-1" aria-label="code-block-3-43"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">(tokens used: </span><span class="sc">{</span>resp<span class="sc">.</span>usage<span class="sc">.</span>total_tokens <span class="cf">if</span> resp<span class="sc">.</span>usage <span class="cf">else</span> <span class="st">'?'</span><span class="sc">}</span><span class="ss">)"</span>)</span></code></pre>
 </div>
-<p>You should see a sentence back from the model. <strong>If you see
-text — you’re in.</strong></p>
+<p>You should see a sentence from the model. If text appears, your first
+call worked.</p>
 </section><section><h2 class="section-heading" id="anatomy-of-a-response">Anatomy of a response<a class="anchor" aria-label="anchor" href="#anatomy-of-a-response"></a>
 </h2>
 <hr class="half-width">
@@ -689,7 +692,7 @@ a typical one, with each field explained:</p>
 <span id="cb4-38"><a href="#cb4-38" tabindex="-1" aria-label="code-block-4-38"></a>  <span class="fu">}</span></span>
 <span id="cb4-39"><a href="#cb4-39" tabindex="-1" aria-label="code-block-4-39"></a><span class="fu">}</span></span></code></pre>
 </div>
-<p>Three of these matter most for the rest of the lesson:</p>
+<p>Three fields matter most for the rest of the lesson:</p>
 <ol style="list-style-type: decimal">
 <li>
 <strong><code>choices[0].message.content</code></strong> — the
@@ -796,7 +799,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-build-the-tool"><p>Content from <a href="build-the-tool.html">Building the Research Tool</a></p>
 <hr>
-<p>Last updated on 2026-09-09 |
+<p>Last updated on 2026-09-10 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/build-the-tool.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 14 minutes</p>
@@ -833,18 +836,19 @@ research?</li>
 </div>
 </div>
 </div>
-<p>The goal for research is to run the <em>same</em> question over a
-<em>list</em> of things and get a <em>table</em> back. Here: 12 paper
-abstracts in, one row each out — a one-line summary, the main method,
-and the key result, in a spreadsheet. That’s <strong>batch API calls +
-structured output</strong>.</p>
-<p>The trick is the <strong>system prompt</strong>: it tells the model
-to answer in <em>strict JSON</em> with keys <code>summary</code>,
-<code>method</code>, <code>result</code>. That’s <strong>structured
-output</strong> — you control the <em>shape</em> of the answer, so the
-result comes back as clean columns you can drop straight into a
-spreadsheet.</p>
-<p>Run the three cells in order: load (3a) → batch (3b) → save (3c).</p>
+<p>The goal here is a research task: run the <em>same</em> question over
+a <em>list</em> of things and get a <em>table</em> back. Here that means
+12 paper abstracts in and one row each out — a one-line summary, the
+main method, and the key result, in a spreadsheet. Two techniques make
+it work: <strong>batch API calls</strong> (one model call per abstract)
+and <strong>structured output</strong>.</p>
+<p>Structured output comes from the <strong>system prompt</strong>: it
+tells the model to answer in <em>strict JSON</em> with three keys —
+<code>summary</code>, <code>method</code>, <code>result</code>. Because
+you specify the shape of the answer, each result comes back as clean
+columns you can load straight into a spreadsheet.</p>
+<p>Run the three cells in this order: load (3a) → batch (3b) → save
+(3c).</p>
 <div class="section level3">
 <h3 id="a-load-the-12-abstracts-already-in-the-notebook">3a — Load the 12 abstracts (already in the notebook)<a class="anchor" aria-label="anchor" href="#a-load-the-12-abstracts-already-in-the-notebook"></a>
 </h3>
@@ -878,9 +882,9 @@ in <a href="../data/research_abstracts.json"><code>data/research_abstracts.json<
 rows)<a class="anchor" aria-label="anchor" href="#b-run-the-batch-one-api-call-per-abstract-structured-rows"></a>
 </h3>
 <p>This is the loop you’ll reuse on your own data. It prints progress as
-it goes (12 calls, usually 30–90 s), <strong>retries once</strong> if a
-response isn’t clean JSON, and is defensive about the common case where
-a model wraps the JSON in code fences.</p>
+it goes (12 calls, usually 30–90 s). If a response isn’t valid JSON, it
+retries once. Some models wrap the JSON object in code fences; the loop
+removes those before it parses.</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -941,10 +945,9 @@ a model wraps the JSON in code fences.</p>
 <div class="section level3">
 <h3 id="c-save-inspect-the-csv">3c — Save &amp; inspect the CSV<a class="anchor" aria-label="anchor" href="#c-save-inspect-the-csv"></a>
 </h3>
-<p>The rows go straight into <code>triage_table.csv</code> — one row per
-paper, ready for a spreadsheet. <code>csv.DictWriter</code> quotes
-fields properly, so commas inside a summary won’t shift your
-columns.</p>
+<p>The rows are written to <code>triage_table.csv</code> — one row per
+paper, ready for a spreadsheet. <code>csv.DictWriter</code> handles
+quoting, so commas inside a summary won’t shift the columns.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -983,7 +986,7 @@ logs — anything you can turn into a list of texts.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>12 min. The money segment — slow down on “structured output”: <em>you
 control the shape, not just the words.</em> If the 12-call batch runs
@@ -1018,7 +1021,7 @@ any links that you are not going to use.
  -->
 </div></section><section id="aio-experiments"><p>Content from <a href="experiments.html">Experiments &amp; Tools Around the API</a></p>
 <hr>
-<p>Last updated on 2026-09-09 |
+<p>Last updated on 2026-09-10 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/experiments.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 38 minutes</p>
@@ -1068,7 +1071,7 @@ actually matters.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>15 min, the highest-value overflow. TA role: help anyone whose JSON
 isn’t parsing or whose key is 401, but <em>nudge toward the “why”, don’t
@@ -1209,9 +1212,9 @@ that is fine to send.)</em></p>
 </section><section><h2 class="section-heading" id="tools-around-the-api-10-minutes">Tools around the API (10 minutes)<a class="anchor" aria-label="anchor" href="#tools-around-the-api-10-minutes"></a>
 </h2>
 <hr class="half-width">
-<p>Because it’s <strong>OpenAI-compatible</strong>, a whole shelf of
-tools just works with the <strong>same key and the same
-endpoint</strong>. Quick tour:</p>
+<p>Because the API is <strong>OpenAI-compatible</strong>, a set of
+ready-made tools works with the <strong>same key and the same
+endpoint</strong>. A quick tour:</p>
 <ul>
 <li>
 <strong>OpenCode</strong> — a terminal/desktop coding assistant. ASU
@@ -1257,9 +1260,9 @@ AnvilGPT does out of the box).</li>
 <h3 class="callout-title">Data governance — read before you paste</h3>
 <div class="callout-content">
 <p>Do <strong>not</strong> send data your institution would call
-sensitive or proprietary, and never regulated data (HIPAA,
-export-controlled, SSNs, biometrics, personal identifiers). The gateway
-is a convenience, <strong>not</strong> a secure enclave.</p>
+sensitive or proprietary. Never send regulated data (HIPAA records,
+export-controlled work, SSNs, biometrics, personal identifiers). The
+gateway is a convenience, <strong>not</strong> a secure enclave.</p>
 </div>
 </div>
 </div>
@@ -1336,8 +1339,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/instructor/aio.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/instructor/aio.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-09",
-  "datePublished": "2026-09-09"
+  "dateModified": "2026-09-10",
+  "datePublished": "2026-09-10"
 }
 
   </script><script>
