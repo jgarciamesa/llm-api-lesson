@@ -149,8 +149,8 @@ for i, text in enumerate(MY_TEXTS, 1):
 
 ## Tools around the API (10 minutes)
 
-Because it's **OpenAI-compatible**, a whole shelf of tools just works with the
-**same key and the same endpoint**. Quick tour:
+Because the API is **OpenAI-compatible**, a set of ready-made tools works with
+the **same key and the same endpoint**. A quick tour:
 
 - **OpenCode** — a terminal/desktop coding assistant. ASU RC has a setup guide,
   and Voyager even generates the provider config for you.
@@ -174,9 +174,10 @@ OpenCode/VS Code; notebook work → Jupyter AI.
 ::::::::::::::::::::::::::::::::::::: callout
 ### Data governance — read before you paste
 
-Do **not** send data your institution would call sensitive or proprietary, and
-never regulated data (HIPAA, export-controlled, SSNs, biometrics, personal
-identifiers). The gateway is a convenience, **not** a secure enclave.
+Do **not** send data your institution would call sensitive or proprietary.
+Never send regulated data (HIPAA records, export-controlled work, SSNs,
+biometrics, personal identifiers). The gateway is a convenience, **not** a
+secure enclave.
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints

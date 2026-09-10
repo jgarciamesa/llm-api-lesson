@@ -124,7 +124,7 @@ print(resp.choices[0].message.content)
 print(f"\n(tokens used: {resp.usage.total_tokens if resp.usage else '?'})")
 ```
 
-You should see a sentence back from the model. **If you see text — you're in.**
+You should see a sentence from the model. If text appears, your first call worked.
 
 ## Anatomy of a response
 
@@ -173,7 +173,7 @@ one, with each field explained:
 }
 ```
 
-Three of these matter most for the rest of the lesson:
+Three fields matter most for the rest of the lesson:
 
 1. **`choices[0].message.content`** — the actual text. This is the field every
    call in the rest of the lesson reads.
