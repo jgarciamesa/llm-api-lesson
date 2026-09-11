@@ -102,7 +102,7 @@ You'll set a `system` message in Segment 4 to force *structured* output.
 **Do:** Open the notebook, walk to the "First call" cell. Have the whole room run it
 *together* before anyone drifts off.
 
-**Say:** "Run this one cell. It reads your key from the environment, calls the model,
+**Say:** "Run this one cell. It loads your key from the `.env` file, calls the model,
 prints the answer. If you see a sentence back — you're in."
 
 **Checkpoint (non-negotiable):** *every* attendee gets at least one real response before
@@ -196,7 +196,7 @@ pick the one that fits your room logistics:
 
 Whichever you choose, **tell them to treat the key as a password**: don't commit it to
 Git, don't share it, and they can rotate it in Voyager if they think it leaked. The
-notebook reads the key from the **environment / a `.env`-style cell**, never hardcoded —
+notebook reads the key from a **`.env` file** (`load_dotenv()`), never hardcoded —
 reinforce that habit in Segment 3.
 
 ---

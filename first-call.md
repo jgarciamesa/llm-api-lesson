@@ -13,8 +13,8 @@ exercises: 3
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Set your API key from the environment (never hardcode it).
-- Make a first call with the `openai` Python SDK.
+- Put your key and endpoint in a `.env` file (never hardcode them).
+- Make a first call with the `openai` Python package.
 - Read the model's reply out of the response.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
@@ -22,48 +22,52 @@ exercises: 3
 ## Set your key (don't hardcode it)
 
 Your key is a secret. Treat it like a password: **don't share it, don't commit
-it to Git.** The notebook reads it from the environment so it never sits in your
-code.
+it to Git.** The notebook reads it from a **`.env` file** so it never sits in
+your code. A `.env` file is plain text, one `NAME=value` line at a time.
 
-In the shell first (the [Setup page](../learners/setup.md) has all three OS variants):
+In the **same folder as the notebook**, create a file named `.env` (no
+extension) with exactly these two lines:
 
-```bash
-# macOS / Linux
-read -rs OPENAI_API_KEY        # paste your key, press Enter (nothing prints)
-export OPENAI_API_KEY
-export OPENAI_BASE_URL="https://openai.rc.asu.edu/v1"
+```
+OPENAI_API_KEY=<paste your key here>
+OPENAI_BASE_URL=https://openai.rc.asu.edu/v1
 ```
 
-Why `read -rs`? A normal prompt writes the key to your shell history in plain
-text. `-s` silences the echo. Then, in the notebook, run the **"Set your key"**
-cell — it verifies the key is present (masked) and that the base URL ends in
-`/v1`:
+The [Setup page](../learners/setup.md) shows how to create that file on Anvil
+and on a laptop. Then run the **"Set your key"** cell in the notebook — it
+loads the file and verifies the key is present (masked):
 
 ```python
 import os
+from dotenv import load_dotenv
 
-key = os.environ.get("OPENAI_API_KEY")
-base = os.environ.get("OPENAI_BASE_URL", "https://openai.rc.asu.edu/v1")
+# Load environment variables from the .env file
+load_dotenv()
 
-if not key:
+# Retrieve the API key and base URL
+key = os.getenv("OPENAI_API_KEY")
+base = os.getenv("OPENAI_BASE_URL")
+
+if not key or not base:
+    missing = ", ".join(n for n, v in
+                        (("OPENAI_API_KEY", key), ("OPENAI_BASE_URL", base)) if not v)
     raise SystemExit(
-        "OPENAI_API_KEY is not set. Set it first, then re-run this cell.\n"
-        "\n"
-        "  macOS / Linux      ->  read -rs OPENAI_API_KEY   (paste key, Enter)\n"
-        "                         export OPENAI_API_KEY\n"
-        "                         export OPENAI_BASE_URL=https://openai.rc.asu.edu/v1\n"
-        "  Windows (PowerShell) ->  $env:OPENAI_API_KEY = 'paste-key-here'\n"
-        "                         $env:OPENAI_BASE_URL = 'https://openai.rc.asu.edu/v1'\n"
-        "\n"
-        "Then re-run THIS cell."
+        f"Missing {missing}. Create a .env file in this folder with these two "
+        "lines, then re-run this cell:\n"
+        "    OPENAI_API_KEY=<your-key>\n"
+        "    OPENAI_BASE_URL=https://openai.rc.asu.edu/v1"
     )
 
 # Mask the key so we can show it is present without revealing it
 print(f"key set:   {key[:4]}...{key[-4:]}  ({len(key)} chars)")
 print(f"base url:  {base}")
-assert base.rstrip('/').endswith('/v1'), "BASE_URL should end with /v1"
-print("\nReady. Run the next cell for your first call.")
 ```
+
+Two things to notice. `load_dotenv()` reads the `.env` file into the
+environment, and `os.getenv()` looks a name up in that environment — so the
+key only lives in the file, which you keep out of Git. Because the cell reads
+the file every time it runs, **if you edit `.env` you only re-run the cell** —
+no kernel restart.
 
 ## The first call — *checkpoint: everyone gets a response*
 
@@ -74,41 +78,40 @@ get a response, that's the egress problem — go to the instructor guide §8
 immediately, don't let it simmer.
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-This cell picks a model from your key's live list automatically, so you can run
-the first call right away. If it can't decide, it prints the list — copy any ID
-into `MODEL` and re-run.
+This cell picks one of the three models this lesson prefers — **at random** —
+from your key's live list, so you can run the first call right away. It also
+prints up to eight models your key can use. If none of the three preferred
+models is available, it falls back to the first model on the list; if nothing
+prints at all, set `MODEL` yourself and re-run.
 
 ```python
 from openai import OpenAI
+import random
 
 client = OpenAI()   # reads OPENAI_API_KEY and OPENAI_BASE_URL from the environment
 
-# --- Pick a model from the live list -----------------------------------------
-PREFERRED = ["llama3.3", "llama3.1", "llama3", "gpt-4o", "gpt-4.1", "mistral-large"]
+# --- Pick a model at random ---------------------------------------------------
+PREFERRED = ["qwen36-27b", "muse-glimmer-30b", "gemma4-31b-it"]
 try:
     available = [m.id for m in client.models.list()]
 except Exception as e:
     available = []
     print(f"Could not list models: {e}")
 
-MODEL = None
-for cand in PREFERRED:
-    for a in available:
-        if cand in a:
-            MODEL = a
-            break
-    if MODEL:
-        break
-if MODEL is None and available:
-    MODEL = available[0]   # fall back to the first model the key can see
-
-if not MODEL:
+# A preferred name can be a prefix of the full model ID, so match by
+# substring. Then pick one of the matches at random.
+matches = [a for a in available if any(p in a for p in PREFERRED)]
+if matches:
+    MODEL = random.choice(matches)
+elif available:
+    MODEL = available[0]   # none of the three is available; use the first
+else:
     raise SystemExit(
-        "No model could be selected. If any printed above, set one manually, e.g.\n"
+        "No model could be selected. Set one manually, e.g.\n"
         "    MODEL = 'llama3.1'\n"
         "then re-run."
     )
-print(f"Using model: {MODEL}")
+print(f"Using model: {MODEL}  (picked at random)")
 if available:
     print(f"Your key can use {len(available)} model(s). Try others in the experiments:")
     for a in available[:8]:
@@ -210,9 +213,13 @@ print([m.id for m in client.models.list()])
 ::::::::::::::::::::::::::::::::::::: callout
 ### Stuck? Read the error verbatim
 
-- `401` / "No api key" → the key isn't set **in this kernel's** environment.
-  Re-run the key cell; if you exported it in a terminal, **restart the kernel**
-  first (a kernel only sees env vars set before it started).
+- `401` / "No api key" → the `.env` file is missing, in the wrong folder, or
+  has a typo (a stray space or a `<` left in). Check both lines, then re-run
+  the "Set your key" cell — the cell re-reads the file, so no restart is
+  needed.
+- `ModuleNotFoundError: No module named 'dotenv'` → you're outside the venv,
+  or the install didn't include `python-dotenv`. Re-run
+  `pip install openai python-dotenv` and restart the kernel.
 - `404` / "Model Not Found" → bad model name. List models and copy an exact ID.
 - `429` → rate limit. Wait a few seconds and retry.
 - Connection/timeout/SSL → possible **egress** problem. See the [Reference
@@ -221,8 +228,10 @@ print([m.id for m in client.models.list()])
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 
-- Set the key from the environment (`OPENAI_API_KEY` + `OPENAI_BASE_URL`), never hardcoded.
-- `client = OpenAI()` reads both from the environment.
+- Put the key and endpoint in a `.env` file; `load_dotenv()` reads it, so
+  nothing is hardcoded.
+- `client = OpenAI()` reads `OPENAI_API_KEY` and `OPENAI_BASE_URL` from the
+  environment.
 - The first call is `client.chat.completions.create(model=..., messages=[...])`.
 - The answer is at `resp.choices[0].message.content`; `finish_reason` tells you
   why generation stopped and `usage.total_tokens` is the cost meter.
