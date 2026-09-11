@@ -28,11 +28,18 @@ title: Reference
 **API key**
 : A secret string that authenticates you to the gateway. Treat it like a
   password: don't share it, don't commit it to Git. Created in
-  [Voyager](https://voyager.rc.asu.edu).
+  [Voyager](https://voyager.rc.asu.edu). In this lesson it lives in a `.env`
+  file, never in your code.
+
+**`.env` file**
+: A plain-text file with one `NAME=value` line at a time, used to store
+  settings such as API keys. The notebook reads it with
+  `load_dotenv()` (from the `python-dotenv` package). Keep it out of Git: put
+  a `.gitignore` file containing the line `.env` in the same folder.
 
 **`base_url`**
-: The endpoint your SDK is told to use. Must end in `/v1`. Set via the
-  `OPENAI_BASE_URL` environment variable.
+: The endpoint your SDK is told to use. Must end in `/v1`. Stored as
+  `OPENAI_BASE_URL` in the `.env` file.
 
 **Model**
 : A specific language model that answers. Your key can use a list of models
@@ -64,7 +71,8 @@ title: Reference
 
 **RAG**
 : Retrieval-Augmented Generation — grounding the model's answer in your own
-  documents. What Purdue's AnvilGPT does out of the box.
+  documents. The *A Simple RAG Example* episode builds a keyword version;
+  Purdue's AnvilGPT does it out of the box with vector search.
 
 ## Quick troubleshooting table
 
@@ -73,11 +81,11 @@ first.
 
 | You see | It means | Fix |
 |---|---|---|
-| `401` / "No api key" | Key missing/wrong/not set **in this kernel's** environment | Re-run the "Set your key" cell; confirm `OPENAI_API_KEY` is exported. If you set it in a terminal, **restart the kernel** first. Check for stray spaces. |
+| `401` / "No api key" | `.env` missing, in the wrong folder, or mistyped | Check the two lines in `.env` (same folder as the notebook; no stray spaces or a leftover `<`), then re-run the "Set your key" cell — it re-reads the file, no kernel restart needed. |
 | `404` / "Model Not Found" | Model name invalid for this key | List models (`client.models.list()`) and copy an exact ID into `MODEL`. |
 | `429` / "Rate limit" | Too many requests | Wait a few seconds and retry. |
 | Connection error / timeout / `SSL` | Can't reach the endpoint (**egress** problem, or wrong base URL) | Confirm `OPENAI_BASE_URL=https://openai.rc.asu.edu/v1` (with `/v1`). If on Anvil and still failing, tell an instructor — your cluster may block outbound traffic. |
-| `ModuleNotFoundError: No module named 'openai'` | Ran outside the venv (laptop) | `source .venv/bin/activate`, `pip install openai`, **restart the kernel**. |
+| `ModuleNotFoundError: No module named 'openai'` or `... 'dotenv'` | Ran outside the venv (laptop), or install incomplete | `source .venv/bin/activate`, `pip install openai python-dotenv`, **restart the kernel**. |
 | `NameError: name 'client'/'MODEL'` | Ran cells out of order, or after a kernel restart | Run cells **top to bottom**; after a restart, re-run from the key cell. |
 | `PARSE FAILED` in a row | Model returned prose, not JSON | Print the raw `message.content`; tighten the system prompt to "Return ONLY valid JSON, no other text." |
 

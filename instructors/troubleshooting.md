@@ -9,7 +9,7 @@ you'll see. Read the error text **verbatim** to the room — that's the lesson t
 
 | # | Symptom (what the screen shows) | Likely cause | Fix |
 |---|---|---|---|
-| A1 | `401` / `Authentication Error, No api key passed in` | `OPENAI_API_KEY` not set in this notebook's environment (fresh server, new terminal, or the export was in a *different* shell) | Re-run the **Set your key** step (handout Step 1), then re-run the key-check cell. A notebook kernel only sees env vars set *before the kernel started* — if they exported it in a terminal, **restart the kernel** first. |
+| A1 | `401` / `Authentication Error, No api key passed in` | `.env` missing, in a different folder than the notebook, or mistyped (stray space, leftover `<`, wrong line) | Check both lines in `.env`; then re-run the **Set your key** cell (handout Step 1). The cell re-reads the file each run — no kernel restart needed. If they set the key via shell `export` instead, that does **not** reach the kernel. |
 | A2 | `401` but key looks right | Stray spaces / line-break in the pasted key; or key was revoked | `print(repr(os.environ["OPENAI_API_KEY"]))` — check for `"` `\n` whitespace. Re-copy the key. |
 | A3 | `404` / `Model Not Found` | Model ID not valid for this key (names change; e.g. `llama3` vs `llama3.1`) | List models: `[m.id for m in client.models.list()]`, copy an exact ID into `MODEL`. |
 | A4 | `429` / `Rate limit reached` | Too many concurrent requests (whole room hitting at once) | Wait 5–15 s, retry. In the batch cell, errors on one abstract don't stop the loop. If it persists >2 min, stagger the room (half on Experiment 1, half on 2). |
@@ -21,7 +21,7 @@ you'll see. Read the error text **verbatim** to the room — that's the lesson t
 |---|---|---|---|
 | B1 | `ModuleNotFoundError: No module named 'openai'` (laptop path) | Ran outside the venv | `source .venv/bin/activate` (Windows: `.venv\Scripts\activate`), then `pip install openai python-dotenv`. **Restart the kernel** after installing. |
 | B2 | `python: command not found` | Python not on PATH (Windows install missed the checkbox) | Reinstall and check "Add python.exe to PATH"; or use `python3`. Reopen the terminal after any install. |
-| B3 | Old env after setting vars in a terminal | Kernel outlives the shell | **Kernel → Restart** after changing env vars. (On Anvil Notebook, the kernel's env = the server's env; setting vars in the JupyterLab *terminal* does NOT propagate to an already-running kernel.) |
+| B3 | `401` after "fixing" the key in a terminal | Shell `export` doesn't reach a running kernel; the notebook reads `.env` via `load_dotenv()` | Put the key in the `.env` file next to the notebook and re-run the key cell (no restart needed). If they insist on `export`: **Kernel → Restart** first. (On Anvil Notebook, the kernel's env = the server's env; the JupyterLab *terminal* does NOT propagate to a running kernel.) |
 | B4 | `NameError: name 'client' is not defined` | Ran Section 3b/4 before Section 2 (or after a kernel restart) | Run cells **top to bottom**. After any kernel restart, re-run from the key cell. |
 | B5 | `NameError: name 'MODEL'` | Model cell raised (A3/A5) and was skipped | Fix the model first (A3), re-run Section 2. |
 | B6 | Anvil Notebook: "server failed to start" / long wait | Allocation busy / queue | Wait; try again; if it never starts, file a quick note to the ACCESS help desk and switch that attendee to laptop mode. Pre-launched spares (checklist Step 5) absorb this. |
