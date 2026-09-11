@@ -263,7 +263,19 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="experiments.html">4. Experiments &amp; Tools Around the API</a>
+        <a href="simple-rag.html">4. A Simple RAG Example</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="experiments.html">5. Experiments &amp; Tools Around the API</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -340,10 +352,11 @@ Python SDK (and many other tools) just work.</li>
 </ul></section><section id="first-call"><h2 class="section-heading"><a href="first-call.html">Your First Call</a></h2>
 <hr class="half-width">
 <ul>
-<li>Set the key from the environment (<code>OPENAI_API_KEY</code> +
-<code>OPENAI_BASE_URL</code>), never hardcoded.</li>
+<li>Put the key and endpoint in a <code>.env</code> file;
+<code>load_dotenv()</code> reads it, so nothing is hardcoded.</li>
 <li>
-<code>client = OpenAI()</code> reads both from the environment.</li>
+<code>client = OpenAI()</code> reads <code>OPENAI_API_KEY</code> and
+<code>OPENAI_BASE_URL</code> from the environment.</li>
 <li>The first call is
 <code>client.chat.completions.create(model=..., messages=[...])</code>.</li>
 <li>The answer is at <code>resp.choices[0].message.content</code>;
@@ -359,6 +372,15 @@ that forces a strict JSON <em>shape</em> (keys you define).</li>
 <code>PARSE FAILED</code> marker.</li>
 <li>
 <code>csv.DictWriter</code> writes clean, quote-safe CSV.</li>
+</ul></section><section id="simple-rag"><h2 class="section-heading"><a href="simple-rag.html">A Simple RAG Example</a></h2>
+<hr class="half-width">
+<ul>
+<li>RAG = <strong>retrieve</strong> the relevant passages, then
+<strong>generate</strong> an answer from them.</li>
+<li>For a small corpus, a keyword search (drop stopwords, weight the
+title) retrieves well enough to be useful.</li>
+<li>The generate step is the same <code>create()</code> call as anywhere
+else in the lesson — the passages just join the prompt.</li>
 </ul></section><section id="experiments"><h2 class="section-heading"><a href="experiments.html">Experiments &amp; Tools Around the API</a></h2>
 <hr class="half-width">
 <ul>
@@ -419,8 +441,8 @@ all reuse the same key + endpoint.</li>
   "url": "https://jgarciamesa.github.io/llm-api-lesson/key-points.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/key-points.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-10",
-  "datePublished": "2026-09-10"
+  "dateModified": "2026-09-11",
+  "datePublished": "2026-09-11"
 }
 
   </script><script>

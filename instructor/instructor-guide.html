@@ -213,7 +213,16 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="experiments.html">4. Experiments &amp; Tools Around the API</a>
+        <a href="simple-rag.html">4. A Simple RAG Example</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="experiments.html">5. Experiments &amp; Tools Around the API</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -272,7 +281,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Instructor Guide</h1>
-        <p>Last updated on 2026-09-02 |
+        <p>Last updated on 2026-09-11 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/instructors/instructor-guide.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -438,9 +447,9 @@ response</strong>
 <p><strong>Do:</strong> Open the notebook, walk to the “First call”
 cell. Have the whole room run it <em>together</em> before anyone drifts
 off.</p>
-<p><strong>Say:</strong> “Run this one cell. It reads your key from the
-environment, calls the model, prints the answer. If you see a sentence
-back — you’re in.”</p>
+<p><strong>Say:</strong> “Run this one cell. It loads your key from the
+<code>.env</code> file, calls the model, prints the answer. If you see a
+sentence back — you’re in.”</p>
 <p><strong>Checkpoint (non-negotiable):</strong> <em>every</em> attendee
 gets at least one real response before you move on. Use the TA to sweep
 the room. If a chunk can’t get a response, that’s the egress problem —
@@ -539,8 +548,9 @@ handout:</strong> paper slip per seat. Most private, most prep.</p>
 <p>Whichever you choose, <strong>tell them to treat the key as a
 password</strong>: don’t commit it to Git, don’t share it, and they can
 rotate it in Voyager if they think it leaked. The notebook reads the key
-from the <strong>environment / a <code>.env</code>-style cell</strong>,
-never hardcoded — reinforce that habit in Segment 3.</p>
+from a <strong><code>.env</code> file</strong>
+(<code>load_dotenv()</code>), never hardcoded — reinforce that habit in
+Segment 3.</p>
 <hr></section><section><h2 class="section-heading" id="if-a-participant-is-stuck-the-why-not-the-answer">7. If a participant is stuck — the “why,” not the answer<a class="anchor" aria-label="anchor" href="#if-a-participant-is-stuck-the-why-not-the-answer"></a></h2>
 <hr class="half-width"><p>Nudge, don’t fix. The highest-yield questions: - “What does the error
 actually say? Read it back to me.” (401 = key, 404 = model name, 429 =
@@ -651,8 +661,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/instructor/instructor-guide.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/instructor/instructor-guide.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-02",
-  "datePublished": "2026-09-10"
+  "dateModified": "2026-09-11",
+  "datePublished": "2026-09-11"
 }
 
   </script><script>

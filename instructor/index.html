@@ -217,7 +217,16 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="experiments.html">4. Experiments &amp; Tools Around the API</a>
+        <a href="simple-rag.html">4. A Simple RAG Example</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="experiments.html">5. Experiments &amp; Tools Around the API</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -275,29 +284,27 @@
       
 <div class="section level1">
 <h1 id="using-an-api-to-communicate-with-a-model">Using an API to Communicate with a Model<a class="anchor" aria-label="anchor" href="#using-an-api-to-communicate-with-a-model"></a></h1>
-<p>In this 75-minute lesson you talk to a large language model (LLM)
-through a <strong>web API</strong> — the same kind of service you call
-to look up the weather or query a database. You begin by sending your
-first message with the <code>openai</code> Python SDK and reading the
-model’s reply out of the JSON. Then you turn that single call into a
-small but real <strong>research tool</strong>: a script that runs the
-<em>same</em> structured question over 12 real arXiv abstracts and
-collects the answers into a triage table (CSV) — one row per paper, with
-a one-line summary, the main method, and the key result.</p>
-<p>The model lives on ASU Research Computing’s servers, so you are the
-<strong>client</strong>: you send it messages over HTTPS and it returns
-structured text you can drop straight into a spreadsheet. By the end you
-will be able to point the same key and endpoint at the everyday tools
-you already use (VS Code, Jupyter AI, OpenCode), and you will have a
-repeatable batch loop you can run on your own (non-sensitive) data.</p>
+<p>In this lesson you talk to a large language model (LLM) through a web
+API – the same kind of service you call to look up the weather or query
+a database. You begin by sending your first message with the
+<code>openai</code> Python package and reading the model’s reply. Then
+you turn that call into a small <strong>research tool</strong>: a script
+that runs the same structured question over 12 arXiv abstracts and
+collects the answers into a table (CSV). One row per paper, with a
+one-line summary, the main method, and the key result.</p>
+<p>The model lives on Arizona State University’s (ASU) Research
+Computing’s servers, so you are the client: you send it messages over
+HTTPS and receive structured text you can drop straight into a
+spreadsheet. By the end you will be able to point the same key and
+endpoint at the everyday tools you already use (VS Code, Jupyter AI,
+OpenCode).</p>
 <div class="section level2">
 <h2 id="what-youll-use-and-how-it-fits-together">What you’ll use and how it fits together<a class="anchor" aria-label="anchor" href="#what-youll-use-and-how-it-fits-together"></a></h2>
 <ul><li>
 <strong>The API:</strong> the ASU Research Computing LLM gateway (<a href="https://openai.rc.asu.edu/v1" class="external-link"><code>https://openai.rc.asu.edu/v1</code></a>),
 an <strong>OpenAI-compatible</strong> API. Because it follows the OpenAI
 format, the standard <a href="https://pypi.org/project/openai/" class="external-link"><code>openai</code> Python
-SDK</a> — and any other OpenAI-compatible tool — works with it
-as-is.</li>
+SDK</a>, and any other OpenAI-compatible tool, works with it as-is.</li>
 <li>
 <strong>A notebook:</strong> you run the lesson in a Jupyter
 notebook, either on the <strong>Purdue Anvil Notebook</strong> (in a
@@ -305,15 +312,14 @@ browser, the environment is provided) or on your own laptop. The <a href="index.
 <strong>API key</strong>.</li>
 <li>
 <strong>Basic Python:</strong> reading a script and editing a few
-cells is all you need. The model itself is hosted for you, so the lesson
-focuses on the request/response flow rather than the machine
-learning.</li>
-</ul><p>The lesson moves in five steps: <strong>Setup</strong>, then
+cells is all you need.</li>
+</ul><p>The lesson moves in six steps: <strong>Setup</strong>, then
 <strong>What is an LLM API?</strong>, <strong>Your first call</strong>,
-<strong>Building the research tool</strong>, and <strong>Experiments
-&amp; tools</strong>. A <strong>Reference</strong> page (glossary, a
-quick troubleshooting table, and links) is in the menu, and the working
-notebook is available at <a href="../data/talking_to_a_model.ipynb"><code>data/talking_to_a_model.ipynb</code></a>.</p>
+<strong>Building the research tool</strong>, <strong>A simple RAG
+example</strong>, and <strong>Experiments &amp; tools</strong>. A
+<strong>Reference</strong> page (glossary, a quick troubleshooting
+table, and links) is in the menu, and the working notebook is available
+at <a href="../data/talking_to_a_model.ipynb"><code>data/talking_to_a_model.ipynb</code></a>.</p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
@@ -358,7 +364,18 @@ does it make an LLM useful for research?
 <span class="visually-hidden">Duration: </span>00h 48m
 </td>
 <td>
- 4. <a href="experiments.html">Experiments &amp; Tools Around the
+ 4. <a href="simple-rag.html">A Simple RAG Example</a>
+</td>
+<td>
+How do I make a model answer using <em>my</em> documents instead of its
+training data?<br>How much of RAG is really about searching for the
+right text?
+</td>
+</tr><tr><td>
+<span class="visually-hidden">Duration: </span>01h 08m
+</td>
+<td>
+ 5. <a href="experiments.html">Experiments &amp; Tools Around the
 API</a>
 </td>
 <td>
@@ -367,7 +384,7 @@ model?<br>How do I try my own data with the same batch loop?<br>What
 other tools can I point at the same key and endpoint?
 </td>
 </tr><tr><td>
-<span class="visually-hidden">Duration: </span>01h 26m
+<span class="visually-hidden">Duration: </span>01h 46m
 </td>
 <td>
 Finish
@@ -380,12 +397,7 @@ any links that you are not going to use.
  --></tbody></table><p>
       The actual schedule may vary slightly depending on the topics and exercises chosen by the instructor.
       </p>
-      </section><section id="setup"><p>You’ll run the notebook either <strong>on Anvil</strong> (in a
-browser, the environment is provided) or <strong>on your
-laptop</strong>. Both use the same notebook and the same key. The
-notebook <strong>already contains the 12 abstracts</strong>, so you can
-run everything straight away.</p>
-<p><strong>The API you’ll use</strong> (ASU Research Computing LLM
+      </section><section id="setup"><p><strong>The API you’ll use</strong> (ASU Research Computing LLM
 gateway, OpenAI-compatible):</p>
 <ul><li>Endpoint: <code>https://openai.rc.asu.edu/v1</code>
 </li>
@@ -396,9 +408,30 @@ Git).</li>
 <hr class="half-width"><p>The 12 arXiv abstracts are embedded in the notebook, so you can start
 right away. If you want the editable source, it’s <a href="../data/research_abstracts.json"><code>data/research_abstracts.json</code></a></p>
 </section><section><h2 class="section-heading" id="software-setup">Software Setup<a class="anchor" aria-label="anchor" href="#software-setup"></a></h2>
-<hr class="half-width"><p>You need the <strong><code>openai</code> Python package</strong>. On
-a laptop, create a virtual environment first, so the install stays out
-of your system Python:</p>
+<hr class="half-width"><div class="section level3">
+<h3 id="on-anvil-browser-no-install">On Anvil (browser, no install)<a class="anchor" aria-label="anchor" href="#on-anvil-browser-no-install"></a></h3>
+<ol style="list-style-type: decimal"><li>Go to <code>https://notebook.anvilcloud.rcac.purdue.edu</code>.</li>
+<li>Log in with your <strong>ACCESS</strong> credentials.</li>
+<li>Pick <strong>Anvil Notebook</strong>, choose your allocation,
+<strong>Start</strong>.</li>
+<li>Wait for JupyterLab to open, then open the
+<code>talking_to_a_model</code> notebook.</li>
+<li>If the first cell fails with
+<code>ModuleNotFoundError: No module named 'dotenv'</code>, add a cell
+above it with <code>!pip install python-dotenv</code>, run it, then
+restart the kernel.</li>
+</ol><div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
+  <h3 class="accordion-header" id="headingSpoiler1">
+  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>
+  On your laptop
+  </h3>
+</button>
+<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div class="accordion-body">
+<p>Create a virtual environment so the install stays out of your system
+Python:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -406,149 +439,47 @@ of your system Python:</p>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a><span class="fu">mkdir</span> api-lesson <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> api-lesson</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a><span class="bu">source</span> .venv/bin/activate     <span class="co"># Windows: .venv\Scripts\activate</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a><span class="ex">pip</span> install openai</span></code></pre>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a><span class="ex">pip</span> install openai python-dotenv</span></code></pre>
 </div>
-<p>On <strong>Anvil</strong>, the environment is provided — you just log
-in and start a notebook (below).</p>
-<div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
-  <h3 class="accordion-header" id="headingSpoiler1">
-  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>
-  On Anvil (browser, no install)
-  </h3>
-</button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
-<div class="accordion-body">
-<ol style="list-style-type: decimal"><li>Go to <code>https://notebook.anvilcloud.rcac.purdue.edu</code>
-</li>
-<li>Log in with your <strong>ACCESS</strong> credentials.</li>
-<li>Pick <strong>Anvil Notebook</strong>, choose your allocation,
-<strong>Start</strong>.</li>
-<li>Wait for JupyterLab to open, then open the
-<code>talking_to_a_model</code> notebook.</li>
-</ol></div>
-</div>
-</div>
-</div>
-<div id="accordionSpoiler2" class="accordion spoiler-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler2" aria-expanded="false" aria-controls="collapseSpoiler2">
-  <h3 class="accordion-header" id="headingSpoiler2">
-  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>
-  macOS (laptop)
-  </h3>
-</button>
-<div id="collapseSpoiler2" class="accordion-collapse collapse" aria-labelledby="headingSpoiler2" data-bs-parent="#accordionSpoiler2">
-<div class="accordion-body">
-<ol style="list-style-type: decimal"><li>Check Python: <code>python3 --version</code> (install via
-<code>brew install python</code> if missing).</li>
-<li>Create the venv and install as above.</li>
-<li>Open the notebook in that folder (JupyterLab or VS Code).</li>
-</ol></div>
-</div>
-</div>
-</div>
-<div id="accordionSpoiler3" class="accordion spoiler-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler3" aria-expanded="false" aria-controls="collapseSpoiler3">
-  <h3 class="accordion-header" id="headingSpoiler3">
-  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>
-  Windows (laptop)
-  </h3>
-</button>
-<div id="collapseSpoiler3" class="accordion-collapse collapse" aria-labelledby="headingSpoiler3" data-bs-parent="#accordionSpoiler3">
-<div class="accordion-body">
-<ol style="list-style-type: decimal"><li>Install Python 3.9+ from python.org — <strong>check “Add python.exe
-to PATH.”</strong>
-</li>
-<li>Create the venv and install as above.</li>
-<li>Open the notebook in that folder (JupyterLab or VS Code).</li>
-</ol></div>
-</div>
-</div>
-</div>
-</section><section><h2 class="section-heading" id="set-your-key-one-time-per-session">Set your key (one-time, per session)<a class="anchor" aria-label="anchor" href="#set-your-key-one-time-per-session"></a></h2>
-<hr class="half-width"><p>Your key is a secret, so set it in the <strong>environment</strong>,
-not in code. Pick your platform:</p>
-<div id="accordionSpoiler4" class="accordion spoiler-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler4" aria-expanded="false" aria-controls="collapseSpoiler4">
-  <h3 class="accordion-header" id="headingSpoiler4">
-  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>
-  macOS / Linux
-  </h3>
-</button>
-<div id="collapseSpoiler4" class="accordion-collapse collapse" aria-labelledby="headingSpoiler4" data-bs-parent="#accordionSpoiler4">
-<div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb2">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="bu">read</span> <span class="at">-rs</span> <span class="va">OPENAI_API_KEY</span>        <span class="co"># paste your key, press Enter (nothing prints)</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="bu">export</span> <span class="va">OPENAI_API_KEY</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a><span class="bu">export</span> <span class="va">OPENAI_BASE_URL</span><span class="op">=</span><span class="st">"https://openai.rc.asu.edu/v1"</span></span></code></pre>
+<p>Then put the notebook in that folder and open it (JupyterLab or VS
+Code).</p>
+<ul><li>
+<strong>macOS:</strong> if <code>python3 --version</code> fails,
+first <code>brew install python</code>.</li>
+<li>
+<strong>Windows:</strong> install Python 3.9+ from python.org and
+<strong>check “Add python.exe to PATH”</strong> before creating the
+venv.</li>
+</ul></div>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div id="accordionSpoiler5" class="accordion spoiler-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler5" aria-expanded="false" aria-controls="collapseSpoiler5">
-  <h3 class="accordion-header" id="headingSpoiler5">
-  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>
-  Windows (PowerShell)
-  </h3>
-</button>
-<div id="collapseSpoiler5" class="accordion-collapse collapse" aria-labelledby="headingSpoiler5" data-bs-parent="#accordionSpoiler5">
-<div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">POWERSHELL<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode powershell" tabindex="0"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="va">$env</span><span class="op">:</span><span class="va">OPENAI_API_KEY</span> <span class="op">=</span> <span class="fu">Read-Host</span> <span class="op">-</span>AsSecureString <span class="st">"API key"</span> <span class="op">|</span> <span class="fu">ForEach-Object</span> <span class="op">{</span> <span class="op">[</span>Runtime<span class="op">.</span><span class="fu">InteropServices</span><span class="op">.</span><span class="fu">Marshal</span><span class="op">]::</span>PtrToStringAuto<span class="op">([</span>Runtime<span class="op">.</span><span class="fu">InteropServices</span><span class="op">.</span><span class="fu">Marshal</span><span class="op">]::</span>SecureStringToBSTR<span class="op">(</span><span class="va">$_</span><span class="op">))</span> <span class="op">}</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a><span class="va">$env</span><span class="op">:</span><span class="va">OPENAI_BASE_URL</span> <span class="op">=</span> <span class="st">"https://openai.rc.asu.edu/v1"</span></span></code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div id="accordionSpoiler6" class="accordion spoiler-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler6" aria-expanded="false" aria-controls="collapseSpoiler6">
-  <h3 class="accordion-header" id="headingSpoiler6">
-  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>
-  On Anvil (environment variable for the kernel)
-  </h3>
-</button>
-<div id="collapseSpoiler6" class="accordion-collapse collapse" aria-labelledby="headingSpoiler6" data-bs-parent="#accordionSpoiler6">
-<div class="accordion-body">
-<p>Set it in a notebook cell <strong>before</strong> the first call,
-then the rest of the notebook reads it from <code>os.environ</code>:</p>
-<div class="codewrapper sourceCode" id="cb4">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="im">import</span> os</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a>os.environ[<span class="st">"OPENAI_API_KEY"</span>] <span class="op">=</span> <span class="st">"paste-your-key-here"</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a>os.environ[<span class="st">"OPENAI_BASE_URL"</span>] <span class="op">=</span> <span class="st">"https://openai.rc.asu.edu/v1"</span></span></code></pre>
-</div>
-<p>(Or, if the workshop pre-configured it for you, skip this — the “Set
-your key” cell will confirm it’s present.)</p>
-</div>
-</div>
-</div>
-</div>
+</section><section><h2 class="section-heading" id="set-your-key-one-time">Set your key (one-time)<a class="anchor" aria-label="anchor" href="#set-your-key-one-time"></a></h2>
+<hr class="half-width"><p>Your key is a secret, so it goes in a <strong><code>.env</code>
+file</strong>, not in your code. A <code>.env</code> file is plain text
+with one <code>NAME=value</code> line at a time. In the <strong>same
+folder as the notebook</strong>, create a file named <code>.env</code>
+(no extension) with exactly these two lines:</p>
+<pre><code>OPENAI_API_KEY=&lt;paste your key here&gt;
+OPENAI_BASE_URL=https://openai.rc.asu.edu/v1</code></pre>
+<ul><li>
+<strong>On Anvil:</strong> in JupyterLab, open a terminal
+(<code>File → New → Terminal</code>) and run <code>touch .env</code>,
+then click <code>.env</code> in the file browser and type the two
+lines.</li>
+<li>
+<strong>On your laptop:</strong> create it with any text editor (VS
+Code works well), or in a terminal with <code>nano .env</code> (Windows:
+<code>notepad .env</code>).</li>
+</ul><p>The notebook’s <strong>Set your key</strong> cell reads the file with
+<code>load_dotenv()</code>. If you change the file later, just re-run
+that cell — no kernel restart needed.</p>
 <blockquote>
-<p><strong>Why not just type it at a prompt?</strong> A normal prompt
-writes the key to your shell history in plain text.
-<code>read -rs</code> (and <code>Read-Host -AsSecureString</code>) keep
-it out of view and out of history. The same rule applies to
-<code>.env</code> files: keep them out of Git (a <code>.gitignore</code>
-with <code>.env</code> and <code>.venv/</code>).</p>
-<p><strong>Kernel gotcha:</strong> a notebook kernel only sees
-environment variables that were set <strong>before the kernel
-started</strong>. If you exported the key in a separate terminal,
-<strong>restart the kernel</strong> before running the “Set your key”
-cell.</p>
+<p><strong>Keep <code>.env</code> out of Git.</strong> If your folder is
+a repository, add a file named <code>.gitignore</code> containing the
+line <code>.env</code>. And remember: the key is a password — don’t
+share it, and if you think it leaked, rotate it in Voyager.</p>
 </blockquote>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
@@ -605,8 +536,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/instructor/index.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/instructor/index.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-10",
-  "datePublished": "2026-09-10"
+  "dateModified": "2026-09-11",
+  "datePublished": "2026-09-11"
 }
 
   </script><script>

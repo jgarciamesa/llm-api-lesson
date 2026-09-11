@@ -213,7 +213,16 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="experiments.html">4. Experiments &amp; Tools Around the API</a>
+        <a href="simple-rag.html">4. A Simple RAG Example</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="experiments.html">5. Experiments &amp; Tools Around the API</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -272,7 +281,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Reference</h1>
-        <p>Last updated on 2026-09-02 |
+        <p>Last updated on 2026-09-11 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/learners/reference.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -318,12 +327,21 @@ at a different <code>base_url</code>.
 <dt><strong>API key</strong></dt>
 <dd>
 A secret string that authenticates you to the gateway. Treat it like a
-password: don’t share it, don’t commit it to Git. Created in <a href="https://voyager.rc.asu.edu" class="external-link">Voyager</a>.
+password: don’t share it, don’t commit it to Git. Created in <a href="https://voyager.rc.asu.edu" class="external-link">Voyager</a>. In this lesson it lives
+in a <code>.env</code> file, never in your code.
+</dd>
+<dt><strong><code>.env</code> file</strong></dt>
+<dd>
+A plain-text file with one <code>NAME=value</code> line at a time, used
+to store settings such as API keys. The notebook reads it with
+<code>load_dotenv()</code> (from the <code>python-dotenv</code>
+package). Keep it out of Git: put a <code>.gitignore</code> file
+containing the line <code>.env</code> in the same folder.
 </dd>
 <dt><strong><code>base_url</code></strong></dt>
 <dd>
-The endpoint your SDK is told to use. Must end in <code>/v1</code>. Set
-via the <code>OPENAI_BASE_URL</code> environment variable.
+The endpoint your SDK is told to use. Must end in <code>/v1</code>.
+Stored as <code>OPENAI_BASE_URL</code> in the <code>.env</code> file.
 </dd>
 <dt><strong>Model</strong></dt>
 <dd>
@@ -367,7 +385,9 @@ Running the <em>same</em> request over a <em>list</em> of inputs (here,
 <dt><strong>RAG</strong></dt>
 <dd>
 Retrieval-Augmented Generation — grounding the model’s answer in your
-own documents. What Purdue’s AnvilGPT does out of the box.
+own documents. The <em>A Simple RAG Example</em> episode builds a
+keyword version; Purdue’s AnvilGPT does it out of the box with vector
+search.
 </dd>
 </dl></section><section><h2 class="section-heading" id="quick-troubleshooting-table">Quick troubleshooting table<a class="anchor" aria-label="anchor" href="#quick-troubleshooting-table"></a></h2>
 <hr class="half-width"><p>The first three rows cover ~90% of what you’ll see. Read the error
@@ -377,11 +397,12 @@ own documents. What Purdue’s AnvilGPT does out of the box.
 <th>Fix</th>
 </tr></thead><tbody><tr><td>
 <code>401</code> / “No api key”</td>
-<td>Key missing/wrong/not set <strong>in this kernel’s</strong>
-environment</td>
-<td>Re-run the “Set your key” cell; confirm <code>OPENAI_API_KEY</code>
-is exported. If you set it in a terminal, <strong>restart the
-kernel</strong> first. Check for stray spaces.</td>
+<td>
+<code>.env</code> missing, in the wrong folder, or mistyped</td>
+<td>Check the two lines in <code>.env</code> (same folder as the
+notebook; no stray spaces or a leftover <code>&lt;</code>), then re-run
+the “Set your key” cell — it re-reads the file, no kernel restart
+needed.</td>
 </tr><tr><td>
 <code>404</code> / “Model Not Found”</td>
 <td>Model name invalid for this key</td>
@@ -398,11 +419,14 @@ base URL)</td>
 <td>Confirm <code>OPENAI_BASE_URL=https://openai.rc.asu.edu/v1</code>
 (with <code>/v1</code>). If on Anvil and still failing, tell an
 instructor — your cluster may block outbound traffic.</td>
-</tr><tr><td><code>ModuleNotFoundError: No module named 'openai'</code></td>
-<td>Ran outside the venv (laptop)</td>
+</tr><tr><td>
+<code>ModuleNotFoundError: No module named 'openai'</code> or
+<code>... 'dotenv'</code>
+</td>
+<td>Ran outside the venv (laptop), or install incomplete</td>
 <td>
 <code>source .venv/bin/activate</code>,
-<code>pip install openai</code>, <strong>restart the
+<code>pip install openai python-dotenv</code>, <strong>restart the
 kernel</strong>.</td>
 </tr><tr><td><code>NameError: name 'client'/'MODEL'</code></td>
 <td>Ran cells out of order, or after a kernel restart</td>
@@ -492,8 +516,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/instructor/reference.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/instructor/reference.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-02",
-  "datePublished": "2026-09-10"
+  "dateModified": "2026-09-11",
+  "datePublished": "2026-09-11"
 }
 
   </script><script>

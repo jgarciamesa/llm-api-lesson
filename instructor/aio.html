@@ -267,7 +267,19 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="experiments.html">4. Experiments &amp; Tools Around the API</a>
+        <a href="simple-rag.html">4. A Simple RAG Example</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="experiments.html">5. Experiments &amp; Tools Around the API</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -453,7 +465,7 @@ want)</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Timing: 15 min (5 cold-open, 10 anatomy). Land the “client / service”
 frame and the <code>role</code> concept here — everything downstream
@@ -490,7 +502,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-first-call"><p>Content from <a href="first-call.html">Your First Call</a></p>
 <hr>
-<p>Last updated on 2026-09-10 |
+<p>Last updated on 2026-09-11 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/first-call.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 19 minutes</p>
@@ -516,8 +528,9 @@ any links that you are not going to use.
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Set your API key from the environment (never hardcode it).</li>
-<li>Make a first call with the <code>openai</code> Python SDK.</li>
+<li>Put your key and endpoint in a <code>.env</code> file (never
+hardcode them).</li>
+<li>Make a first call with the <code>openai</code> Python package.</li>
 <li>Read the model’s reply out of the response.</li>
 </ul>
 </div>
@@ -529,50 +542,51 @@ any links that you are not going to use.
 </h2>
 <hr class="half-width">
 <p>Your key is a secret. Treat it like a password: <strong>don’t share
-it, don’t commit it to Git.</strong> The notebook reads it from the
-environment so it never sits in your code.</p>
-<p>In the shell first (the <a href="index.html#setup">Setup page</a> has all
-three OS variants):</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="co"># macOS / Linux</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a><span class="bu">read</span> <span class="at">-rs</span> <span class="va">OPENAI_API_KEY</span>        <span class="co"># paste your key, press Enter (nothing prints)</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a><span class="bu">export</span> <span class="va">OPENAI_API_KEY</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a><span class="bu">export</span> <span class="va">OPENAI_BASE_URL</span><span class="op">=</span><span class="st">"https://openai.rc.asu.edu/v1"</span></span></code></pre>
-</div>
-<p>Why <code>read -rs</code>? A normal prompt writes the key to your
-shell history in plain text. <code>-s</code> silences the echo. Then, in
-the notebook, run the <strong>“Set your key”</strong> cell — it verifies
-the key is present (masked) and that the base URL ends in
-<code>/v1</code>:</p>
+it, don’t commit it to Git.</strong> The notebook reads it from a
+<strong><code>.env</code> file</strong> so it never sits in your code. A
+<code>.env</code> file is plain text, one <code>NAME=value</code> line
+at a time.</p>
+<p>In the <strong>same folder as the notebook</strong>, create a file
+named <code>.env</code> (no extension) with exactly these two lines:</p>
+<pre><code>OPENAI_API_KEY=&lt;paste your key here&gt;
+OPENAI_BASE_URL=https://openai.rc.asu.edu/v1</code></pre>
+<p>The <a href="index.html#setup">Setup page</a> shows how to create that file
+on Anvil and on a laptop. Then run the <strong>“Set your key”</strong>
+cell in the notebook — it loads the file and verifies the key is present
+(masked):</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">import</span> os</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a>key <span class="op">=</span> os.environ.get(<span class="st">"OPENAI_API_KEY"</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a>base <span class="op">=</span> os.environ.get(<span class="st">"OPENAI_BASE_URL"</span>, <span class="st">"https://openai.rc.asu.edu/v1"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a><span class="cf">if</span> <span class="kw">not</span> key:</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1" aria-label="code-block-2-7"></a>    <span class="cf">raise</span> <span class="pp">SystemExit</span>(</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1" aria-label="code-block-2-8"></a>        <span class="st">"OPENAI_API_KEY is not set. Set it first, then re-run this cell.</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1" aria-label="code-block-2-9"></a>        <span class="st">"</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1" aria-label="code-block-2-10"></a>        <span class="st">"  macOS / Linux      -&gt;  read -rs OPENAI_API_KEY   (paste key, Enter)</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1" aria-label="code-block-2-11"></a>        <span class="st">"                         export OPENAI_API_KEY</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1" aria-label="code-block-2-12"></a>        <span class="st">"                         export OPENAI_BASE_URL=https://openai.rc.asu.edu/v1</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1" aria-label="code-block-2-13"></a>        <span class="st">"  Windows (PowerShell) -&gt;  $env:OPENAI_API_KEY = 'paste-key-here'</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1" aria-label="code-block-2-14"></a>        <span class="st">"                         $env:OPENAI_BASE_URL = 'https://openai.rc.asu.edu/v1'</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1" aria-label="code-block-2-15"></a>        <span class="st">"</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1" aria-label="code-block-2-16"></a>        <span class="st">"Then re-run THIS cell."</span></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1" aria-label="code-block-2-17"></a>    )</span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1" aria-label="code-block-2-18"></a></span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1" aria-label="code-block-2-19"></a><span class="co"># Mask the key so we can show it is present without revealing it</span></span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1" aria-label="code-block-2-20"></a><span class="bu">print</span>(<span class="ss">f"key set:   </span><span class="sc">{</span>key[:<span class="dv">4</span>]<span class="sc">}</span><span class="ss">...</span><span class="sc">{</span>key[<span class="op">-</span><span class="dv">4</span>:]<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span><span class="bu">len</span>(key)<span class="sc">}</span><span class="ss"> chars)"</span>)</span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1" aria-label="code-block-2-21"></a><span class="bu">print</span>(<span class="ss">f"base url:  </span><span class="sc">{</span>base<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1" aria-label="code-block-2-22"></a><span class="cf">assert</span> base.rstrip(<span class="st">'/'</span>).endswith(<span class="st">'/v1'</span>), <span class="st">"BASE_URL should end with /v1"</span></span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1" aria-label="code-block-2-23"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Ready. Run the next cell for your first call."</span>)</span></code></pre>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a><span class="co"># Load environment variables from the .env file</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>load_dotenv()</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1" aria-label="code-block-2-7"></a><span class="co"># Retrieve the API key and base URL</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1" aria-label="code-block-2-8"></a>key <span class="op">=</span> os.getenv(<span class="st">"OPENAI_API_KEY"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1" aria-label="code-block-2-9"></a>base <span class="op">=</span> os.getenv(<span class="st">"OPENAI_BASE_URL"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1" aria-label="code-block-2-10"></a></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1" aria-label="code-block-2-11"></a><span class="cf">if</span> <span class="kw">not</span> key <span class="kw">or</span> <span class="kw">not</span> base:</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1" aria-label="code-block-2-12"></a>    missing <span class="op">=</span> <span class="st">", "</span>.join(n <span class="cf">for</span> n, v <span class="kw">in</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1" aria-label="code-block-2-13"></a>                        ((<span class="st">"OPENAI_API_KEY"</span>, key), (<span class="st">"OPENAI_BASE_URL"</span>, base)) <span class="cf">if</span> <span class="kw">not</span> v)</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1" aria-label="code-block-2-14"></a>    <span class="cf">raise</span> <span class="pp">SystemExit</span>(</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1" aria-label="code-block-2-15"></a>        <span class="ss">f"Missing </span><span class="sc">{</span>missing<span class="sc">}</span><span class="ss">. Create a .env file in this folder with these two "</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1" aria-label="code-block-2-16"></a>        <span class="st">"lines, then re-run this cell:</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1" aria-label="code-block-2-17"></a>        <span class="st">"    OPENAI_API_KEY=&lt;your-key&gt;</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1" aria-label="code-block-2-18"></a>        <span class="st">"    OPENAI_BASE_URL=https://openai.rc.asu.edu/v1"</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1" aria-label="code-block-2-19"></a>    )</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1" aria-label="code-block-2-20"></a></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1" aria-label="code-block-2-21"></a><span class="co"># Mask the key so we can show it is present without revealing it</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1" aria-label="code-block-2-22"></a><span class="bu">print</span>(<span class="ss">f"key set:   </span><span class="sc">{</span>key[:<span class="dv">4</span>]<span class="sc">}</span><span class="ss">...</span><span class="sc">{</span>key[<span class="op">-</span><span class="dv">4</span>:]<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span><span class="bu">len</span>(key)<span class="sc">}</span><span class="ss"> chars)"</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1" aria-label="code-block-2-23"></a><span class="bu">print</span>(<span class="ss">f"base url:  </span><span class="sc">{</span>base<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
 </div>
+<p>Two things to notice. <code>load_dotenv()</code> reads the
+<code>.env</code> file into the environment, and
+<code>os.getenv()</code> looks a name up in that environment — so the
+key only lives in the file, which you keep out of Git. Because the cell
+reads the file every time it runs, <strong>if you edit <code>.env</code>
+you only re-run the cell</strong> — no kernel restart.</p>
 </section><section><h2 class="section-heading" id="the-first-call-checkpoint-everyone-gets-a-response">The first call — <em>checkpoint: everyone gets a response</em>
 <a class="anchor" aria-label="anchor" href="#the-first-call-checkpoint-everyone-gets-a-response"></a>
 </h2>
@@ -592,55 +606,55 @@ the instructor guide §8 immediately, don’t let it simmer.</p>
 </div>
 </div>
 </div>
-<p>This cell picks a model from your key’s live list automatically, so
-you can run the first call right away. If it can’t decide, it prints the
-list — copy any ID into <code>MODEL</code> and re-run.</p>
+<p>This cell picks one of the three models this lesson prefers —
+<strong>at random</strong> — from your key’s live list, so you can run
+the first call right away. It also prints up to eight models your key
+can use. If none of the three preferred models is available, it falls
+back to the first model on the list; if nothing prints at all, set
+<code>MODEL</code> yourself and re-run.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">from</span> openai <span class="im">import</span> OpenAI</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>client <span class="op">=</span> OpenAI()   <span class="co"># reads OPENAI_API_KEY and OPENAI_BASE_URL from the environment</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a><span class="co"># --- Pick a model from the live list -----------------------------------------</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a>PREFERRED <span class="op">=</span> [<span class="st">"llama3.3"</span>, <span class="st">"llama3.1"</span>, <span class="st">"llama3"</span>, <span class="st">"gpt-4o"</span>, <span class="st">"gpt-4.1"</span>, <span class="st">"mistral-large"</span>]</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1" aria-label="code-block-3-7"></a><span class="cf">try</span>:</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1" aria-label="code-block-3-8"></a>    available <span class="op">=</span> [m.<span class="bu">id</span> <span class="cf">for</span> m <span class="kw">in</span> client.models.<span class="bu">list</span>()]</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1" aria-label="code-block-3-9"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1" aria-label="code-block-3-10"></a>    available <span class="op">=</span> []</span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1" aria-label="code-block-3-11"></a>    <span class="bu">print</span>(<span class="ss">f"Could not list models: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1" aria-label="code-block-3-12"></a></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1" aria-label="code-block-3-13"></a>MODEL <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1" aria-label="code-block-3-14"></a><span class="cf">for</span> cand <span class="kw">in</span> PREFERRED:</span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1" aria-label="code-block-3-15"></a>    <span class="cf">for</span> a <span class="kw">in</span> available:</span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1" aria-label="code-block-3-16"></a>        <span class="cf">if</span> cand <span class="kw">in</span> a:</span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1" aria-label="code-block-3-17"></a>            MODEL <span class="op">=</span> a</span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1" aria-label="code-block-3-18"></a>            <span class="cf">break</span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1" aria-label="code-block-3-19"></a>    <span class="cf">if</span> MODEL:</span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1" aria-label="code-block-3-20"></a>        <span class="cf">break</span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1" aria-label="code-block-3-21"></a><span class="cf">if</span> MODEL <span class="kw">is</span> <span class="va">None</span> <span class="kw">and</span> available:</span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1" aria-label="code-block-3-22"></a>    MODEL <span class="op">=</span> available[<span class="dv">0</span>]   <span class="co"># fall back to the first model the key can see</span></span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1" aria-label="code-block-3-23"></a></span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1" aria-label="code-block-3-24"></a><span class="cf">if</span> <span class="kw">not</span> MODEL:</span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1" aria-label="code-block-3-25"></a>    <span class="cf">raise</span> <span class="pp">SystemExit</span>(</span>
-<span id="cb3-26"><a href="#cb3-26" tabindex="-1" aria-label="code-block-3-26"></a>        <span class="st">"No model could be selected. If any printed above, set one manually, e.g.</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1" aria-label="code-block-3-27"></a>        <span class="st">"    MODEL = 'llama3.1'</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1" aria-label="code-block-3-28"></a>        <span class="st">"then re-run."</span></span>
-<span id="cb3-29"><a href="#cb3-29" tabindex="-1" aria-label="code-block-3-29"></a>    )</span>
-<span id="cb3-30"><a href="#cb3-30" tabindex="-1" aria-label="code-block-3-30"></a><span class="bu">print</span>(<span class="ss">f"Using model: </span><span class="sc">{</span>MODEL<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-31"><a href="#cb3-31" tabindex="-1" aria-label="code-block-3-31"></a><span class="cf">if</span> available:</span>
-<span id="cb3-32"><a href="#cb3-32" tabindex="-1" aria-label="code-block-3-32"></a>    <span class="bu">print</span>(<span class="ss">f"Your key can use </span><span class="sc">{</span><span class="bu">len</span>(available)<span class="sc">}</span><span class="ss"> model(s). Try others in the experiments:"</span>)</span>
-<span id="cb3-33"><a href="#cb3-33" tabindex="-1" aria-label="code-block-3-33"></a>    <span class="cf">for</span> a <span class="kw">in</span> available[:<span class="dv">8</span>]:</span>
-<span id="cb3-34"><a href="#cb3-34" tabindex="-1" aria-label="code-block-3-34"></a>        <span class="bu">print</span>(<span class="ss">f"   - </span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-35"><a href="#cb3-35" tabindex="-1" aria-label="code-block-3-35"></a></span>
-<span id="cb3-36"><a href="#cb3-36" tabindex="-1" aria-label="code-block-3-36"></a><span class="co"># --- The first request --------------------------------------------------------</span></span>
-<span id="cb3-37"><a href="#cb3-37" tabindex="-1" aria-label="code-block-3-37"></a>resp <span class="op">=</span> client.chat.completions.create(</span>
-<span id="cb3-38"><a href="#cb3-38" tabindex="-1" aria-label="code-block-3-38"></a>    model<span class="op">=</span>MODEL,</span>
-<span id="cb3-39"><a href="#cb3-39" tabindex="-1" aria-label="code-block-3-39"></a>    messages<span class="op">=</span>[{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"Explain what an API is, in one sentence."</span>}],</span>
-<span id="cb3-40"><a href="#cb3-40" tabindex="-1" aria-label="code-block-3-40"></a>)</span>
-<span id="cb3-41"><a href="#cb3-41" tabindex="-1" aria-label="code-block-3-41"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- MODEL SAYS ---"</span>)</span>
-<span id="cb3-42"><a href="#cb3-42" tabindex="-1" aria-label="code-block-3-42"></a><span class="bu">print</span>(resp.choices[<span class="dv">0</span>].message.content)</span>
-<span id="cb3-43"><a href="#cb3-43" tabindex="-1" aria-label="code-block-3-43"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">(tokens used: </span><span class="sc">{</span>resp<span class="sc">.</span>usage<span class="sc">.</span>total_tokens <span class="cf">if</span> resp<span class="sc">.</span>usage <span class="cf">else</span> <span class="st">'?'</span><span class="sc">}</span><span class="ss">)"</span>)</span></code></pre>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a><span class="im">import</span> random</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a>client <span class="op">=</span> OpenAI()   <span class="co"># reads OPENAI_API_KEY and OPENAI_BASE_URL from the environment</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a><span class="co"># --- Pick a model at random ---------------------------------------------------</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1" aria-label="code-block-3-7"></a>PREFERRED <span class="op">=</span> [<span class="st">"qwen36-27b"</span>, <span class="st">"muse-glimmer-30b"</span>, <span class="st">"gemma4-31b-it"</span>]</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1" aria-label="code-block-3-8"></a><span class="cf">try</span>:</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1" aria-label="code-block-3-9"></a>    available <span class="op">=</span> [m.<span class="bu">id</span> <span class="cf">for</span> m <span class="kw">in</span> client.models.<span class="bu">list</span>()]</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1" aria-label="code-block-3-10"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1" aria-label="code-block-3-11"></a>    available <span class="op">=</span> []</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1" aria-label="code-block-3-12"></a>    <span class="bu">print</span>(<span class="ss">f"Could not list models: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1" aria-label="code-block-3-13"></a></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1" aria-label="code-block-3-14"></a><span class="co"># A preferred name can be a prefix of the full model ID, so match by</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1" aria-label="code-block-3-15"></a><span class="co"># substring. Then pick one of the matches at random.</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1" aria-label="code-block-3-16"></a>matches <span class="op">=</span> [a <span class="cf">for</span> a <span class="kw">in</span> available <span class="cf">if</span> <span class="bu">any</span>(p <span class="kw">in</span> a <span class="cf">for</span> p <span class="kw">in</span> PREFERRED)]</span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1" aria-label="code-block-3-17"></a><span class="cf">if</span> matches:</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1" aria-label="code-block-3-18"></a>    MODEL <span class="op">=</span> random.choice(matches)</span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1" aria-label="code-block-3-19"></a><span class="cf">elif</span> available:</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1" aria-label="code-block-3-20"></a>    MODEL <span class="op">=</span> available[<span class="dv">0</span>]   <span class="co"># none of the three is available; use the first</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1" aria-label="code-block-3-21"></a><span class="cf">else</span>:</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1" aria-label="code-block-3-22"></a>    <span class="cf">raise</span> <span class="pp">SystemExit</span>(</span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1" aria-label="code-block-3-23"></a>        <span class="st">"No model could be selected. Set one manually, e.g.</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1" aria-label="code-block-3-24"></a>        <span class="st">"    MODEL = 'llama3.1'</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1" aria-label="code-block-3-25"></a>        <span class="st">"then re-run."</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1" aria-label="code-block-3-26"></a>    )</span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1" aria-label="code-block-3-27"></a><span class="bu">print</span>(<span class="ss">f"Using model: </span><span class="sc">{</span>MODEL<span class="sc">}</span><span class="ss">  (picked at random)"</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1" aria-label="code-block-3-28"></a><span class="cf">if</span> available:</span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1" aria-label="code-block-3-29"></a>    <span class="bu">print</span>(<span class="ss">f"Your key can use </span><span class="sc">{</span><span class="bu">len</span>(available)<span class="sc">}</span><span class="ss"> model(s). Try others in the experiments:"</span>)</span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1" aria-label="code-block-3-30"></a>    <span class="cf">for</span> a <span class="kw">in</span> available[:<span class="dv">8</span>]:</span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1" aria-label="code-block-3-31"></a>        <span class="bu">print</span>(<span class="ss">f"   - </span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1" aria-label="code-block-3-32"></a></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1" aria-label="code-block-3-33"></a><span class="co"># --- The first request --------------------------------------------------------</span></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1" aria-label="code-block-3-34"></a>resp <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1" aria-label="code-block-3-35"></a>    model<span class="op">=</span>MODEL,</span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1" aria-label="code-block-3-36"></a>    messages<span class="op">=</span>[{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"Explain what an API is, in one sentence."</span>}],</span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1" aria-label="code-block-3-37"></a>)</span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1" aria-label="code-block-3-38"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- MODEL SAYS ---"</span>)</span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1" aria-label="code-block-3-39"></a><span class="bu">print</span>(resp.choices[<span class="dv">0</span>].message.content)</span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1" aria-label="code-block-3-40"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">(tokens used: </span><span class="sc">{</span>resp<span class="sc">.</span>usage<span class="sc">.</span>total_tokens <span class="cf">if</span> resp<span class="sc">.</span>usage <span class="cf">else</span> <span class="st">'?'</span><span class="sc">}</span><span class="ss">)"</span>)</span></code></pre>
 </div>
 <p>You should see a sentence from the model. If text appears, your first
 call worked.</p>
@@ -755,10 +769,16 @@ the experiments:</p>
 <div class="callout-content">
 <ul>
 <li>
-<code>401</code> / “No api key” → the key isn’t set <strong>in this
-kernel’s</strong> environment. Re-run the key cell; if you exported it
-in a terminal, <strong>restart the kernel</strong> first (a kernel only
-sees env vars set before it started).</li>
+<code>401</code> / “No api key” → the <code>.env</code> file is
+missing, in the wrong folder, or has a typo (a stray space or a
+<code>&lt;</code> left in). Check both lines, then re-run the “Set your
+key” cell — the cell re-reads the file, so no restart is needed.</li>
+<li>
+<code>ModuleNotFoundError: No module named 'dotenv'</code> → you’re
+outside the venv, or the install didn’t include
+<code>python-dotenv</code>. Re-run
+<code>pip install openai python-dotenv</code> and restart the
+kernel.</li>
 <li>
 <code>404</code> / “Model Not Found” → bad model name. List models
 and copy an exact ID.</li>
@@ -779,10 +799,11 @@ hand.</li>
 <div class="callout-inner">
 <div class="callout-content">
 <ul>
-<li>Set the key from the environment (<code>OPENAI_API_KEY</code> +
-<code>OPENAI_BASE_URL</code>), never hardcoded.</li>
+<li>Put the key and endpoint in a <code>.env</code> file;
+<code>load_dotenv()</code> reads it, so nothing is hardcoded.</li>
 <li>
-<code>client = OpenAI()</code> reads both from the environment.</li>
+<code>client = OpenAI()</code> reads <code>OPENAI_API_KEY</code> and
+<code>OPENAI_BASE_URL</code> from the environment.</li>
 <li>The first call is
 <code>client.chat.completions.create(model=..., messages=[...])</code>.</li>
 <li>The answer is at <code>resp.choices[0].message.content</code>;
@@ -986,7 +1007,7 @@ logs — anything you can turn into a list of texts.</p>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>12 min. The money segment — slow down on “structured output”: <em>you
 control the shape, not just the words.</em> If the 12-call batch runs
@@ -1019,7 +1040,257 @@ that forces a strict JSON <em>shape</em> (keys you define).</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</div></section><section id="aio-experiments"><p>Content from <a href="experiments.html">Experiments &amp; Tools Around the API</a></p>
+</div></section><section id="aio-simple-rag"><p>Content from <a href="simple-rag.html">A Simple RAG Example</a></p>
+<hr>
+<p>Last updated on 2026-09-11 |
+
+        <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/simple-rag.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 20 minutes</p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<div class="overview card">
+<h2 class="card-header">Overview</h2>
+<div class="row g-0">
+<div class="col-md-4">
+<div class="card-body">
+<div class="inner">
+<h3 class="card-title">Questions</h3>
+<ul>
+<li>How do I make a model answer using <em>my</em> documents instead of
+its training data?</li>
+<li>How much of RAG is really about searching for the right text?</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-8">
+<div class="card-body">
+<div class="inner bordered">
+<h3 class="card-title">Objectives</h3>
+<ul>
+<li>Explain retrieval-augmented generation (RAG) in one sentence.</li>
+<li>Write a keyword search that finds the most relevant abstracts for a
+question.</li>
+<li>Put the retrieved text into the prompt so the model answers from
+it.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section><h2 class="section-heading" id="what-rag-is">What RAG is<a class="anchor" aria-label="anchor" href="#what-rag-is"></a>
+</h2>
+<hr class="half-width">
+<p>So far the model has answered from what it saw in its training data.
+With <strong>RAG</strong>
+(<strong>R</strong>etrieval-<strong>A</strong>ugmented
+<strong>G</strong>eneration) you give it the source text <em>with the
+question</em>, and ask it to answer from that text. The idea splits into
+two steps:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Retrieve</strong> — find the documents (or passages) most
+relevant to the question.</li>
+<li>
+<strong>Generate</strong> — ask the model to answer using only the
+passages you found.</li>
+</ol>
+<p>Production systems (like Purdue’s AnvilGPT) do the retrieval with
+<em>vector search</em> — they turn text into numbers and compare those.
+That is a whole subject of its own. For one folder of 12 short
+abstracts, a plain keyword search retrieves well, and you can see every
+line of the logic. That is the point of this episode: RAG is mostly the
+<strong>retrieve</strong> step, and the <strong>generate</strong> step
+is the exact same <code>chat.completions.create</code> call you already
+know.</p>
+<p>We reuse the 12 abstracts from the <em>Build the research tool</em>
+episode, so run that episode (or the notebook’s section 3a) first.</p>
+</section><section><h2 class="section-heading" id="step-1-retrieve-find-the-relevant-abstracts">Step 1 — Retrieve: find the relevant abstracts<a class="anchor" aria-label="anchor" href="#step-1-retrieve-find-the-relevant-abstracts"></a>
+</h2>
+<hr class="half-width">
+<p>The whole trick: count how many meaningful words from the question
+appear in each document, and rank the documents by that count. Words
+like <em>the</em>, <em>and</em>, <em>what</em> carry no information, so
+we drop them first. Words that appear in a <strong>title</strong> count
+twice, because titles name the topic.</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">import</span> re</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a><span class="co"># Short, common words that carry little information on their own.</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>STOPWORDS <span class="op">=</span> <span class="bu">set</span>(<span class="st">"""a an the and or of to in for with is are was were be been</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a><span class="st">this that these those we our you your it its as by on at from into about</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a><span class="st">what which who when where how can could would should may might do does did</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a><span class="st">paper papers study studies result results method approach propose proposes</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a><span class="st">show shows using used use new based here more also other such than then</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a><span class="st">them they their there here have has had not no but if while"""</span>.split())</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a><span class="kw">def</span> terms(text):</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>    <span class="co">"""Lower-case words of 3+ letters, with stopwords removed."""</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a>    <span class="cf">return</span> [t <span class="cf">for</span> t <span class="kw">in</span> re.findall(<span class="vs">r"</span><span class="pp">[a-z]</span><span class="op">{3,}</span><span class="vs">"</span>, text.lower()) <span class="cf">if</span> t <span class="kw">not</span> <span class="kw">in</span> STOPWORDS]</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1" aria-label="code-block-1-14"></a></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1" aria-label="code-block-1-15"></a><span class="kw">def</span> retrieve(question, k<span class="op">=</span><span class="dv">3</span>):</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1" aria-label="code-block-1-16"></a>    <span class="co">"""Return the k abstracts that share the most words with the question."""</span></span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1" aria-label="code-block-1-17"></a>    q <span class="op">=</span> terms(question)</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1" aria-label="code-block-1-18"></a>    scored <span class="op">=</span> []</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1" aria-label="code-block-1-19"></a>    <span class="cf">for</span> i, rec <span class="kw">in</span> <span class="bu">enumerate</span>(ABSTRACTS):</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1" aria-label="code-block-1-20"></a>        title <span class="op">=</span> terms(rec[<span class="st">"title"</span>])</span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1" aria-label="code-block-1-21"></a>        body <span class="op">=</span> terms(rec[<span class="st">"abstract"</span>])</span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1" aria-label="code-block-1-22"></a>        score <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1" aria-label="code-block-1-23"></a>        <span class="cf">for</span> t <span class="kw">in</span> q:</span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1" aria-label="code-block-1-24"></a>            <span class="cf">if</span> t <span class="kw">in</span> title:</span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1" aria-label="code-block-1-25"></a>                score <span class="op">+=</span> <span class="dv">2</span></span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1" aria-label="code-block-1-26"></a>            <span class="cf">if</span> t <span class="kw">in</span> body:</span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1" aria-label="code-block-1-27"></a>                score <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1" aria-label="code-block-1-28"></a>        scored.append((score, i, rec))</span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1" aria-label="code-block-1-29"></a>    scored.sort(key<span class="op">=</span><span class="kw">lambda</span> item: <span class="op">-</span>item[<span class="dv">0</span>])</span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1" aria-label="code-block-1-30"></a>    <span class="cf">return</span> scored[:k]</span></code></pre>
+</div>
+<p>Run a question and look at what comes back:</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a>QUESTION <span class="op">=</span> <span class="st">"Which of these papers uses satellite data, and what is it trying to predict?"</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a>top <span class="op">=</span> retrieve(QUESTION)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a><span class="cf">for</span> score, i, rec <span class="kw">in</span> top:</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>score<span class="sc">:2d}</span><span class="ss">  [</span><span class="sc">{</span>rec[<span class="st">'field'</span>]<span class="sc">}</span><span class="ss">] </span><span class="sc">{</span>rec[<span class="st">'title'</span>][:<span class="dv">70</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+</div>
+<p>The satellite paper should be first: <em>satellite</em> and
+<em>forecast</em> appear in its title and abstract, so it outranks the
+rest. Try another question — the scorer is dumb, but for a small set of
+texts it is good enough, and every line is something you can read and
+change.</p>
+</section><section><h2 class="section-heading" id="step-2-generate-answer-from-the-passages-you-found">Step 2 — Generate: answer from the passages you found<a class="anchor" aria-label="anchor" href="#step-2-generate-answer-from-the-passages-you-found"></a>
+</h2>
+<hr class="half-width">
+<p>Now build a prompt that contains (a) an instruction to answer
+<em>only</em> from the passages, and (b) the passages themselves.
+Nothing else changes — same client, same <code>MODEL</code>, same
+<code>create()</code> call:</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="kw">def</span> rag_answer(question, k<span class="op">=</span><span class="dv">3</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a>    retrieved <span class="op">=</span> retrieve(question, k)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a>    passages <span class="op">=</span> <span class="st">"</span><span class="ch">\n\n</span><span class="st">"</span>.join(</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a>        <span class="ss">f"[</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">] (</span><span class="sc">{</span>rec[<span class="st">'field'</span>]<span class="sc">}</span><span class="ss">) </span><span class="sc">{</span>rec[<span class="st">'title'</span>]<span class="sc">}</span><span class="ch">\n</span><span class="sc">{</span>rec[<span class="st">'abstract'</span>]<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a>        <span class="cf">for</span> score, i, rec <span class="kw">in</span> retrieved</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a>    )</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1" aria-label="code-block-3-7"></a>    prompt <span class="op">=</span> (</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1" aria-label="code-block-3-8"></a>        <span class="st">"Answer the question using ONLY the passages below. Cite the passage "</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1" aria-label="code-block-3-9"></a>        <span class="st">"number(s) [1], [2], ... for each claim. If the passages do not contain "</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1" aria-label="code-block-3-10"></a>        <span class="st">"the answer, say so.</span><span class="ch">\n\n</span><span class="st">"</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1" aria-label="code-block-3-11"></a>        <span class="ss">f"Question: </span><span class="sc">{</span>question<span class="sc">}</span><span class="ch">\n\n</span><span class="ss">Passages:</span><span class="ch">\n</span><span class="sc">{</span>passages<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1" aria-label="code-block-3-12"></a>    )</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1" aria-label="code-block-3-13"></a>    resp <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1" aria-label="code-block-3-14"></a>        model<span class="op">=</span>MODEL,</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1" aria-label="code-block-3-15"></a>        messages<span class="op">=</span>[{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}],</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1" aria-label="code-block-3-16"></a>        temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1" aria-label="code-block-3-17"></a>    )</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1" aria-label="code-block-3-18"></a>    <span class="cf">return</span> resp.choices[<span class="dv">0</span>].message.content</span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1" aria-label="code-block-3-19"></a></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1" aria-label="code-block-3-20"></a><span class="bu">print</span>(rag_answer(QUESTION))</span></code></pre>
+</div>
+<p>You should get an answer that names the satellite paper and says what
+it predicts, with citations like <code>[1]</code>.</p>
+<div class="section level3">
+<h3 id="what-you-just-built">What you just built<a class="anchor" aria-label="anchor" href="#what-you-just-built"></a>
+</h3>
+<p>That is a real, if tiny, RAG pipeline. The pieces map directly onto
+the big systems:</p>
+<table class="table">
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<thead><tr>
+<th>This episode</th>
+<th>A production RAG system</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>
+<code>retrieve()</code> — count matching words</td>
+<td>vector search over embedded passages</td>
+</tr>
+<tr>
+<td>the 12 abstracts</td>
+<td>a document store (files, a database)</td>
+</tr>
+<tr>
+<td>
+<code>rag_answer()</code> — passages + question in the prompt</td>
+<td>the same: context in the prompt</td>
+</tr>
+<tr>
+<td>“answer using ONLY the passages”</td>
+<td>grounding + citation instructions</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>generate</code> step is identical in both. Almost all of
+the engineering in RAG lives in the <code>retrieve</code> step — finding
+the right text, and only that text, before the model ever sees the
+question.</p>
+<div id="two-honest-limits-of-keyword-retrieval" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<span class="callout-header">Callout</span>
+<div id="two-honest-limits-of-keyword-retrieval" class="callout-inner">
+<h3 class="callout-title">Two honest limits of keyword retrieval</h3>
+<div class="callout-content">
+<ul>
+<li>
+<strong>Synonyms miss.</strong> A question that says
+<em>pollution</em> will not match a paper that only says <em>air
+quality</em>. Bigger systems embed words into vectors so near-synonyms
+land near each other.</li>
+<li>
+<strong>It scales down, not up.</strong> Counting words is fast for
+12 texts. For 12 million, you need the index a vector database
+builds.</li>
+</ul>
+<p>For a small corpus of your own notes or papers, this keyword version
+is a legitimate tool — and a good first step.</p>
+</div>
+</div>
+</div>
+<div class="exercises">
+<p><strong>Try it on your own text.</strong> Replace
+<code>ABSTRACTS</code> with a list of 5–10 dictionaries you write
+yourself (each with a <code>title</code> and <code>body</code> string —
+meeting notes, your lab’s SOPs, anything non-sensitive), then reuse
+<code>retrieve</code> and <code>rag_answer</code> on them. What question
+does the keyword scorer get wrong, and why?</p>
+</div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<span class="callout-header">Key Points</span>
+<div class="callout-inner">
+<div class="callout-content">
+<ul>
+<li>RAG = <strong>retrieve</strong> the relevant passages, then
+<strong>generate</strong> an answer from them.</li>
+<li>For a small corpus, a keyword search (drop stopwords, weight the
+title) retrieves well enough to be useful.</li>
+<li>The generate step is the same <code>create()</code> call as anywhere
+else in the lesson — the passages just join the prompt.</li>
+</ul>
+</div>
+</div>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</div>
+</section></section><section id="aio-experiments"><p>Content from <a href="experiments.html">Experiments &amp; Tools Around the API</a></p>
 <hr>
 <p>Last updated on 2026-09-10 |
 
@@ -1339,8 +1610,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/instructor/aio.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/instructor/aio.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-10",
-  "datePublished": "2026-09-10"
+  "dateModified": "2026-09-11",
+  "datePublished": "2026-09-11"
 }
 
   </script><script>
