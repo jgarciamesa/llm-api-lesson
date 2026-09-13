@@ -22,9 +22,9 @@ away. If you want the editable source, it's
 2. Log in with your **ACCESS** credentials.
 3. Pick **Anvil Notebook**, choose your allocation, **Start**.
 4. Wait for JupyterLab to open, then open the `talking_to_a_model` notebook.
-5. If the first cell fails with `ModuleNotFoundError: No module named
-   'dotenv'`, add a cell above it with `!pip install python-dotenv`, run it,
-   then restart the kernel.
+5. If a first cell fails with `ModuleNotFoundError: No module named 'dotenv'`
+   (or `'chromadb'`), add a cell with `!pip install python-dotenv chromadb`,
+   run it, then restart the kernel.
 
 :::::::::::::::: spoiler
 
@@ -37,7 +37,7 @@ python3 --version            # need 3.9+
 mkdir api-lesson && cd api-lesson
 python3 -m venv .venv
 source .venv/bin/activate     # Windows: .venv\Scripts\activate
-pip install openai python-dotenv
+pip install openai python-dotenv chromadb
 ```
 
 Then put the notebook in that folder and open it (JupyterLab or VS Code).
