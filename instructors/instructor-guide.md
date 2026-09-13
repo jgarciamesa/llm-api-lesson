@@ -171,8 +171,9 @@ sure whether your data crosses a line, ask your institution *before* you paste i
 gateway is a convenience, not a secure enclave."
 
 **Say (where to go next):** "Today was the API as a *client*. From here you can go
-deeper on the *same* API: streaming responses, function/tool calling, and RAG (which is
-what AnvilGPT is doing for you). All the links are in the handout."
+deeper on the *same* API: streaming responses and function/tool calling. You already
+built a small RAG pipeline today — AnvilGPT is that, out of the box. All the links
+are in the handout."
 
 **Do:** Close on the one-sentence pattern: *list in → one call each → structured rows out.*
 

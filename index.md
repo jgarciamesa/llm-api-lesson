@@ -32,7 +32,7 @@ tools you already use (VS Code, Jupyter AI, OpenCode).
 - **Basic Python:** reading a script and editing a few cells is all you need.
 
 The lesson moves in six steps: **Setup**, then **What is an LLM API?**,
-**Your first call**, **Building the research tool**, **A simple RAG example**,
-and **Experiments & tools**. A **Reference** page (glossary, a quick
+**Your first call**, **Building the research tool**, **Experiments & tools**,
+and **A simple RAG example**. A **Reference** page (glossary, a quick
 troubleshooting table, and links) is in the menu, and the working notebook is
 available at [`data/talking_to_a_model.ipynb`](data/talking_to_a_model.ipynb).

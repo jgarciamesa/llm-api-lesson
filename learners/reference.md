@@ -71,8 +71,19 @@ title: Reference
 
 **RAG**
 : Retrieval-Augmented Generation — grounding the model's answer in your own
-  documents. The *A Simple RAG Example* episode builds a keyword version;
-  Purdue's AnvilGPT does it out of the box with vector search.
+  documents. The *A Simple RAG Example* episode builds one with the ChromaDB
+  vector database; Purdue's AnvilGPT does the same out of the box.
+
+**embedding**
+: A list of numbers representing what a piece of text *says*. Texts with
+  similar meaning get similar numbers, which is how a vector database can
+  match "air quality in cities" to a paper about pollution without any
+  shared words.
+
+**vector database**
+: A store that keeps one embedding per document and returns the documents
+  closest in meaning to a query. This lesson uses [ChromaDB](https://www.trychroma.com),
+  which runs locally and needs no extra account.
 
 ## Quick troubleshooting table
 
@@ -85,7 +96,7 @@ first.
 | `404` / "Model Not Found" | Model name invalid for this key | List models (`client.models.list()`) and copy an exact ID into `MODEL`. |
 | `429` / "Rate limit" | Too many requests | Wait a few seconds and retry. |
 | Connection error / timeout / `SSL` | Can't reach the endpoint (**egress** problem, or wrong base URL) | Confirm `OPENAI_BASE_URL=https://openai.rc.asu.edu/v1` (with `/v1`). If on Anvil and still failing, tell an instructor — your cluster may block outbound traffic. |
-| `ModuleNotFoundError: No module named 'openai'` or `... 'dotenv'` | Ran outside the venv (laptop), or install incomplete | `source .venv/bin/activate`, `pip install openai python-dotenv`, **restart the kernel**. |
+| `ModuleNotFoundError: No module named 'openai'` / `'dotenv'` / `'chromadb'` | Ran outside the venv (laptop), or install incomplete | `source .venv/bin/activate`, `pip install openai python-dotenv chromadb`, **restart the kernel**. |
 | `NameError: name 'client'/'MODEL'` | Ran cells out of order, or after a kernel restart | Run cells **top to bottom**; after a restart, re-run from the key cell. |
 | `PARSE FAILED` in a row | Model returned prose, not JSON | Print the raw `message.content`; tighten the system prompt to "Return ONLY valid JSON, no other text." |
 

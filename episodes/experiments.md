@@ -168,7 +168,8 @@ OpenCode/VS Code; notebook work → Jupyter AI.
 
 - **Streaming** — `client.chat.completions.create(..., stream=True)`; watch tokens arrive.
 - **Function / tool calling** — let the model call *your* Python functions.
-- **RAG** — ground answers in your documents (what AnvilGPT does out of the box).
+- **RAG** — ground answers in your documents; that is the next episode
+  (and what AnvilGPT does out of the box).
 - **Canonical docs:** [docs.rc.asu.edu/ai/api][rc-api-docs].
 
 ::::::::::::::::::::::::::::::::::::: callout
