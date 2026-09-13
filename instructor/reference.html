@@ -213,7 +213,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="simple-rag.html">4. A Simple RAG Example</a>
+        <a href="experiments.html">4. Experiments &amp; Tools Around the API</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -222,7 +222,7 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="experiments.html">5. Experiments &amp; Tools Around the API</a>
+        <a href="simple-rag.html">5. A Simple RAG Example</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -281,7 +281,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Reference</h1>
-        <p>Last updated on 2026-09-11 |
+        <p>Last updated on 2026-09-13 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/learners/reference.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -385,9 +385,22 @@ Running the <em>same</em> request over a <em>list</em> of inputs (here,
 <dt><strong>RAG</strong></dt>
 <dd>
 Retrieval-Augmented Generation — grounding the model’s answer in your
-own documents. The <em>A Simple RAG Example</em> episode builds a
-keyword version; Purdue’s AnvilGPT does it out of the box with vector
-search.
+own documents. The <em>A Simple RAG Example</em> episode builds one with
+the ChromaDB vector database; Purdue’s AnvilGPT does the same out of the
+box.
+</dd>
+<dt><strong>embedding</strong></dt>
+<dd>
+A list of numbers representing what a piece of text <em>says</em>. Texts
+with similar meaning get similar numbers, which is how a vector database
+can match “air quality in cities” to a paper about pollution without any
+shared words.
+</dd>
+<dt><strong>vector database</strong></dt>
+<dd>
+A store that keeps one embedding per document and returns the documents
+closest in meaning to a query. This lesson uses <a href="https://www.trychroma.com" class="external-link">ChromaDB</a>, which runs locally and
+needs no extra account.
 </dd>
 </dl></section><section><h2 class="section-heading" id="quick-troubleshooting-table">Quick troubleshooting table<a class="anchor" aria-label="anchor" href="#quick-troubleshooting-table"></a></h2>
 <hr class="half-width"><p>The first three rows cover ~90% of what you’ll see. Read the error
@@ -420,14 +433,14 @@ base URL)</td>
 (with <code>/v1</code>). If on Anvil and still failing, tell an
 instructor — your cluster may block outbound traffic.</td>
 </tr><tr><td>
-<code>ModuleNotFoundError: No module named 'openai'</code> or
-<code>... 'dotenv'</code>
+<code>ModuleNotFoundError: No module named 'openai'</code> /
+<code>'dotenv'</code> / <code>'chromadb'</code>
 </td>
 <td>Ran outside the venv (laptop), or install incomplete</td>
 <td>
 <code>source .venv/bin/activate</code>,
-<code>pip install openai python-dotenv</code>, <strong>restart the
-kernel</strong>.</td>
+<code>pip install openai python-dotenv chromadb</code>, <strong>restart
+the kernel</strong>.</td>
 </tr><tr><td><code>NameError: name 'client'/'MODEL'</code></td>
 <td>Ran cells out of order, or after a kernel restart</td>
 <td>Run cells <strong>top to bottom</strong>; after a restart, re-run
@@ -516,8 +529,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/instructor/reference.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/instructor/reference.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-11",
-  "datePublished": "2026-09-11"
+  "dateModified": "2026-09-13",
+  "datePublished": "2026-09-13"
 }
 
   </script><script>

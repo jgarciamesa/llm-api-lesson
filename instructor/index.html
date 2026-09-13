@@ -217,7 +217,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="simple-rag.html">4. A Simple RAG Example</a>
+        <a href="experiments.html">4. Experiments &amp; Tools Around the API</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -226,7 +226,7 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="experiments.html">5. Experiments &amp; Tools Around the API</a>
+        <a href="simple-rag.html">5. A Simple RAG Example</a>
     </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
@@ -315,8 +315,8 @@ browser, the environment is provided) or on your own laptop. The <a href="index.
 cells is all you need.</li>
 </ul><p>The lesson moves in six steps: <strong>Setup</strong>, then
 <strong>What is an LLM API?</strong>, <strong>Your first call</strong>,
-<strong>Building the research tool</strong>, <strong>A simple RAG
-example</strong>, and <strong>Experiments &amp; tools</strong>. A
+<strong>Building the research tool</strong>, <strong>Experiments &amp;
+tools</strong>, and <strong>A simple RAG example</strong>. A
 <strong>Reference</strong> page (glossary, a quick troubleshooting
 table, and links) is in the menu, and the working notebook is available
 at <a href="../data/talking_to_a_model.ipynb"><code>data/talking_to_a_model.ipynb</code></a>.</p>
@@ -364,18 +364,7 @@ does it make an LLM useful for research?
 <span class="visually-hidden">Duration: </span>00h 48m
 </td>
 <td>
- 4. <a href="simple-rag.html">A Simple RAG Example</a>
-</td>
-<td>
-How do I make a model answer using <em>my</em> documents instead of its
-training data?<br>How much of RAG is really about searching for the
-right text?
-</td>
-</tr><tr><td>
-<span class="visually-hidden">Duration: </span>01h 08m
-</td>
-<td>
- 5. <a href="experiments.html">Experiments &amp; Tools Around the
+ 4. <a href="experiments.html">Experiments &amp; Tools Around the
 API</a>
 </td>
 <td>
@@ -384,7 +373,17 @@ model?<br>How do I try my own data with the same batch loop?<br>What
 other tools can I point at the same key and endpoint?
 </td>
 </tr><tr><td>
-<span class="visually-hidden">Duration: </span>01h 46m
+<span class="visually-hidden">Duration: </span>01h 26m
+</td>
+<td>
+ 5. <a href="simple-rag.html">A Simple RAG Example</a>
+</td>
+<td>
+How do I make a model answer from <em>my</em> documents?<br>Why does a
+vector database find the right paper even when no words match?
+</td>
+</tr><tr><td>
+<span class="visually-hidden">Duration: </span>01h 47m
 </td>
 <td>
 Finish
@@ -416,10 +415,11 @@ right away. If you want the editable source, it’s <a href="../data/research_ab
 <strong>Start</strong>.</li>
 <li>Wait for JupyterLab to open, then open the
 <code>talking_to_a_model</code> notebook.</li>
-<li>If the first cell fails with
-<code>ModuleNotFoundError: No module named 'dotenv'</code>, add a cell
-above it with <code>!pip install python-dotenv</code>, run it, then
-restart the kernel.</li>
+<li>If a first cell fails with
+<code>ModuleNotFoundError: No module named 'dotenv'</code> (or
+<code>'chromadb'</code>), add a cell with
+<code>!pip install python-dotenv chromadb</code>, run it, then restart
+the kernel.</li>
 </ol><div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
@@ -439,7 +439,7 @@ Python:</p>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a><span class="fu">mkdir</span> api-lesson <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> api-lesson</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a><span class="bu">source</span> .venv/bin/activate     <span class="co"># Windows: .venv\Scripts\activate</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a><span class="ex">pip</span> install openai python-dotenv</span></code></pre>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a><span class="ex">pip</span> install openai python-dotenv chromadb</span></code></pre>
 </div>
 <p>Then put the notebook in that folder and open it (JupyterLab or VS
 Code).</p>
@@ -536,8 +536,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/instructor/index.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/instructor/index.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-11",
-  "datePublished": "2026-09-11"
+  "dateModified": "2026-09-13",
+  "datePublished": "2026-09-13"
 }
 
   </script><script>

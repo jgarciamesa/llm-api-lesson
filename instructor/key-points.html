@@ -267,7 +267,7 @@
 <div class="accordion accordion-flush" id="accordionFlush5">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading5">
-        <a href="simple-rag.html">4. A Simple RAG Example</a>
+        <a href="experiments.html">4. Experiments &amp; Tools Around the API</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -279,7 +279,7 @@
 <div class="accordion accordion-flush" id="accordionFlush6">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading6">
-        <a href="experiments.html">5. Experiments &amp; Tools Around the API</a>
+        <a href="simple-rag.html">5. A Simple RAG Example</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -380,15 +380,6 @@ that forces a strict JSON <em>shape</em> (keys you define).</li>
 <code>PARSE FAILED</code> marker.</li>
 <li>
 <code>csv.DictWriter</code> writes clean, quote-safe CSV.</li>
-</ul></section><section id="simple-rag"><h2 class="section-heading"><a href="simple-rag.html">A Simple RAG Example</a></h2>
-<hr class="half-width">
-<ul>
-<li>RAG = <strong>retrieve</strong> the relevant passages, then
-<strong>generate</strong> an answer from them.</li>
-<li>For a small corpus, a keyword search (drop stopwords, weight the
-title) retrieves well enough to be useful.</li>
-<li>The generate step is the same <code>create()</code> call as anywhere
-else in the lesson — the passages just join the prompt.</li>
 </ul></section><section id="experiments"><h2 class="section-heading"><a href="experiments.html">Experiments &amp; Tools Around the API</a></h2>
 <hr class="half-width">
 <ul>
@@ -399,6 +390,15 @@ them.</li>
 <li>The same loop runs on your own (non-sensitive) data.</li>
 <li>OpenAI-compatible means OpenCode, VS Code, Jupyter AI, and AnvilGPT
 all reuse the same key + endpoint.</li>
+</ul></section><section id="simple-rag"><h2 class="section-heading"><a href="simple-rag.html">A Simple RAG Example</a></h2>
+<hr class="half-width">
+<ul>
+<li>RAG = <strong>retrieve</strong> the relevant passages, then
+<strong>generate</strong> an answer from them.</li>
+<li>A vector database finds text by meaning: embeddings turn text into
+numbers, and similar meaning lands nearby.</li>
+<li>The generate step is the same <code>create()</code> call as anywhere
+else in the lesson — the passages just join the prompt.</li>
 </ul></section>
 </div>
     </main>
@@ -449,8 +449,8 @@ all reuse the same key + endpoint.</li>
   "url": "https://jgarciamesa.github.io/llm-api-lesson/instructor/key-points.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/instructor/key-points.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-11",
-  "datePublished": "2026-09-11"
+  "dateModified": "2026-09-13",
+  "datePublished": "2026-09-13"
 }
 
   </script><script>

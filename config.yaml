@@ -50,8 +50,8 @@ episodes:
 - introduction.md
 - first-call.md
 - build-the-tool.md
-- simple-rag.md
 - experiments.md
+- simple-rag.md
 
 # Information for Learners
 learners:
