@@ -301,7 +301,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction: What Is an LLM API?</h1>
-        <p>Last updated on 2026-09-10 |
+        <p>Last updated on 2026-09-14 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -365,20 +365,25 @@ It’s a standard: any tool that talks to OpenAI talks to this too. That
 single fact is what unlocks the “tools around the API” at the end of the
 lesson.</p>
 </section><section><h2 class="section-heading" id="anatomy-of-a-request">Anatomy of a request<a class="anchor" aria-label="anchor" href="#anatomy-of-a-request"></a></h2>
-<hr class="half-width"><p>Before we write code, see what a request actually is. It’s a
-<strong>JSON</strong> document sent over the internet — the
-<code>curl</code> below is the raw HTTP request the SDK builds for
+<hr class="half-width"><p>Before we write code, see what a request actually is. The Python SDK
+builds and sends a <strong>JSON</strong> document over the internet for
 you:</p>
 <div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="ex">curl</span> https://openai.rc.asu.edu/v1/chat/completions <span class="dt">\</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a>  <span class="at">-H</span> <span class="st">"Content-Type: application/json"</span> <span class="dt">\</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a>  <span class="at">-H</span> <span class="st">"Authorization: Bearer ***"</span> <span class="dt">\</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>  <span class="at">-d</span> <span class="st">'{</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a><span class="st">    "model": "&lt;MODEL_NAME&gt;",</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a><span class="st">    "messages": [ { "role": "user", "content": "Explain quantum computing in one sentence." } ]</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a><span class="st">  }'</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1" aria-label="code-block-1-1"></a><span class="im">from</span> openai <span class="im">import</span> OpenAI</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1" aria-label="code-block-1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1" aria-label="code-block-1-3"></a>client <span class="op">=</span> OpenAI(</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1" aria-label="code-block-1-4"></a>    api_key<span class="op">=</span><span class="st">"***"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1" aria-label="code-block-1-5"></a>    base_url<span class="op">=</span><span class="st">"https://openai.rc.asu.edu/v1"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1" aria-label="code-block-1-6"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1" aria-label="code-block-1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1" aria-label="code-block-1-8"></a>resp <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1" aria-label="code-block-1-9"></a>    model<span class="op">=</span><span class="st">"&lt;MODEL_NAME&gt;"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1" aria-label="code-block-1-10"></a>    messages<span class="op">=</span>[</span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1" aria-label="code-block-1-11"></a>        {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"Explain quantum computing in one sentence."</span>}</span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1" aria-label="code-block-1-12"></a>    ],</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1" aria-label="code-block-1-13"></a>)</span></code></pre>
 </div>
 <p>Three things you’re always choosing:</p>
 <ol style="list-style-type: decimal"><li>
@@ -410,7 +415,7 @@ want)</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Timing: 15 min (5 cold-open, 10 anatomy). Land the “client / service”
 frame and the <code>role</code> concept here — everything downstream
@@ -503,8 +508,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/instructor/introduction.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/instructor/introduction.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-10",
-  "datePublished": "2026-09-13"
+  "dateModified": "2026-09-14",
+  "datePublished": "2026-09-14"
 }
 
   </script><script>
