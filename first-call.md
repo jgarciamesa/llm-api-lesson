@@ -78,7 +78,7 @@ get a response, that's the egress problem — go to the instructor guide §8
 immediately, don't let it simmer.
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-This cell picks one of the three models this lesson prefers — **at random** —
+The next cell picks one of the three models this lesson prefers — **at random** —
 from your key's live list, so you can run the first call right away. It also
 prints up to eight models your key can use. If none of the three preferred
 models is available, it falls back to the first model on the list; if nothing
@@ -90,7 +90,7 @@ import random
 
 client = OpenAI()   # reads OPENAI_API_KEY and OPENAI_BASE_URL from the environment
 
-# --- Pick a model at random ---------------------------------------------------
+# Pick a model at random from the live list for your key.
 PREFERRED = ["qwen36-27b", "muse-glimmer-30b", "gemma4-31b-it"]
 try:
     available = [m.id for m in client.models.list()]
@@ -113,11 +113,14 @@ else:
     )
 print(f"Using model: {MODEL}  (picked at random)")
 if available:
-    print(f"Your key can use {len(available)} model(s). Try others in the experiments:")
+    print(f"Your key can use {len(available)} model(s). Here are the first eight:")
     for a in available[:8]:
         print(f"   - {a}")
+```
 
-# --- The first request --------------------------------------------------------
+Now send the first request with the selected model:
+
+```python
 resp = client.chat.completions.create(
     model=MODEL,
     messages=[{"role": "user", "content": "Explain what an API is, in one sentence."}],
@@ -128,6 +131,28 @@ print(f"\n(tokens used: {resp.usage.total_tokens if resp.usage else '?'})")
 ```
 
 You should see a sentence from the model. If text appears, your first call worked.
+
+### Try a setting: `temperature`
+
+The API has small controls, often called *settings* or *knobs*, that change how
+the model answers. `temperature` is a good first one to try: `0` asks for the
+most consistent wording the model can give, while larger values usually make the
+wording more varied.
+
+Run the cell below a few times. Then change `temperature` to `0`, `0.7`, or
+`1.0` and compare what happens.
+
+```python
+for temp in [0, 0.7, 1.0]:
+    resp = client.chat.completions.create(
+        model=MODEL,
+        messages=[{"role": "user", "content": "Give me a friendly one-sentence definition of an API."}],
+        temperature=temp,
+    )
+    print(f"temperature={temp}")
+    print(resp.choices[0].message.content)
+    print()
+```
 
 ## Anatomy of a response
 
@@ -145,7 +170,7 @@ one, with each field explained:
   "created": 1757984284,                    // 3 — Unix timestamp (seconds since
                                             //    1970) of when the response
                                             //    was created
-  "model": "llama3.1",                      // 4 — the model that actually
+  "model": "gemma4-31b-it",                 // 4 — the model that actually
                                             //    handled the request (can
                                             //    differ from what you asked
                                             //    for, if the gateway routed

@@ -26,6 +26,35 @@ away. If you want the editable source, it's
    (or `'chromadb'`), add a cell with `!pip install python-dotenv chromadb`,
    run it, then restart the kernel.
 
+### On Google Colab (browser alternative)
+
+If Anvil is unavailable, you can run the same notebook in Google Colab:
+
+1. Open
+   `https://colab.research.google.com/github/jgarciamesa/llm-api-lesson/blob/main/episodes/data/talking_to_a_model.ipynb`.
+2. Choose **Runtime → Run all** only after setting your key.
+3. If Colab asks whether to run a notebook from GitHub, choose **Run anyway**
+   for this workshop notebook.
+
+Colab runtimes are temporary, so create the `.env` file from a code cell each
+time you start a new runtime:
+
+```python
+from getpass import getpass
+from pathlib import Path
+
+key = getpass("Paste your API key, then press Enter: ").strip()
+Path(".env").write_text(
+    f"OPENAI_API_KEY={key}\n"
+    "OPENAI_BASE_URL=https://openai.rc.asu.edu/v1\n"
+)
+del key
+print("Wrote .env for this Colab runtime.")
+```
+
+Then run the notebook's **Set your key** cell. If a package is missing, run
+`%pip install openai python-dotenv chromadb` in a cell and restart the runtime.
+
 :::::::::::::::: spoiler
 
 ### On your laptop

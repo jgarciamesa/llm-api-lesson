@@ -26,9 +26,9 @@ tools you already use (VS Code, Jupyter AI, OpenCode).
   Because it follows the OpenAI format, the standard [`openai` Python
   SDK][openai-sdk], and any other OpenAI-compatible tool, works with it as-is.
 - **A notebook:** you run the lesson in a Jupyter notebook, either on the
-  **Purdue Anvil Notebook** (in a browser, the environment is provided) or on
-  your own laptop. The [Setup](learners/setup.md) page gets you started and sets
-  your **API key**.
+  **Purdue Anvil Notebook** (in a browser, the environment is provided), in
+  **Google Colab** as a browser alternative, or on your own laptop. The
+  [Setup](learners/setup.md) page gets you started and sets your **API key**.
 - **Basic Python:** reading a script and editing a few cells is all you need.
 
 The lesson moves in six steps: **Setup**, then **What is an LLM API?**,

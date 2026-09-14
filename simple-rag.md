@@ -148,7 +148,7 @@ lives in the `retrieve` step — finding the right passages before the model
 ever sees the question.
 
 ::::::::::::::::::::::::::::::::::::: callout
-### Two honest limits
+### Note that
 
 - **The default embedding model is small and general.** It works well here;
   for specialized text (medical jargon, law), pick an embedding model trained
