@@ -39,18 +39,23 @@ that talks to OpenAI talks to this too. That single fact is what unlocks the
 
 ## Anatomy of a request
 
-Before we write code, see what a request actually is. It's a **JSON** document
-sent over the internet — the `curl` below is the raw HTTP request the SDK builds
-for you:
+Before we write code, see what a request actually is. The Python SDK builds
+and sends a **JSON** document over the internet for you:
 
-```bash
-curl https://openai.rc.asu.edu/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer ***" \
-  -d '{
-    "model": "<MODEL_NAME>",
-    "messages": [ { "role": "user", "content": "Explain quantum computing in one sentence." } ]
-  }'
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="***",
+    base_url="https://openai.rc.asu.edu/v1",
+)
+
+resp = client.chat.completions.create(
+    model="<MODEL_NAME>",
+    messages=[
+        {"role": "user", "content": "Explain quantum computing in one sentence."}
+    ],
+)
 ```
 
 Three things you're always choosing:

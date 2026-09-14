@@ -7,8 +7,8 @@ OpenAI-compatible API and returns structured JSON.
 
 ## The lesson
 
-Participants run a Jupyter notebook (on Anvil in the browser, or on their own
-machine) and, step by step:
+Participants run a Jupyter notebook (on Anvil in the browser, in Google Colab,
+or on their own machine) and, step by step:
 
 1. **Make their first LLM API call** and read the response.
 2. **Build a research tool** that batches a set of real arXiv abstracts
@@ -23,7 +23,7 @@ The API key points to ASU Research Computing's OpenAI-compatible gateway
 
 | Path | What it is |
 |------|------------|
-| `episodes/` | The four learner episodes (introduction → first call → build the tool → experiments), each with inline code. |
+| `episodes/` | The five learner episodes (introduction → first call → build the tool → experiments → simple RAG), each with inline code. |
 | `episodes/data/` | The downloadable assets: the notebook (`talking_to_a_model.ipynb`) and the 12 abstracts (`research_abstracts.json`). |
 | `learners/` | Setup instructions and a reference page (glossary + troubleshooting). |
 | `instructors/` | Instructor guide, pre-session checklist, and a TA troubleshooting sheet (visible in the *Instructor* view). |
