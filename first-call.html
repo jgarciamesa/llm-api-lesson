@@ -209,7 +209,7 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#set-your-key-dont-hardcode-it">Set your key (don’t hardcode it)</a></li>
-<li><a href="#the-first-call-checkpoint-everyone-gets-a-response">The first call — <em>checkpoint: everyone gets a response</em></a></li>
+<li><a href="#the-first-call">The first call</a></li>
 <li><a href="#anatomy-of-a-response">Anatomy of a response</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
@@ -302,7 +302,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Your First Call</h1>
-        <p>Last updated on 2026-09-14 |
+        <p>Last updated on 2026-09-16 |
 
         <a href="https://github.com/jgarciamesa/llm-api-lesson/edit/main/episodes/first-call.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -350,35 +350,51 @@ named <code>.env</code> (no extension) with exactly these two lines:</p>
 <pre><code>OPENAI_API_KEY=&lt;paste your key here&gt;
 OPENAI_BASE_URL=https://openai.rc.asu.edu/v1</code></pre>
 <p>The <a href="index.html#setup">Setup page</a> shows how to create that file
-on Anvil and on a laptop. Then run the <strong>“Set your key”</strong>
-cell in the notebook — it loads the file and verifies the key is present
-(masked):</p>
+on Anvil and on a laptop. If you are working inside a notebook
+environment like Google Colab, you can create the <code>.env</code> file
+from a notebook cell instead:</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">import</span> os</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">from</span> getpass <span class="im">import</span> getpass</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1" aria-label="code-block-2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a><span class="co"># Load environment variables from the .env file</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>load_dotenv()</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1" aria-label="code-block-2-7"></a><span class="co"># Retrieve the API key and base URL</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1" aria-label="code-block-2-8"></a>key <span class="op">=</span> os.getenv(<span class="st">"OPENAI_API_KEY"</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1" aria-label="code-block-2-9"></a>base <span class="op">=</span> os.getenv(<span class="st">"OPENAI_BASE_URL"</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1" aria-label="code-block-2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1" aria-label="code-block-2-11"></a><span class="cf">if</span> <span class="kw">not</span> key <span class="kw">or</span> <span class="kw">not</span> base:</span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1" aria-label="code-block-2-12"></a>    missing <span class="op">=</span> <span class="st">", "</span>.join(n <span class="cf">for</span> n, v <span class="kw">in</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1" aria-label="code-block-2-13"></a>                        ((<span class="st">"OPENAI_API_KEY"</span>, key), (<span class="st">"OPENAI_BASE_URL"</span>, base)) <span class="cf">if</span> <span class="kw">not</span> v)</span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1" aria-label="code-block-2-14"></a>    <span class="cf">raise</span> <span class="pp">SystemExit</span>(</span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1" aria-label="code-block-2-15"></a>        <span class="ss">f"Missing </span><span class="sc">{</span>missing<span class="sc">}</span><span class="ss">. Create a .env file in this folder with these two "</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1" aria-label="code-block-2-16"></a>        <span class="st">"lines, then re-run this cell:</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1" aria-label="code-block-2-17"></a>        <span class="st">"    OPENAI_API_KEY=&lt;your-key&gt;</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1" aria-label="code-block-2-18"></a>        <span class="st">"    OPENAI_BASE_URL=https://openai.rc.asu.edu/v1"</span></span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1" aria-label="code-block-2-19"></a>    )</span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1" aria-label="code-block-2-20"></a></span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1" aria-label="code-block-2-21"></a><span class="co"># Mask the key so we can show it is present without revealing it</span></span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1" aria-label="code-block-2-22"></a><span class="bu">print</span>(<span class="ss">f"key set:   </span><span class="sc">{</span>key[:<span class="dv">4</span>]<span class="sc">}</span><span class="ss">...</span><span class="sc">{</span>key[<span class="op">-</span><span class="dv">4</span>:]<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span><span class="bu">len</span>(key)<span class="sc">}</span><span class="ss"> chars)"</span>)</span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1" aria-label="code-block-2-23"></a><span class="bu">print</span>(<span class="ss">f"base url:  </span><span class="sc">{</span>base<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a>key <span class="op">=</span> getpass(<span class="st">"Paste your API key, then press Enter: "</span>).strip()</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>Path(<span class="st">".env"</span>).write_text(</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1" aria-label="code-block-2-6"></a>    <span class="ss">f"OPENAI_API_KEY=</span><span class="sc">{</span>key<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1" aria-label="code-block-2-7"></a>    <span class="st">"OPENAI_BASE_URL=https://openai.rc.asu.edu/v1</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1" aria-label="code-block-2-8"></a>)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1" aria-label="code-block-2-9"></a><span class="kw">del</span> key</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1" aria-label="code-block-2-10"></a><span class="bu">print</span>(<span class="st">"Wrote .env for this notebook session."</span>)</span></code></pre>
+</div>
+<p>Then run the <strong>“Set your key”</strong> cell in the notebook —
+it loads the file and verifies the key is present (masked):</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">import</span> os</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a><span class="co"># Load environment variables from the .env file</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a>load_dotenv()</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1" aria-label="code-block-3-7"></a><span class="co"># Retrieve the API key and base URL</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1" aria-label="code-block-3-8"></a>key <span class="op">=</span> os.getenv(<span class="st">"OPENAI_API_KEY"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1" aria-label="code-block-3-9"></a>base <span class="op">=</span> os.getenv(<span class="st">"OPENAI_BASE_URL"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1" aria-label="code-block-3-10"></a></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1" aria-label="code-block-3-11"></a><span class="cf">if</span> <span class="kw">not</span> key <span class="kw">or</span> <span class="kw">not</span> base:</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1" aria-label="code-block-3-12"></a>    missing <span class="op">=</span> <span class="st">", "</span>.join(n <span class="cf">for</span> n, v <span class="kw">in</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1" aria-label="code-block-3-13"></a>                        ((<span class="st">"OPENAI_API_KEY"</span>, key), (<span class="st">"OPENAI_BASE_URL"</span>, base)) <span class="cf">if</span> <span class="kw">not</span> v)</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1" aria-label="code-block-3-14"></a>    <span class="cf">raise</span> <span class="pp">SystemExit</span>(</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1" aria-label="code-block-3-15"></a>        <span class="ss">f"Missing </span><span class="sc">{</span>missing<span class="sc">}</span><span class="ss">. Create a .env file in this folder with these two "</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1" aria-label="code-block-3-16"></a>        <span class="st">"lines, then re-run this cell:</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1" aria-label="code-block-3-17"></a>        <span class="st">"    OPENAI_API_KEY=&lt;your-key&gt;</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1" aria-label="code-block-3-18"></a>        <span class="st">"    OPENAI_BASE_URL=https://openai.rc.asu.edu/v1"</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1" aria-label="code-block-3-19"></a>    )</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1" aria-label="code-block-3-20"></a></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1" aria-label="code-block-3-21"></a><span class="co"># Mask the key so we can show it is present without revealing it</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1" aria-label="code-block-3-22"></a><span class="bu">print</span>(<span class="ss">f"key set:   </span><span class="sc">{</span>key[:<span class="dv">4</span>]<span class="sc">}</span><span class="ss">...</span><span class="sc">{</span>key[<span class="op">-</span><span class="dv">4</span>:]<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span><span class="bu">len</span>(key)<span class="sc">}</span><span class="ss"> chars)"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1" aria-label="code-block-3-23"></a><span class="bu">print</span>(<span class="ss">f"base url:  </span><span class="sc">{</span>base<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
 </div>
 <p>Two things to notice. <code>load_dotenv()</code> reads the
 <code>.env</code> file into the environment, and
@@ -386,60 +402,59 @@ cell in the notebook — it loads the file and verifies the key is present
 key only lives in the file, which you keep out of Git. Because the cell
 reads the file every time it runs, <strong>if you edit <code>.env</code>
 you only re-run the cell</strong> — no kernel restart.</p>
-</section><section><h2 class="section-heading" id="the-first-call-checkpoint-everyone-gets-a-response">The first call — <em>checkpoint: everyone gets a response</em>
-<a class="anchor" aria-label="anchor" href="#the-first-call-checkpoint-everyone-gets-a-response"></a></h2>
+</section><section><h2 class="section-heading" id="the-first-call">The first call<a class="anchor" aria-label="anchor" href="#the-first-call"></a></h2>
 <hr class="half-width"><p>The next cell picks one of the three models this lesson prefers —
 <strong>at random</strong> — from your key’s live list, so you can run
 the first call right away. It also prints up to eight models your key
 can use. If none of the three preferred models is available, it falls
 back to the first model on the list; if nothing prints at all, set
 <code>MODEL</code> yourself and re-run.</p>
-<div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1" aria-label="code-block-3-1"></a><span class="im">from</span> openai <span class="im">import</span> OpenAI</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1" aria-label="code-block-3-2"></a><span class="im">import</span> random</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1" aria-label="code-block-3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1" aria-label="code-block-3-4"></a>client <span class="op">=</span> OpenAI()   <span class="co"># reads OPENAI_API_KEY and OPENAI_BASE_URL from the environment</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1" aria-label="code-block-3-5"></a></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1" aria-label="code-block-3-6"></a><span class="co"># Pick a model at random from the live list for your key.</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1" aria-label="code-block-3-7"></a>PREFERRED <span class="op">=</span> [<span class="st">"qwen36-27b"</span>, <span class="st">"muse-glimmer-30b"</span>, <span class="st">"gemma4-31b-it"</span>]</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1" aria-label="code-block-3-8"></a><span class="cf">try</span>:</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1" aria-label="code-block-3-9"></a>    available <span class="op">=</span> [m.<span class="bu">id</span> <span class="cf">for</span> m <span class="kw">in</span> client.models.<span class="bu">list</span>()]</span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1" aria-label="code-block-3-10"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1" aria-label="code-block-3-11"></a>    available <span class="op">=</span> []</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1" aria-label="code-block-3-12"></a>    <span class="bu">print</span>(<span class="ss">f"Could not list models: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1" aria-label="code-block-3-13"></a></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1" aria-label="code-block-3-14"></a><span class="co"># A preferred name can be a prefix of the full model ID, so match by</span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1" aria-label="code-block-3-15"></a><span class="co"># substring. Then pick one of the matches at random.</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1" aria-label="code-block-3-16"></a>matches <span class="op">=</span> [a <span class="cf">for</span> a <span class="kw">in</span> available <span class="cf">if</span> <span class="bu">any</span>(p <span class="kw">in</span> a <span class="cf">for</span> p <span class="kw">in</span> PREFERRED)]</span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1" aria-label="code-block-3-17"></a><span class="cf">if</span> matches:</span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1" aria-label="code-block-3-18"></a>    MODEL <span class="op">=</span> random.choice(matches)</span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1" aria-label="code-block-3-19"></a><span class="cf">elif</span> available:</span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1" aria-label="code-block-3-20"></a>    MODEL <span class="op">=</span> available[<span class="dv">0</span>]   <span class="co"># none of the three is available; use the first</span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1" aria-label="code-block-3-21"></a><span class="cf">else</span>:</span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1" aria-label="code-block-3-22"></a>    <span class="cf">raise</span> <span class="pp">SystemExit</span>(</span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1" aria-label="code-block-3-23"></a>        <span class="st">"No model could be selected. Set one manually, e.g.</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1" aria-label="code-block-3-24"></a>        <span class="st">"    MODEL = 'llama3.1'</span><span class="ch">\n</span><span class="st">"</span></span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1" aria-label="code-block-3-25"></a>        <span class="st">"then re-run."</span></span>
-<span id="cb3-26"><a href="#cb3-26" tabindex="-1" aria-label="code-block-3-26"></a>    )</span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1" aria-label="code-block-3-27"></a><span class="bu">print</span>(<span class="ss">f"Using model: </span><span class="sc">{</span>MODEL<span class="sc">}</span><span class="ss">  (picked at random)"</span>)</span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1" aria-label="code-block-3-28"></a><span class="cf">if</span> available:</span>
-<span id="cb3-29"><a href="#cb3-29" tabindex="-1" aria-label="code-block-3-29"></a>    <span class="bu">print</span>(<span class="ss">f"Your key can use </span><span class="sc">{</span><span class="bu">len</span>(available)<span class="sc">}</span><span class="ss"> model(s). Here are the first eight:"</span>)</span>
-<span id="cb3-30"><a href="#cb3-30" tabindex="-1" aria-label="code-block-3-30"></a>    <span class="cf">for</span> a <span class="kw">in</span> available[:<span class="dv">8</span>]:</span>
-<span id="cb3-31"><a href="#cb3-31" tabindex="-1" aria-label="code-block-3-31"></a>        <span class="bu">print</span>(<span class="ss">f"   - </span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
-</div>
-<p>Now send the first request with the selected model:</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a>resp <span class="op">=</span> client.chat.completions.create(</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a>    model<span class="op">=</span>MODEL,</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a>    messages<span class="op">=</span>[{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"Explain what an API is, in one sentence."</span>}],</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a>)</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1" aria-label="code-block-4-5"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- MODEL SAYS ---"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1" aria-label="code-block-4-6"></a><span class="bu">print</span>(resp.choices[<span class="dv">0</span>].message.content)</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1" aria-label="code-block-4-7"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">(tokens used: </span><span class="sc">{</span>resp<span class="sc">.</span>usage<span class="sc">.</span>total_tokens <span class="cf">if</span> resp<span class="sc">.</span>usage <span class="cf">else</span> <span class="st">'?'</span><span class="sc">}</span><span class="ss">)"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="im">from</span> openai <span class="im">import</span> OpenAI</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a><span class="im">import</span> random</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1" aria-label="code-block-4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a>client <span class="op">=</span> OpenAI()   <span class="co"># reads OPENAI_API_KEY and OPENAI_BASE_URL from the environment</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1" aria-label="code-block-4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1" aria-label="code-block-4-6"></a><span class="co"># Pick a model at random from the live list for your key.</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1" aria-label="code-block-4-7"></a>PREFERRED <span class="op">=</span> [<span class="st">"qwen36-27b"</span>, <span class="st">"muse-glimmer-30b"</span>, <span class="st">"gemma4-31b-it"</span>]</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1" aria-label="code-block-4-8"></a><span class="cf">try</span>:</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1" aria-label="code-block-4-9"></a>    available <span class="op">=</span> [m.<span class="bu">id</span> <span class="cf">for</span> m <span class="kw">in</span> client.models.<span class="bu">list</span>()]</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1" aria-label="code-block-4-10"></a><span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1" aria-label="code-block-4-11"></a>    available <span class="op">=</span> []</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1" aria-label="code-block-4-12"></a>    <span class="bu">print</span>(<span class="ss">f"Could not list models: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1" aria-label="code-block-4-13"></a></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1" aria-label="code-block-4-14"></a><span class="co"># A preferred name can be a prefix of the full model ID, so match by</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1" aria-label="code-block-4-15"></a><span class="co"># substring. Then pick one of the matches at random.</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1" aria-label="code-block-4-16"></a>matches <span class="op">=</span> [a <span class="cf">for</span> a <span class="kw">in</span> available <span class="cf">if</span> <span class="bu">any</span>(p <span class="kw">in</span> a <span class="cf">for</span> p <span class="kw">in</span> PREFERRED)]</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1" aria-label="code-block-4-17"></a><span class="cf">if</span> matches:</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1" aria-label="code-block-4-18"></a>    MODEL <span class="op">=</span> random.choice(matches)</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1" aria-label="code-block-4-19"></a><span class="cf">elif</span> available:</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1" aria-label="code-block-4-20"></a>    MODEL <span class="op">=</span> available[<span class="dv">0</span>]   <span class="co"># none of the three is available; use the first</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1" aria-label="code-block-4-21"></a><span class="cf">else</span>:</span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1" aria-label="code-block-4-22"></a>    <span class="cf">raise</span> <span class="pp">SystemExit</span>(</span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1" aria-label="code-block-4-23"></a>        <span class="st">"No model could be selected. Set one manually, e.g.</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1" aria-label="code-block-4-24"></a>        <span class="st">"    MODEL = 'llama3.1'</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1" aria-label="code-block-4-25"></a>        <span class="st">"then re-run."</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1" aria-label="code-block-4-26"></a>    )</span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1" aria-label="code-block-4-27"></a><span class="bu">print</span>(<span class="ss">f"Using model: </span><span class="sc">{</span>MODEL<span class="sc">}</span><span class="ss">  (picked at random)"</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1" aria-label="code-block-4-28"></a><span class="cf">if</span> available:</span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1" aria-label="code-block-4-29"></a>    <span class="bu">print</span>(<span class="ss">f"Your key can use </span><span class="sc">{</span><span class="bu">len</span>(available)<span class="sc">}</span><span class="ss"> model(s). Here are the first eight:"</span>)</span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1" aria-label="code-block-4-30"></a>    <span class="cf">for</span> a <span class="kw">in</span> available[:<span class="dv">8</span>]:</span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1" aria-label="code-block-4-31"></a>        <span class="bu">print</span>(<span class="ss">f"   - </span><span class="sc">{</span>a<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+</div>
+<p>Now send the first request with the selected model:</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a>resp <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a>    model<span class="op">=</span>MODEL,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a>    messages<span class="op">=</span>[{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"Explain what an API is, in one sentence."</span>}],</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1" aria-label="code-block-5-4"></a>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1" aria-label="code-block-5-5"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- MODEL SAYS ---"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1" aria-label="code-block-5-6"></a><span class="bu">print</span>(resp.choices[<span class="dv">0</span>].message.content)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1" aria-label="code-block-5-7"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">(tokens used: </span><span class="sc">{</span>resp<span class="sc">.</span>usage<span class="sc">.</span>total_tokens <span class="cf">if</span> resp<span class="sc">.</span>usage <span class="cf">else</span> <span class="st">'?'</span><span class="sc">}</span><span class="ss">)"</span>)</span></code></pre>
 </div>
 <p>You should see a sentence from the model. If text appears, your first
 call worked.</p>
@@ -454,65 +469,65 @@ usually make the wording more varied.</p>
 <p>Run the cell below a few times. Then change <code>temperature</code>
 to <code>0</code>, <code>0.7</code>, or <code>1.0</code> and compare
 what happens.</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1" aria-label="code-block-5-1"></a><span class="cf">for</span> temp <span class="kw">in</span> [<span class="dv">0</span>, <span class="fl">0.7</span>, <span class="fl">1.0</span>]:</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1" aria-label="code-block-5-2"></a>    resp <span class="op">=</span> client.chat.completions.create(</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1" aria-label="code-block-5-3"></a>        model<span class="op">=</span>MODEL,</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1" aria-label="code-block-5-4"></a>        messages<span class="op">=</span>[{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"Give me a friendly one-sentence definition of an API."</span>}],</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1" aria-label="code-block-5-5"></a>        temperature<span class="op">=</span>temp,</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1" aria-label="code-block-5-6"></a>    )</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1" aria-label="code-block-5-7"></a>    <span class="bu">print</span>(<span class="ss">f"temperature=</span><span class="sc">{</span>temp<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1" aria-label="code-block-5-8"></a>    <span class="bu">print</span>(resp.choices[<span class="dv">0</span>].message.content)</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1" aria-label="code-block-5-9"></a>    <span class="bu">print</span>()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="cf">for</span> temp <span class="kw">in</span> [<span class="dv">0</span>, <span class="fl">0.7</span>, <span class="fl">1.0</span>]:</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a>    resp <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>        model<span class="op">=</span>MODEL,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a>        messages<span class="op">=</span>[{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"Give me a friendly one-sentence definition of an API."</span>}],</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1" aria-label="code-block-6-5"></a>        temperature<span class="op">=</span>temp,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1" aria-label="code-block-6-6"></a>    )</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1" aria-label="code-block-6-7"></a>    <span class="bu">print</span>(<span class="ss">f"temperature=</span><span class="sc">{</span>temp<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1" aria-label="code-block-6-8"></a>    <span class="bu">print</span>(resp.choices[<span class="dv">0</span>].message.content)</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1" aria-label="code-block-6-9"></a>    <span class="bu">print</span>()</span></code></pre>
 </div>
 </div>
 </section><section><h2 class="section-heading" id="anatomy-of-a-response">Anatomy of a response<a class="anchor" aria-label="anchor" href="#anatomy-of-a-response"></a></h2>
 <hr class="half-width"><p>Every reply comes back as a JSON object with the same shape. Here is
 a typical one, with each field explained:</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">JSON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode json" tabindex="0"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="fu">{</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"chatcmpl-2d4be949-..."</span><span class="fu">,</span>            <span class="er">//</span> <span class="er">1</span> <span class="er">—</span> <span class="er">unique</span> <span class="er">ID</span> <span class="er">for</span> <span class="er">this</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a>                                            <span class="er">//</span>    <span class="er">response;</span> <span class="er">send</span> <span class="er">it</span> <span class="er">to</span> <span class="er">support</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1" aria-label="code-block-6-4"></a>                                            <span class="er">//</span>    <span class="er">when</span> <span class="er">reporting</span> <span class="er">a</span> <span class="er">problem</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1" aria-label="code-block-6-5"></a>  <span class="dt">"object"</span><span class="fu">:</span> <span class="st">"chat.completion"</span><span class="fu">,</span>              <span class="er">//</span> <span class="er">2</span> <span class="er">—</span> <span class="er">the</span> <span class="er">kind</span> <span class="er">of</span> <span class="er">object</span> <span class="er">this</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1" aria-label="code-block-6-6"></a>                                            <span class="er">//</span>    <span class="er">is</span> <span class="er">(almost</span> <span class="er">always</span> <span class="er">this</span> <span class="er">value</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1" aria-label="code-block-6-7"></a>                                            <span class="er">//</span>    <span class="er">for</span> <span class="er">chat</span> <span class="er">completions)</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1" aria-label="code-block-6-8"></a>  <span class="dt">"created"</span><span class="fu">:</span> <span class="dv">1757984284</span><span class="fu">,</span>                    <span class="er">//</span> <span class="er">3</span> <span class="er">—</span> <span class="er">Unix</span> <span class="er">timestamp</span> <span class="er">(seconds</span> <span class="er">since</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1" aria-label="code-block-6-9"></a>                                            <span class="er">//</span>    <span class="er">1970)</span> <span class="er">of</span> <span class="er">when</span> <span class="er">the</span> <span class="er">response</span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1" aria-label="code-block-6-10"></a>                                            <span class="er">//</span>    <span class="er">was</span> <span class="er">created</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1" aria-label="code-block-6-11"></a>  <span class="dt">"model"</span><span class="fu">:</span> <span class="st">"gemma4-31b-it"</span><span class="fu">,</span>                 <span class="er">//</span> <span class="er">4</span> <span class="er">—</span> <span class="er">the</span> <span class="er">model</span> <span class="er">that</span> <span class="er">actually</span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1" aria-label="code-block-6-12"></a>                                            <span class="er">//</span>    <span class="er">handled</span> <span class="er">the</span> <span class="er">request</span> <span class="er">(can</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1" aria-label="code-block-6-13"></a>                                            <span class="er">//</span>    <span class="er">differ</span> <span class="er">from</span> <span class="er">what</span> <span class="er">you</span> <span class="er">asked</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1" aria-label="code-block-6-14"></a>                                            <span class="er">//</span>    <span class="er">for,</span> <span class="er">if</span> <span class="er">the</span> <span class="er">gateway</span> <span class="er">routed</span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1" aria-label="code-block-6-15"></a>                                            <span class="er">//</span>    <span class="er">it</span> <span class="er">elsewhere)</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1" aria-label="code-block-6-16"></a>  <span class="dt">"choices"</span><span class="fu">:</span> <span class="ot">[</span>                              <span class="er">//</span> <span class="dv">5</span> <span class="er">—</span> <span class="er">the</span> <span class="er">answer(s).</span> <span class="er">A</span> <span class="er">list</span></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1" aria-label="code-block-6-17"></a>    <span class="fu">{</span>                                       <span class="er">//</span>    <span class="er">because</span> <span class="er">n</span> <span class="er">&gt;</span> <span class="er">1</span> <span class="er">can</span> <span class="er">request</span></span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1" aria-label="code-block-6-18"></a>      <span class="dt">"index"</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span>                           <span class="er">//</span>    <span class="er">several</span> <span class="er">alternatives;</span> <span class="er">0</span></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1" aria-label="code-block-6-19"></a>                                            <span class="er">//</span>    <span class="er">for</span> <span class="er">the</span> <span class="er">first</span> <span class="er">one</span></span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1" aria-label="code-block-6-20"></a>      <span class="dt">"message"</span><span class="fu">:</span> <span class="fu">{</span>                          <span class="er">//</span>    <span class="er">the</span> <span class="er">model's</span> <span class="er">reply</span> <span class="er">lives</span></span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1" aria-label="code-block-6-21"></a>        <span class="dt">"role"</span><span class="fu">:</span> <span class="st">"assistant"</span><span class="fu">,</span>                <span class="er">//</span>    <span class="er">inside</span> <span class="dt">"message"</span></span>
-<span id="cb6-22"><a href="#cb6-22" tabindex="-1" aria-label="code-block-6-22"></a>        <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"This study proposes..."</span><span class="er">//</span>    <span class="er">the</span> <span class="er">text</span> <span class="er">you</span> <span class="er">wanted</span></span>
-<span id="cb6-23"><a href="#cb6-23" tabindex="-1" aria-label="code-block-6-23"></a>      <span class="fu">},</span></span>
-<span id="cb6-24"><a href="#cb6-24" tabindex="-1" aria-label="code-block-6-24"></a>      <span class="dt">"finish_reason"</span><span class="fu">:</span> <span class="st">"stop"</span><span class="fu">,</span>              <span class="er">//</span> <span class="er">6</span> <span class="er">—</span> <span class="er">why</span> <span class="er">generation</span> <span class="er">stopped</span><span class="fu">:</span></span>
-<span id="cb6-25"><a href="#cb6-25" tabindex="-1" aria-label="code-block-6-25"></a>                                            <span class="er">//</span>    <span class="st">"stop"</span> <span class="er">=</span> <span class="er">model</span> <span class="er">finished</span></span>
-<span id="cb6-26"><a href="#cb6-26" tabindex="-1" aria-label="code-block-6-26"></a>                                            <span class="er">//</span>    <span class="er">naturally</span><span class="fu">,</span> <span class="dt">"length"</span> <span class="er">=</span> <span class="er">hit</span></span>
-<span id="cb6-27"><a href="#cb6-27" tabindex="-1" aria-label="code-block-6-27"></a>                                            <span class="er">//</span>    <span class="er">max_tokens,</span> <span class="dt">"content_filter"</span></span>
-<span id="cb6-28"><a href="#cb6-28" tabindex="-1" aria-label="code-block-6-28"></a>                                            <span class="er">//</span>    <span class="er">=</span> <span class="er">safety</span> <span class="er">filter</span> <span class="er">tripped</span></span>
-<span id="cb6-29"><a href="#cb6-29" tabindex="-1" aria-label="code-block-6-29"></a>      <span class="dt">"logprobs"</span><span class="fu">:</span> <span class="kw">null</span>                      <span class="er">//</span>    <span class="er">per-token</span> <span class="er">probabilities;</span></span>
-<span id="cb6-30"><a href="#cb6-30" tabindex="-1" aria-label="code-block-6-30"></a>                                            <span class="er">//</span>    <span class="kw">null</span> <span class="er">unless</span> <span class="er">requested</span></span>
-<span id="cb6-31"><a href="#cb6-31" tabindex="-1" aria-label="code-block-6-31"></a>    <span class="fu">}</span></span>
-<span id="cb6-32"><a href="#cb6-32" tabindex="-1" aria-label="code-block-6-32"></a>  <span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb6-33"><a href="#cb6-33" tabindex="-1" aria-label="code-block-6-33"></a>  <span class="dt">"usage"</span><span class="fu">:</span> <span class="fu">{</span>                                <span class="er">//</span> <span class="er">7</span> <span class="er">—</span> <span class="er">what</span> <span class="er">this</span> <span class="er">call</span> <span class="er">consumed</span></span>
-<span id="cb6-34"><a href="#cb6-34" tabindex="-1" aria-label="code-block-6-34"></a>    <span class="dt">"prompt_tokens"</span><span class="fu">:</span> <span class="dv">12</span><span class="fu">,</span>                    <span class="er">//</span>    <span class="er">tokens</span> <span class="er">in</span> <span class="er">your</span> <span class="er">messages</span></span>
-<span id="cb6-35"><a href="#cb6-35" tabindex="-1" aria-label="code-block-6-35"></a>    <span class="dt">"completion_tokens"</span><span class="fu">:</span> <span class="dv">87</span><span class="fu">,</span>                <span class="er">//</span>    <span class="er">tokens</span> <span class="er">in</span> <span class="er">the</span> <span class="er">reply</span></span>
-<span id="cb6-36"><a href="#cb6-36" tabindex="-1" aria-label="code-block-6-36"></a>    <span class="dt">"total_tokens"</span><span class="fu">:</span> <span class="dv">99</span>                      <span class="er">//</span>    <span class="er">sum;</span> <span class="er">billing</span> <span class="er">is</span> <span class="er">based</span> <span class="er">on</span></span>
-<span id="cb6-37"><a href="#cb6-37" tabindex="-1" aria-label="code-block-6-37"></a>                                            <span class="er">//</span>    <span class="er">this</span></span>
-<span id="cb6-38"><a href="#cb6-38" tabindex="-1" aria-label="code-block-6-38"></a>  <span class="fu">}</span></span>
-<span id="cb6-39"><a href="#cb6-39" tabindex="-1" aria-label="code-block-6-39"></a><span class="fu">}</span></span></code></pre>
+<pre class="sourceCode json" tabindex="0"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="fu">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"chatcmpl-2d4be949-..."</span><span class="fu">,</span>            <span class="er">//</span> <span class="er">1</span> <span class="er">—</span> <span class="er">unique</span> <span class="er">ID</span> <span class="er">for</span> <span class="er">this</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a>                                            <span class="er">//</span>    <span class="er">response;</span> <span class="er">send</span> <span class="er">it</span> <span class="er">to</span> <span class="er">support</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1" aria-label="code-block-7-4"></a>                                            <span class="er">//</span>    <span class="er">when</span> <span class="er">reporting</span> <span class="er">a</span> <span class="er">problem</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1" aria-label="code-block-7-5"></a>  <span class="dt">"object"</span><span class="fu">:</span> <span class="st">"chat.completion"</span><span class="fu">,</span>              <span class="er">//</span> <span class="er">2</span> <span class="er">—</span> <span class="er">the</span> <span class="er">kind</span> <span class="er">of</span> <span class="er">object</span> <span class="er">this</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1" aria-label="code-block-7-6"></a>                                            <span class="er">//</span>    <span class="er">is</span> <span class="er">(almost</span> <span class="er">always</span> <span class="er">this</span> <span class="er">value</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1" aria-label="code-block-7-7"></a>                                            <span class="er">//</span>    <span class="er">for</span> <span class="er">chat</span> <span class="er">completions)</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1" aria-label="code-block-7-8"></a>  <span class="dt">"created"</span><span class="fu">:</span> <span class="dv">1757984284</span><span class="fu">,</span>                    <span class="er">//</span> <span class="er">3</span> <span class="er">—</span> <span class="er">Unix</span> <span class="er">timestamp</span> <span class="er">(seconds</span> <span class="er">since</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1" aria-label="code-block-7-9"></a>                                            <span class="er">//</span>    <span class="er">1970)</span> <span class="er">of</span> <span class="er">when</span> <span class="er">the</span> <span class="er">response</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1" aria-label="code-block-7-10"></a>                                            <span class="er">//</span>    <span class="er">was</span> <span class="er">created</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1" aria-label="code-block-7-11"></a>  <span class="dt">"model"</span><span class="fu">:</span> <span class="st">"gemma4-31b-it"</span><span class="fu">,</span>                 <span class="er">//</span> <span class="er">4</span> <span class="er">—</span> <span class="er">the</span> <span class="er">model</span> <span class="er">that</span> <span class="er">actually</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1" aria-label="code-block-7-12"></a>                                            <span class="er">//</span>    <span class="er">handled</span> <span class="er">the</span> <span class="er">request</span> <span class="er">(can</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1" aria-label="code-block-7-13"></a>                                            <span class="er">//</span>    <span class="er">differ</span> <span class="er">from</span> <span class="er">what</span> <span class="er">you</span> <span class="er">asked</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1" aria-label="code-block-7-14"></a>                                            <span class="er">//</span>    <span class="er">for,</span> <span class="er">if</span> <span class="er">the</span> <span class="er">gateway</span> <span class="er">routed</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1" aria-label="code-block-7-15"></a>                                            <span class="er">//</span>    <span class="er">it</span> <span class="er">elsewhere)</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1" aria-label="code-block-7-16"></a>  <span class="dt">"choices"</span><span class="fu">:</span> <span class="ot">[</span>                              <span class="er">//</span> <span class="dv">5</span> <span class="er">—</span> <span class="er">the</span> <span class="er">answer(s).</span> <span class="er">A</span> <span class="er">list</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1" aria-label="code-block-7-17"></a>    <span class="fu">{</span>                                       <span class="er">//</span>    <span class="er">because</span> <span class="er">n</span> <span class="er">&gt;</span> <span class="er">1</span> <span class="er">can</span> <span class="er">request</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1" aria-label="code-block-7-18"></a>      <span class="dt">"index"</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span>                           <span class="er">//</span>    <span class="er">several</span> <span class="er">alternatives;</span> <span class="er">0</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1" aria-label="code-block-7-19"></a>                                            <span class="er">//</span>    <span class="er">for</span> <span class="er">the</span> <span class="er">first</span> <span class="er">one</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1" aria-label="code-block-7-20"></a>      <span class="dt">"message"</span><span class="fu">:</span> <span class="fu">{</span>                          <span class="er">//</span>    <span class="er">the</span> <span class="er">model's</span> <span class="er">reply</span> <span class="er">lives</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1" aria-label="code-block-7-21"></a>        <span class="dt">"role"</span><span class="fu">:</span> <span class="st">"assistant"</span><span class="fu">,</span>                <span class="er">//</span>    <span class="er">inside</span> <span class="dt">"message"</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1" aria-label="code-block-7-22"></a>        <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"This study proposes..."</span><span class="er">//</span>    <span class="er">the</span> <span class="er">text</span> <span class="er">you</span> <span class="er">wanted</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1" aria-label="code-block-7-23"></a>      <span class="fu">},</span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1" aria-label="code-block-7-24"></a>      <span class="dt">"finish_reason"</span><span class="fu">:</span> <span class="st">"stop"</span><span class="fu">,</span>              <span class="er">//</span> <span class="er">6</span> <span class="er">—</span> <span class="er">why</span> <span class="er">generation</span> <span class="er">stopped</span><span class="fu">:</span></span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1" aria-label="code-block-7-25"></a>                                            <span class="er">//</span>    <span class="st">"stop"</span> <span class="er">=</span> <span class="er">model</span> <span class="er">finished</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1" aria-label="code-block-7-26"></a>                                            <span class="er">//</span>    <span class="er">naturally</span><span class="fu">,</span> <span class="dt">"length"</span> <span class="er">=</span> <span class="er">hit</span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1" aria-label="code-block-7-27"></a>                                            <span class="er">//</span>    <span class="er">max_tokens,</span> <span class="dt">"content_filter"</span></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1" aria-label="code-block-7-28"></a>                                            <span class="er">//</span>    <span class="er">=</span> <span class="er">safety</span> <span class="er">filter</span> <span class="er">tripped</span></span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1" aria-label="code-block-7-29"></a>      <span class="dt">"logprobs"</span><span class="fu">:</span> <span class="kw">null</span>                      <span class="er">//</span>    <span class="er">per-token</span> <span class="er">probabilities;</span></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1" aria-label="code-block-7-30"></a>                                            <span class="er">//</span>    <span class="kw">null</span> <span class="er">unless</span> <span class="er">requested</span></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1" aria-label="code-block-7-31"></a>    <span class="fu">}</span></span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1" aria-label="code-block-7-32"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1" aria-label="code-block-7-33"></a>  <span class="dt">"usage"</span><span class="fu">:</span> <span class="fu">{</span>                                <span class="er">//</span> <span class="er">7</span> <span class="er">—</span> <span class="er">what</span> <span class="er">this</span> <span class="er">call</span> <span class="er">consumed</span></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1" aria-label="code-block-7-34"></a>    <span class="dt">"prompt_tokens"</span><span class="fu">:</span> <span class="dv">12</span><span class="fu">,</span>                    <span class="er">//</span>    <span class="er">tokens</span> <span class="er">in</span> <span class="er">your</span> <span class="er">messages</span></span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1" aria-label="code-block-7-35"></a>    <span class="dt">"completion_tokens"</span><span class="fu">:</span> <span class="dv">87</span><span class="fu">,</span>                <span class="er">//</span>    <span class="er">tokens</span> <span class="er">in</span> <span class="er">the</span> <span class="er">reply</span></span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1" aria-label="code-block-7-36"></a>    <span class="dt">"total_tokens"</span><span class="fu">:</span> <span class="dv">99</span>                      <span class="er">//</span>    <span class="er">sum;</span> <span class="er">billing</span> <span class="er">is</span> <span class="er">based</span> <span class="er">on</span></span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1" aria-label="code-block-7-37"></a>                                            <span class="er">//</span>    <span class="er">this</span></span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1" aria-label="code-block-7-38"></a>  <span class="fu">}</span></span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1" aria-label="code-block-7-39"></a><span class="fu">}</span></span></code></pre>
 </div>
 <p>Three fields matter most for the rest of the lesson:</p>
 <ol style="list-style-type: decimal"><li>
@@ -557,10 +572,10 @@ introduction).</li>
 in the anatomy above.</li>
 </ul><p>You can list the models your key can use — you’ll use this again in
 the experiments:</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="bu">print</span>([m.<span class="bu">id</span> <span class="cf">for</span> m <span class="kw">in</span> client.models.<span class="bu">list</span>()])</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a><span class="bu">print</span>([m.<span class="bu">id</span> <span class="cf">for</span> m <span class="kw">in</span> client.models.<span class="bu">list</span>()])</span></code></pre>
 </div>
 <div id="stuck-read-the-error-verbatim" class="callout">
 <div class="callout-square">
@@ -677,8 +692,8 @@ any links that you are not going to use.
   "url": "https://jgarciamesa.github.io/llm-api-lesson/first-call.html",
   "identifier": "https://jgarciamesa.github.io/llm-api-lesson/first-call.html",
   "dateCreated": "2026-09-01",
-  "dateModified": "2026-09-14",
-  "datePublished": "2026-09-15"
+  "dateModified": "2026-09-16",
+  "datePublished": "2026-09-16"
 }
 
   </script><script>
