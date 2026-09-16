@@ -16,9 +16,9 @@ away. If you want the editable source, it's
 
 ## Software Setup
 
-### On Anvil (browser, no install)
+### On Anvil
 
-1. Go to `https://notebook.anvilcloud.rcac.purdue.edu`.
+1. Go to [`https://notebook.anvilcloud.rcac.purdue.edu`](https://notebook.anvilcloud.rcac.purdue.edu).
 2. Log in with your **ACCESS** credentials.
 3. Pick **Anvil Notebook**, choose your allocation, **Start**.
 4. Wait for JupyterLab to open, then open the `talking_to_a_model` notebook.
@@ -26,31 +26,19 @@ away. If you want the editable source, it's
    (or `'chromadb'`), add a cell with `!pip install python-dotenv chromadb`,
    run it, then restart the kernel.
 
-### On Google Colab (browser alternative)
+### On Google Colab
 
 If Anvil is unavailable, you can run the same notebook in Google Colab:
 
 1. Open
-   `https://colab.research.google.com/github/jgarciamesa/llm-api-lesson/blob/main/episodes/data/talking_to_a_model.ipynb`.
+   [`https://colab.research.google.com/github/jgarciamesa/llm-api-lesson/blob/main/episodes/data/talking_to_a_model.ipynb`](https://colab.research.google.com/github/jgarciamesa/llm-api-lesson/blob/main/episodes/data/talking_to_a_model.ipynb).
 2. Choose **Runtime → Run all** only after setting your key.
 3. If Colab asks whether to run a notebook from GitHub, choose **Run anyway**
    for this workshop notebook.
 
-Colab runtimes are temporary, so create the `.env` file from a code cell each
-time you start a new runtime:
-
-```python
-from getpass import getpass
-from pathlib import Path
-
-key = getpass("Paste your API key, then press Enter: ").strip()
-Path(".env").write_text(
-    f"OPENAI_API_KEY={key}\n"
-    "OPENAI_BASE_URL=https://openai.rc.asu.edu/v1\n"
-)
-del key
-print("Wrote .env for this Colab runtime.")
-```
+Colab runtimes are temporary, so create the `.env` file again each time you
+start a new runtime. See **Set your key** below for the notebook cell that does
+that.
 
 Then run the notebook's **Set your key** cell. If a package is missing, run
 `%pip install openai python-dotenv chromadb` in a cell and restart the runtime.
@@ -94,6 +82,22 @@ OPENAI_BASE_URL=https://openai.rc.asu.edu/v1
   lines.
 - **On your laptop:** create it with any text editor (VS Code works well), or
   in a terminal with `nano .env` (Windows: `notepad .env`).
+
+If you are working inside a notebook environment like Google Colab, you can
+create the `.env` file from a notebook cell instead:
+
+```python
+from getpass import getpass
+from pathlib import Path
+
+key = getpass("Paste your API key, then press Enter: ").strip()
+Path(".env").write_text(
+    f"OPENAI_API_KEY={key}\n"
+    "OPENAI_BASE_URL=https://openai.rc.asu.edu/v1\n"
+)
+del key
+print("Wrote .env for this notebook session.")
+```
 
 The notebook's **Set your key** cell reads the file with `load_dotenv()`. If
 you change the file later, just re-run that cell — no kernel restart needed.

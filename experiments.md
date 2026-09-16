@@ -21,7 +21,7 @@ exercises: 15
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Guided experiment time (15 minutes)
+## Guided experiment time
 
 Pick whichever cells fit your own research. Each one changes **exactly one
 variable** — that's how you learn what actually matters.
@@ -147,7 +147,7 @@ for i, text in enumerate(MY_TEXTS, 1):
     print()
 ```
 
-## Tools around the API (10 minutes)
+## Tools around the API
 
 Because the API is **OpenAI-compatible**, a set of ready-made tools works with
 the **same key and the same endpoint**. A quick tour:
