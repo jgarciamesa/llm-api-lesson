@@ -34,8 +34,24 @@ OPENAI_BASE_URL=https://openai.rc.asu.edu/v1
 ```
 
 The [Setup page](../learners/setup.md) shows how to create that file on Anvil
-and on a laptop. Then run the **"Set your key"** cell in the notebook — it
-loads the file and verifies the key is present (masked):
+and on a laptop. If you are working inside a notebook environment like Google
+Colab, you can create the `.env` file from a notebook cell instead:
+
+```python
+from getpass import getpass
+from pathlib import Path
+
+key = getpass("Paste your API key, then press Enter: ").strip()
+Path(".env").write_text(
+    f"OPENAI_API_KEY={key}\n"
+    "OPENAI_BASE_URL=https://openai.rc.asu.edu/v1\n"
+)
+del key
+print("Wrote .env for this notebook session.")
+```
+
+Then run the **"Set your key"** cell in the notebook — it loads the file and
+verifies the key is present (masked):
 
 ```python
 import os
@@ -69,7 +85,7 @@ key only lives in the file, which you keep out of Git. Because the cell reads
 the file every time it runs, **if you edit `.env` you only re-run the cell** —
 no kernel restart.
 
-## The first call — *checkpoint: everyone gets a response*
+## The first call
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
 This is the non-negotiable checkpoint. Have the whole room run this ONE cell
